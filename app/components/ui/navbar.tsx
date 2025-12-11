@@ -1,11 +1,15 @@
 
 'use client';
-import { Link, ShoppingCart , Menu , X } from "lucide-react";
+import {  ShoppingCart , Menu , X, LogOut, User, LogIn  } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { useState } from "react";
+import { useAuth } from "@/app/context/AuthContext";
+import Link from "next/link";
+
 export function Navbar() {
-      const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth();
 
   return (
     <header className="w-full">
@@ -33,9 +37,22 @@ export function Navbar() {
               <a href="">Custom Design</a>
               <a href="">Contact Us</a>
             </div>
-            <div className=" items-center gap-4 cursor-pointer hidden md:flex">
+            <div className="items-end gap-4 cursor-pointer hidden md:flex">
               <ShoppingCart size={32} />
-              <Link href="">Sign In</Link>
+              {isAuthenticated ? (
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <User size={24} />
+                    <span>{user?.name}</span>
+                  </div>
+                  <button onClick={logout} className="flex items-center gap-2 hover:text-red-400">
+                    <LogOut size={20} />
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <Link href="/login" className="hover:bg-white/10 rounded-md py-2 px-4 !m-0"><LogIn size={32} /></Link>
+              )}
             </div>
           </nav>
         </header>
