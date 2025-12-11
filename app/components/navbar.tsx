@@ -6,7 +6,7 @@ import React from "react";
 import { useState } from "react";
 import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
-import { Logo } from "./logo";
+import { Logo } from "@/components/ui/logo";
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
