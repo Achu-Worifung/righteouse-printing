@@ -31,27 +31,27 @@ export function SignInForm() {
             id="email"
             type="email"
             required
-            className="py-0 text-lg rounded-none border border-muted-foreground/50 border-x-0 border-t-0 shadow-none"
+            className="py-0 text-lg border border-muted-foreground/50 focus:border-black focus:ring-0 focus:outline-none shadow-none"
           />
         </div>
         <div className="w-full py-4 px-8 ">
           <label className="block mb-1 font-medium text-muted-foreground text-lg" htmlFor="password">
             Password
           </label>
-          <span className="flex justify-between items-center border rounded-md px-3 py-2">
+          <span className="flex justify-between items-center border border-muted-foreground/50 focus-within:border-black rounded-md px-3 py-2">
             <Input
               id="password"
               type={passwordVisible ? "text" : "password"}
-            className="py-0 text-lg rounded-none border border-muted-foreground/50 border-x-0 border-t-0 shadow-none"
+            className="py-0 text-lg border-0 focus:border-0 focus:ring-0 focus:outline-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
             />
             {passwordVisible ? (
               <EyeClosed
-                className="cursor-pointer mr-3"
+                className="cursor-pointer w-[40px]"
                 onClick={togglePasswordVisibility}
               />
             ) : (
               <Eye
-                className="cursor-pointer mr-3"
+                className="cursor-pointer w-[40px]"
                 onClick={togglePasswordVisibility}
               />
             )}
