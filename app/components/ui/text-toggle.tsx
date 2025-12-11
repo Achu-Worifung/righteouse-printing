@@ -1,35 +1,47 @@
+"use client";
+
+import { useState } from "react";
+
 export function TextToggle() {
+  const [isSignUp, setIsSignUp] = useState(false);
+
   return (
-    <label className="toggle text-base-content">
-      <input type="checkbox" />
-      <svg
-        aria-label="enabled"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
+    <button
+      type="button"
+      onClick={() => setIsSignUp((prev) => !prev)}
+      className="
+        relative w-[400px] h-10 
+        flex items-center 
+        bg-gray-200 border border-black rounded-sm
+        overflow-hidden px-1 
+      "
+    >
+      {/* Sliding highlight */}
+      <span
+        className={`
+          absolute inset-y-0 w-1/2 bg-white border border-black 
+          transition-all duration-300 
+          ${isSignUp ? "left-1/2" : "left-0"}
+        `}
+      />
+
+      <span
+        className={`
+          flex-1 text-center z-10 transition-colors duration-300
+          ${isSignUp ? "text-gray-500" : "text-black font-semibold"}
+        `}
       >
-        <g
-          strokeLinejoin="round"
-          strokeLinecap="round"
-          strokeWidth="4"
-          fill="none"
-          stroke="currentColor"
-        >
-          <path d="M20 6 9 17l-5-5"></path>
-        </g>
-      </svg>
-      <svg
-        aria-label="disabled"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        Sign In
+      </span>
+
+      <span
+        className={`
+          flex-1 text-center z-10 transition-colors duration-300
+          ${!isSignUp ? "text-gray-500" : "text-black font-semibold"}
+        `}
       >
-        <path d="M18 6 6 18" />
-        <path d="m6 6 12 12" />
-      </svg>
-    </label>
+        Sign Up
+      </span>
+    </button>
   );
 }
