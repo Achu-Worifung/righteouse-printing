@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
+
 export function Carousel() {
     const carouselRef = useRef<HTMLDivElement>(null);
     const nextBtnRef = useRef<HTMLButtonElement>(null);

@@ -6,7 +6,7 @@ import React from "react";
 import { useState } from "react";
 import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
-
+import { Logo } from "./logo";
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
@@ -15,7 +15,7 @@ export function Navbar() {
     <header className="w-full">
           <nav className="font-bold text-xl drop-shadow-2xl w-full flex justify-between items-center p-4 bg-white/10 backdrop-blur-md px-8">
             <div className="flex relative justify-between w-full h-full items-center md:block md:w-fit">
-              <Image src="/logo.svg" alt="logo" width={50} height={50} />
+              <Logo />
               {
                 isMenuOpen ? (<X size={32} onClick={() => setIsMenuOpen(false)} className="md:hidden block ml-4 cursor-pointer rounded-full hover:bg-white/10"/> 
                 ) : (
