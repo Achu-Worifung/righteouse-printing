@@ -55,14 +55,10 @@
 
 body{
     margin: 0;
-    background-color: #000;
-    color: #eee;
-    font-family: Poppins;
-    font-size: 12px;
+    background-color: white;
+    color: black;
 }
-a{
-    text-decoration: none;
-}
+
 header{
     width: 1140px;
     max-width: 100vw;
