@@ -52,7 +52,6 @@ const CreativeCards = () => {
               >
                 <div className="relative group transition-all duration-300 ease-in-out w-4/5 lg:w-4/5 mx-auto">
                   {/* Skewed Background Effect */}
-                  {/* this is the  problem  */}
                   <div className="absolute left-1/2 top-1/2 w-[190px] h-[380px] bg-[#f7f6f2]  transform -translate-x-1/2 -translate-y-1/2 -skew-x-[20deg] transition-all duration-300 ease-in-out group-hover:bg-[#fffab3] "></div>
 
                   {/* Card Content */}

@@ -24,7 +24,7 @@ export function Navbar() {
               }
               {
                 isMenuOpen && (
-                  <div className="flex flex-col bg-white/10 backdrop-blur-md absolute top-20 left-4 right-4 p-4 rounded-lg gap-4 md:hidden box-content px-8 py-4">
+                  <div className="flex flex-col bg-white/10 backdrop-blur-md absolute top-20 left-4 right-4 p-4 rounded-lg gap-4 md:hidden box-content px-8 py-4 [&_a]:[-webkit-text-stroke:1px_black]">
                     <a href="" onClick={() => setIsMenuOpen(false)} className="">Products</a>
                     <a href="" onClick={() => setIsMenuOpen(false)} className="">Custom Design</a>
                     <a href="" onClick={() => setIsMenuOpen(false)} className="">Contact Us</a>
@@ -32,8 +32,8 @@ export function Navbar() {
                 )
               }
             </div>
-            <div className="hidden md:block">
-              <a href="">Products</a>
+            <div className="hidden md:block stroke-black [&_a]:[-webkit-text-stroke:1px_black]">
+              <a href="" className="">Products</a>
               <a href="">Custom Design</a>
               <a href="">Contact Us</a>
             </div>
