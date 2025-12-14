@@ -1,4 +1,4 @@
-import React from "react";
+import { Truck, LockKeyhole  } from 'lucide-react';
 
 const CreativeCards = () => {
   const cards = [
@@ -7,7 +7,7 @@ const CreativeCards = () => {
       title: "Fast Delivery",
       description:
         "From design to delivery, our streamlined production means your shirts arrive faster than industry averages.",
-      icon: "https://i.ibb.co/fV0GzDqj/construction.png",
+      icon: "/truck.svg",
       link: "https://www.fiverr.com/s/8zElN2v",
     },
     {
@@ -15,15 +15,15 @@ const CreativeCards = () => {
       title: "Secure Checkout",
       description:
         "Your payment and personal information are fully protected with industry-leading encryption.",
-      icon: "https://i.ibb.co/KjGz3dmZ/skyline.png",
+      icon: "/secure.svg",
       link: "https://www.fiverr.com/s/8zElN2v",
     },
     {
       id: 3,
-      title: "Secure Checkout",
+      title: "Satisfaction Guarantee",
       description:
         "If you're not absolutely happy with your order, we’ll reprint or refund it — no questions asked.",
-      icon: "https://i.ibb.co/whkhVgQz/best-practice.png",
+      icon: "/satisfaction.svg",
       link: "https://www.fiverr.com/s/8zElN2v",
     },
   ];

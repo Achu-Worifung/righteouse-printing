@@ -84,12 +84,12 @@ export function ReadyToWear() {
   ];
 
   return (
-    <div className="w-full flex items-center flex-col justify-center">
+    <div className="w-full flex items-center flex-col justify-center mt-10!">
       <div className="text-center p-10">
-        <h1 className="font-bold text-4xl mb-4">
+        <h1 className="font-bold text-4xl mb-6 uppercase">
           Shope our Ready to Wear Collection
         </h1>
-        <h1 className="text-3xl">Shop Now</h1>
+        <h1 className="text-3xl mb-4">Shop Now</h1>
       </div>
 
       <section className="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 justify-items-center justify-center gap-y-20 gap-x-14 mt-10 mb-5 !my-4">
