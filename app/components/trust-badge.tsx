@@ -4,33 +4,56 @@ const CreativeCards = () => {
   const cards = [
     {
       id: 1,
-      title: "Core Planning",
+      title: "Fast Delivery",
       description:
-        "Lorem ipsum dolor sit amet, consectne auctor aliquet. Aenean sollicitudi bibendum auctor.",
+        "From design to delivery, our streamlined production means your shirts arrive faster than industry averages.",
       icon: "https://i.ibb.co/fV0GzDqj/construction.png",
       link: "https://www.fiverr.com/s/8zElN2v",
     },
     {
       id: 2,
-      title: "Traditional Designs",
+      title: "Secure Checkout",
       description:
-        "Lorem ipsum dolor sit amet, consectne auctor aliquet. Aenean sollicitudi bibendum auctor.",
+        "Your payment and personal information are fully protected with industry-leading encryption.",
       icon: "https://i.ibb.co/KjGz3dmZ/skyline.png",
       link: "https://www.fiverr.com/s/8zElN2v",
     },
     {
       id: 3,
-      title: "Quality Materials",
+      title: "Secure Checkout",
       description:
-        "Lorem ipsum dolor sit amet, consectne auctor aliquet. Aenean sollicitudi bibendum auctor.",
+        "If you're not absolutely happy with your order, we’ll reprint or refund it — no questions asked.",
       icon: "https://i.ibb.co/whkhVgQz/best-practice.png",
       link: "https://www.fiverr.com/s/8zElN2v",
     },
   ];
 
   return (
-    <div className="*:box-border font-['Epilogue'] text-[17px] leading-[30px] font-normal antialiased bg-white !my-10">
+    <div className="*:box-border font-['Epilogue'] text-[17px] leading-[30px] font-normal antialiased bg-white my-20!">
       {/* Font Awesome Icons */}
+      <h1 
+        className="uppercase text-5xl font-semibold w-full text-center letter-spacing tracking-wider"
+        style={{
+          textShadow: `
+            1px -1px 0 #767676, 
+            -1px 1px 1px #737272, 
+            -2px 2px 1px #767474, 
+            -3px 3px 1px #787777, 
+            -4px 4px 1px #7b7a7a, 
+            -5px 5px 1px #828181, 
+            -6px 6px 1px #8b8a89, 
+            -7px 7px 1px #949392, 
+            -8px 8px 1px #9e9c9c, 
+            -9px 9px 1px #a8a6a6, 
+            -10px 10px 1px #b2b1b0, 
+            -11px 11px 1px #bcbbba, 
+            -12px 12px 1px #c6c4c4
+          `
+        }}
+      >
+        Shop with Confidence
+      </h1>
+
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -42,7 +65,7 @@ const CreativeCards = () => {
         rel="stylesheet"
       />
 
-      <section className="py-[120px] relative">
+      <section className="py-[120px] relative my-20! w-full flex items-center justify-center">
         <div className="max-w-[1320px] w-full px-3 mx-auto">
           <div className="flex flex-wrap -mx-4">
             {cards.map((card) => (
