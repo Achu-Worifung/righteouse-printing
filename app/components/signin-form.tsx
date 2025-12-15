@@ -7,11 +7,34 @@ import { useState } from "react";
 import { Logo } from "./ui/logo";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
+import { toast } from "sonner";
+
 
 export function SignInForm() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    if (email === "" || password === "") {
+      toast.error("Email and password are required.");
+      return;
+    }
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    if (!res.ok) {
+      toast.error("Invalid email or password.");
+      return;
+    }
+    toast.success("Login successful!");
+  };
+
+ 
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -40,6 +63,7 @@ export function SignInForm() {
             id="email"
             type="email"
             required
+            onChange={(e)=>{setEmail(e.target.value)}}
           />
         </div>
         <div className="w-full py-4 px-8 ">
@@ -50,7 +74,7 @@ export function SignInForm() {
               Password
             </Label>
             <Link
-              href="/forgot-password"
+              href="/loginhelp"
               className="ml-auto text-sm  underline-offset-2 hover:underline"
             >
               Forgot your password?
@@ -59,6 +83,8 @@ export function SignInForm() {
           <span className="flex justify-between items-center border border-muted-foreground/50 focus-within:border-black rounded-md  ">
             <Input
               id="password"
+              required
+              onChange={(e)=>{setPassword(e.target.value)}}
               type={passwordVisible ? "text" : "password"}
               className=" py-0 text-lg border-0 focus:border-0 focus:ring-0 focus:outline-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
             />
@@ -76,7 +102,8 @@ export function SignInForm() {
           </span>
         </div>
 
-        <button className="w-[150px] justify-center text-lg group flex items-center  py-0.5  border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 ease-in-out shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] cursor-pointer active:scale-95 transform-all duration-75">
+        <button 
+          onClick={handleLogin} className="w-[150px] justify-center text-lg group flex items-center  py-0.5  border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 ease-in-out shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] cursor-pointer active:scale-95 transform-all duration-75">
           Sign In
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +146,7 @@ export function SignInForm() {
         <div className="text-center text-sm">
           Don&apos;t have an account?{" "}
           <Link
-            href="#"
+            href="/signup"
             className="font-medium underline underline-offset-4 hover:font-bold"
           >
             Sign up
