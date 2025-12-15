@@ -78,8 +78,13 @@ nav
   margin-top: 10px;
 }
 header a{
-    color: #eee;
+    /* color: #eee; */
     margin-right: 40px;
+}
+header a:hover{
+    color: skyblue;
+    text-decoration: underline;
+    text-underline-offset: 4px;
 }
 /* carousel */
 .carousel{
@@ -134,7 +139,7 @@ header a{
 }
 .carousel .list .item .buttons button{
     border: none;
-    background-color: #eee;
+    /* background-color: #eee; */
     letter-spacing: 3px;
     font-family: Poppins;
     font-weight: 500;
@@ -142,7 +147,7 @@ header a{
 .carousel .list .item .buttons button:nth-child(2){
     background-color: transparent;
     border: 1px solid #fff;
-    color: #eee;
+    /* color: #eee; */
 }
 /* thumbail */
 .thumbnail{

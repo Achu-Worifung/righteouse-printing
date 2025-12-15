@@ -13,7 +13,7 @@ export function Navbar() {
 
   return (
     <header className="w-full">
-          <nav className="font-bold text-xl drop-shadow-2xl w-full flex justify-between items-center p-4 bg-white/10 backdrop-blur-md px-8">
+          <nav className="font-bold text-xl drop-shadow-2xl w-full flex justify-between items-center p-4 bg-white/10 backdrop-blur-3xl px-8">
             <div className="flex relative justify-between w-full h-full items-center md:block md:w-fit">
               <Logo />
               {
@@ -24,7 +24,7 @@ export function Navbar() {
               }
               {
                 isMenuOpen && (
-                  <div className="flex flex-col bg-white/10 backdrop-blur-md absolute top-20 left-4 right-4 p-4 rounded-lg gap-4 md:hidden box-content px-8 py-4 [&_a]:[-webkit-text-stroke:1px_black]">
+                  <div className="flex flex-col bg-white/10 backdrop-blur-3xl absolute top-20 left-4 right-4 p-4 rounded-lg gap-4 md:hidden box-content px-8 py-4 [&_a]:[-webkit-text-stroke:1px_black] text-black">
                     <a href="" onClick={() => setIsMenuOpen(false)} className="">Products</a>
                     <a href="" onClick={() => setIsMenuOpen(false)} className="">Custom Design</a>
                     <a href="" onClick={() => setIsMenuOpen(false)} className="">Contact Us</a>
@@ -37,7 +37,7 @@ export function Navbar() {
               <a href="">Custom Design</a>
               <a href="">Contact Us</a>
             </div>
-            <div className="items-end gap-4 cursor-pointer hidden md:flex">
+            <div className="items-center gap-4 cursor-pointer hidden md:flex justify-center">
               <ShoppingCart size={32} />
               {isAuthenticated ? (
                 <div className="flex items-center gap-4">
