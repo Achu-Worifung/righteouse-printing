@@ -84,7 +84,7 @@ export function ReadyToWear() {
   ];
 
   return (
-    <div className="w-full flex items-center flex-col justify-center mt-10!">
+    <div className="w-full flex items-center flex-col justify-center py-10">
       <div className="text-center p-10">
         <h1 className="font-bold text-4xl mb-6 uppercase">
           Shope our Ready to Wear Collection
@@ -97,6 +97,22 @@ export function ReadyToWear() {
             <ReadyMadeWear key={product.id} {...product} />
         ))}
       </section>
+      <button className="w-[150px] justify-center text-lg group flex items-center  py-1  border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 ease-in-out shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] cursor-pointer active:scale-95 transform-all duration-75">
+          View More
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="group-hover:animate-accordion-open inline-block h-7 w-7 shrink-0 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1 motion-reduce:transition-none ml-1"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </button>
 
       
     </div>
