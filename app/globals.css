@@ -5,11 +5,9 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-@plugin "daisyui";
 *
 {
-  margin: 0;
-  padding: 0;
+
   box-sizing: border-box;
 }
 

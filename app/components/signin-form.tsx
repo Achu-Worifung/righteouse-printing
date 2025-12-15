@@ -32,6 +32,7 @@ export function SignInForm() {
         <div className="w-full py-4 px-8 ">
           <Label
             htmlFor="email"
+            className="mb-1"
           >
             Email
           </Label>
@@ -55,11 +56,11 @@ export function SignInForm() {
               Forgot your password?
             </Link>
           </span>
-          <span className="flex justify-between items-center border border-muted-foreground/50 focus-within:border-black rounded-md px-3 py-2">
+          <span className="flex justify-between items-center border border-muted-foreground/50 focus-within:border-black rounded-md  ">
             <Input
               id="password"
               type={passwordVisible ? "text" : "password"}
-              className="pr-4 py-0 text-lg border-0 focus:border-0 focus:ring-0 focus:outline-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+              className=" py-0 text-lg border-0 focus:border-0 focus:ring-0 focus:outline-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
             />
             {passwordVisible ? (
               <EyeClosed
@@ -75,7 +76,7 @@ export function SignInForm() {
           </span>
         </div>
 
-        <button className="w-[150px] justify-center text-lg group flex items-center px-8 py-0.5  border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 ease-in-out shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] cursor-pointer active:scale-95 transform-all duration-75">
+        <button className="w-[150px] justify-center text-lg group flex items-center  py-0.5  border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 ease-in-out shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] cursor-pointer active:scale-95 transform-all duration-75">
           Sign In
           <svg
             xmlns="http://www.w3.org/2000/svg"

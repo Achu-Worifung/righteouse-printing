@@ -1,12 +1,9 @@
 export function Footer() {
   const socialMedia = ["pinterest", "x", "facebook", "instagram"];
   return (
-    <footer className="bg-[#151414] text-white mt-[100px] box-border pt-6" 
-    style={{
-    marginTop: "100px",         
-    paddingTop: "24px",
-    background: "#151414"
-  }}>
+    <footer className="bg-[#151414] text-white box-border pt-6" 
+    
+  >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto px-40 md:px-8 py-10"
       style={{
         gridTemplateColumns: "1fr 1fr 1fr",

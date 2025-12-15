@@ -29,7 +29,7 @@ const CreativeCards = () => {
   ];
 
   return (
-    <div className="*:box-border font-['Epilogue'] text-[17px] leading-[30px] font-normal antialiased bg-white my-20!">
+    <div className="*:box-border font-['Epilogue'] text-[17px] leading-[30px] font-normal antialiased bg-white my-10">
       {/* Font Awesome Icons */}
       <h1 
         className="uppercase text-5xl font-semibold w-full text-center letter-spacing tracking-wider"
@@ -65,7 +65,7 @@ const CreativeCards = () => {
         rel="stylesheet"
       />
 
-      <section className="py-[120px] relative my-20! w-full flex items-center justify-center">
+      <section className=" relative w-full flex items-center justify-center">
         <div className="max-w-[1320px] w-full px-3 mx-auto">
           <div className="flex flex-wrap -mx-4">
             {cards.map((card) => (
