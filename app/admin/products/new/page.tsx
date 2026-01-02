@@ -11,17 +11,65 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { RequiredIndicator, InfoIndcator } from "@/app/components/ui/form-essential";
+import {
+  RequiredIndicator,
+  InfoIndcator,
+} from "@/app/components/ui/form-essential";
+import { toast } from "sonner";
 export default function AddNewProductPage() {
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [saving, setSaving] = useState(false);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSaving(true);
+    const form = event.currentTarget;
+    const data = new FormData(form);
+
+    const productName = data.get("productName")?.toString().trim();
+    const price = data.get("price")?.toString().trim();
+    const taxClass = data.get("taxClass")?.toString().trim();
+    const category = data.get("category")?.toString().trim();
+    const description = data.get("description")?.toString().trim();
+    const checkpoint = data.get("checkpoint")?.toString().trim();
+    const quantity = data.get("quantity")?.toString().trim();
+    const color = data.get("color")?.toString().trim();
+    const size = data.get("size")?.toString().trim();
+
+    const errors: string[] = [];
+
+    if (!productName) errors.push("Product name is required.");
+    if (!price || Number(price) < 0)
+      errors.push("Price is required and must be zero or greater.");
+    if (!taxClass) errors.push("Select a tax class.");
+    if (!category) errors.push("Select a category.");
+    if (!description) errors.push("Description is required.");
+    if (imageFiles.length === 0) errors.push("At least one image is required.");
+    if (!checkpoint) errors.push("Select a stock checkpoint.");
+    if (!quantity || Number(quantity) < 0)
+      errors.push("Quantity is required and must be zero or greater.");
+    if (!color) errors.push("Select a color.");
+    if (!size) errors.push("Select a size.");
+
+    if (errors.length) {
+      errors.forEach((msg) => toast.error(msg));
+      setSaving(false);
+      return;
+    }
+
+    toast.success("Form looks good. Hook up save logic next.");
+  };
 
   const handleImages = (files?: FileList | null) => {
     if (!files) {
       setImagePreviews([]);
+      setImageFiles([]);
       return;
     }
 
     const next = Array.from(files).map((file) => URL.createObjectURL(file));
+    setImageFiles(Array.from(files));
     setImagePreviews(next);
   };
 
@@ -43,11 +91,24 @@ export default function AddNewProductPage() {
           </div>
           <div className="flex gap-3">
             <Button variant="outline">Cancel</Button>
-            <Button>Save Product</Button>
+            <Button type="submit">
+              {saving ? (
+                <svg
+                  className="mr-3 size-5 animate-spin ..."
+                  viewBox="0 0 24 24"
+                ></svg>
+              ) : (
+                "Save Product"
+              )}
+            </Button>
           </div>
         </div>
 
-        <form className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6">
+        <form
+          id="add-product-form"
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6"
+        >
           <div className="space-y-6">
             <Card>
               <CardHeader>
@@ -55,14 +116,19 @@ export default function AddNewProductPage() {
                   <CardTitle>Product Details</CardTitle>
                   <InfoIndcator message="Core product information shown to customers." />
                 </div>
-                <CardDescription>All fields are required unless noted.</CardDescription>
+                <CardDescription>
+                  All fields are required unless noted.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label className="flex items-center gap-1">
                     Product Name <RequiredIndicator />
                   </Label>
-                  <Input placeholder="e.g. Classic Cotton Tee" />
+                  <Input
+                    name="productName"
+                    placeholder="e.g. Classic Cotton Tee"
+                  />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -70,13 +136,22 @@ export default function AddNewProductPage() {
                     <Label className="flex items-center gap-1">
                       Price <RequiredIndicator />
                     </Label>
-                    <Input type="number" min="0" step="0.01" placeholder="0.00" />
+                    <Input
+                      name="price"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder="0.00"
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label className="flex items-center gap-1">
                       Tax Class <RequiredIndicator />
                     </Label>
-                    <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                    <select
+                      name="taxClass"
+                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
                       <option value="">Select tax class</option>
                       <option value="standard">Standard</option>
                       <option value="reduced">Reduced</option>
@@ -90,7 +165,10 @@ export default function AddNewProductPage() {
                     <Label className="flex items-center gap-1">
                       Category <RequiredIndicator />
                     </Label>
-                    <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                    <select
+                      name="category"
+                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
                       <option value="">Choose category</option>
                       <option value="tshirt">T-Shirt</option>
                       <option value="long-sleeve">Long Sleeve</option>
@@ -106,16 +184,14 @@ export default function AddNewProductPage() {
                     <InfoIndcator message="A concise, customer-facing summary." />
                   </Label>
                   <textarea
+                    name="description"
                     className="w-full min-h-[120px] rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     placeholder="Describe the product's key features, materials, and care instructions"
                   />
                 </div>
               </CardContent>
             </Card>
-          </div>
-
-          <div className="space-y-6">
-            <Card>
+             <Card>
               <CardHeader>
                 <div className="flex items-center gap-2">
                   <CardTitle>Media</CardTitle>
@@ -128,6 +204,7 @@ export default function AddNewProductPage() {
                     Images <RequiredIndicator />
                   </Label>
                   <Input
+                    name="images"
                     type="file"
                     accept="image/*"
                     multiple
@@ -156,6 +233,10 @@ export default function AddNewProductPage() {
                 </div>
               </CardContent>
             </Card>
+          </div>
+
+          <div className="space-y-6">
+           
 
             <Card>
               <CardHeader>
@@ -166,19 +247,24 @@ export default function AddNewProductPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <Label className="flex items-center gap-1">
-                    Checkpoint
-                  </Label>
-                  <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                  <Label className="flex items-center gap-1">Checkpoint</Label>
+                  <select
+                    name="checkpoint"
+                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
                     <option value="in-stock">In stock</option>
                     <option value="out-of-stock">Out of stock</option>
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <Label className="flex items-center gap-1">
-                    Quantity
-                  </Label>
-                  <Input type="number" min="0" step="1" placeholder="0" />
+                  <Label className="flex items-center gap-1">Quantity</Label>
+                  <Input
+                    name="quantity"
+                    type="number"
+                    min="0"
+                    step="1"
+                    placeholder="0"
+                  />
                 </div>
               </CardContent>
             </Card>
@@ -193,7 +279,10 @@ export default function AddNewProductPage() {
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <Label className="flex items-center gap-1">Color</Label>
-                  <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                  <select
+                    name="color"
+                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
                     <option value="">Select color</option>
                     <option value="black">Black</option>
                     <option value="white">White</option>
@@ -204,7 +293,10 @@ export default function AddNewProductPage() {
                 </div>
                 <div className="space-y-2">
                   <Label className="flex items-center gap-1">Size</Label>
-                  <select className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+                  <select
+                    name="size"
+                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
                     <option value="">Select size</option>
                     <option value="xs">XS</option>
                     <option value="s">S</option>
@@ -218,6 +310,21 @@ export default function AddNewProductPage() {
             </Card>
           </div>
         </form>
+        <div className="flex justify-end gap-3">
+          <Button variant="outline" type="button">
+            Cancel
+          </Button>
+          <Button type="submit" form="add-product-form">
+              {saving ? (
+                <svg
+                  className="mr-3 size-5 animate-spin ..."
+                  viewBox="0 0 24 24"
+                ></svg>
+              ) : (
+                "Save Product"
+              )}
+            </Button>
+        </div>
       </div>
     </div>
   );
