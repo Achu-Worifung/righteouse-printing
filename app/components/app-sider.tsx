@@ -31,17 +31,17 @@ export function AppSidebar() {
         {
           name: "DASHBOARD",
           icon: LayoutDashboard,
-          url: "#",
+          url: "/admin",
         },
         {
           name: "NEW PRODUCT",
           icon: PackagePlus,
-          url: "#",
+          url: "/admin/new-product",
         },
         {
           name: "DISCOUNT",
           icon: TicketPercent,
-          url: "#",
+          url: "/admin/discount",
         },
       ],
     },
@@ -51,12 +51,12 @@ export function AppSidebar() {
         {
           name: "PRODUCT",
           icon: ShoppingBasket,
-          url: "#",
+          url: "/admin/product",
         },
         {
           name: "CATEGORIES",
           icon: ChartBarStacked,
-          url: "#",
+          url: "/admin/categories",
         },
       ],
     },
@@ -66,7 +66,7 @@ export function AppSidebar() {
         {
           name: "ORDERS",
           icon: PackageOpen,
-          url: "#",
+          url: "/admin/orders",
         },
       ],
     },
@@ -76,7 +76,7 @@ export function AppSidebar() {
         {
           name: "CUSTOMERS",
           icon: Users,
-          url: "#",
+          url: "/admin/customers",
         },
       ],
     },
