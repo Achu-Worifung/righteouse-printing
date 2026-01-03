@@ -1,32 +1,13 @@
 import { NextResponse } from "next/server";
 import {client} from "@/lib/db";
+import {InsertProductPayLoad} from "@/lib/types";
 
-type IncomingPayload = {
-    productName?: string;
-    price?: number;
-    taxClass?: string;
-    category?: string;
-    description?: string;
-    checkpoint?: string;
-    quantity?: number;
-    color?: string;
-    size?: string;
-    images?: { filename: string; size: number; type: string }[];
-    variants?: {
-        sku: string;
-        price?: number;
-        color?: string;
-        size?: string;
-        quantity?: number;
-        images?: { filename: string; size: number; type: string }[];
-    }[];
-};
 
 export async function POST(request: Request) {
     const contentType = request.headers.get("content-type") || "";
 
     try {
-        let payload: IncomingPayload = {};
+        let payload: InsertProductPayLoad = {};
 
         if (contentType.includes("multipart/form-data")) {
             const form = await request.formData();
