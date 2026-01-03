@@ -21,7 +21,7 @@ export default function AddNewProductPage() {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [saving, setSaving] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSaving(true);
     const form = event.currentTarget;
@@ -58,7 +58,36 @@ export default function AddNewProductPage() {
       return;
     }
 
-    toast.success("Form looks good. Hook up save logic next.");
+    const body = new FormData();
+    body.append("productName", productName);
+    body.append("price", price);
+    body.append("taxClass", taxClass);
+    body.append("category", category);
+    body.append("description", description);
+    body.append("checkpoint", checkpoint);
+    body.append("quantity", quantity);
+    body.append("color", color);
+    body.append("size", size);
+    imageFiles.forEach((file) => body.append("images", file));
+
+    try {
+      const res = await fetch("/api/add-new-item", {
+        method: "POST",
+        body,
+      });
+
+      if (!res.ok) {
+        const message = await res.text();
+        throw new Error(message || "Failed to add product");
+      }
+
+      toast.success("Product added successfully.");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Something went wrong";
+      toast.error(message);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleImages = (files?: FileList | null) => {
@@ -91,7 +120,7 @@ export default function AddNewProductPage() {
           </div>
           <div className="flex gap-3">
             <Button variant="outline">Cancel</Button>
-            <Button type="submit">
+            <Button type="submit" form="add-product-form" disabled={saving}>
               {saving ? (
                 <svg
                   className="mr-3 size-5 animate-spin ..."
@@ -314,16 +343,16 @@ export default function AddNewProductPage() {
           <Button variant="outline" type="button">
             Cancel
           </Button>
-          <Button type="submit" form="add-product-form">
-              {saving ? (
-                <svg
-                  className="mr-3 size-5 animate-spin ..."
-                  viewBox="0 0 24 24"
-                ></svg>
-              ) : (
-                "Save Product"
-              )}
-            </Button>
+          <Button type="submit" form="add-product-form" disabled={saving}>
+            {saving ? (
+              <svg
+                className="mr-3 size-5 animate-spin ..."
+                viewBox="0 0 24 24"
+              ></svg>
+            ) : (
+              "Save Product"
+            )}
+          </Button>
         </div>
       </div>
     </div>
