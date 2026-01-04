@@ -18,8 +18,17 @@ export async function POST(request: Request) {
                 taxClass: form.get("taxClass")?.toString(),
                 category: form.get("category")?.toString(),
                 description: form.get("description")?.toString(),
+                status : form.get("status")?.toString(),
                 images: [],
-                variants:[],
+                variants:[{
+                    sku: form.get("sku")?.toString() || "",
+                    price: form.get("price") ? Number(form.get("price")) : undefined,
+                    color: form.get("color")?.toString(),
+                    size: form.get("size")?.toString(),
+                    quantity: form.get("quantity") ? Number(form.get("quantity")) : undefined,    
+                    status : form.get("status")?.toString(),
+                    images: [],
+                }],
                 // images: form
                 //     .getAll("images")
                 //     .filter((file): file is File => file instanceof File)

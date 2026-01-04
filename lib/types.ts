@@ -1,4 +1,5 @@
 export type InsertProductPayLoad = {
+    _id?: string;
     productName?: string;
     price?: number;
     taxClass?: string;
@@ -8,6 +9,8 @@ export type InsertProductPayLoad = {
     quantity?: number;
     color?: string;
     size?: string;
+    sku?: string;
+    status?: string;
     images?: { filename: string; size: number; type: string }[];
     variants?: {
         sku: string;
@@ -16,6 +19,7 @@ export type InsertProductPayLoad = {
         size?: string;
         quantity?: number;
         images?: { filename: string; size: number; type: string }[];
+        status?: string;
     }[];
 };
 

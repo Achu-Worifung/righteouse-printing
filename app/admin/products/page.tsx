@@ -9,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input"
 import { useState, useEffect } from "react";
 import { InsertProductPayLoad } from "@/lib/types";
@@ -28,6 +29,7 @@ export default function ProductPage() {
     InsertProductPayLoad[]
   >([]);
   const [searchQuery, setsearchQuery] = useState<string>("");
+  const router = useRouter();
   useEffect(() => {
     async function fetchProducts() 
     {
@@ -83,7 +85,7 @@ export default function ProductPage() {
       </TableHeader>
       <TableBody>
         {filteredProducts.map((product, index) => (
-          <TableRow key={index} className="cursor-pointer">
+          <TableRow key={index} className="cursor-pointer" onClick={() => router.push(`/admin/products/edit/${product._id}`)}>
             <TableCell><img src={product.images && product.images.length > 0 ? product.images[0].filename : '/placeholder.svg'} alt={product.productName} className="w-15 h-15 object-cover rounded-md"/></TableCell>
             <TableCell className="font-medium">{product.productName}</TableCell>
             <TableCell>{product.price}</TableCell>
@@ -97,3 +99,5 @@ export default function ProductPage() {
     </div>
   );
 }
+
+
