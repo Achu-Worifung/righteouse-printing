@@ -18,6 +18,7 @@ import {
 import { toast } from "sonner";
 import { InsertProductPayLoad } from "@/lib/types";
 import VariantForm from "@/app/components/variant-form";
+import ImageUploader from "./ui/image-uploader";
 
 type Variant = {
   sku: string;
@@ -43,7 +44,8 @@ export default function ProductForm({
   const [imagePreviews, setImagePreviews] = useState<string[]>(
     initialData?.images || []
   );
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
+    const [imageFiles, setImageFiles] = useState<File[]>([]);
+
   const [saving, setSaving] = useState(false);
   const [variants, setVariants] = useState<Variant[]>(
     initialData &&
@@ -188,7 +190,7 @@ export default function ProductForm({
         <form
           id="add-product-form"
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6"
+          className="grid grid-cols-1  gap-6"
         >
           <div className="space-y-6">
             <Card>
@@ -295,38 +297,14 @@ export default function ProductForm({
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-1">
-                    Images <RequiredIndicator />
-                  </Label>
-                  <Input
-                    name="images"
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={(e) => handleImages(e.target.files)}
-                  />
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {imagePreviews.length === 0 ? (
-                    <div className="col-span-full flex h-24 items-center justify-center rounded-md border border-dashed border-muted-foreground/50 text-sm text-muted-foreground">
-                      No images selected
-                    </div>
-                  ) : (
-                    imagePreviews.map((src, idx) => (
-                      <div
-                        key={src}
-                        className="relative aspect-square overflow-hidden rounded-md border"
-                      >
-                        <img
-                          src={src}
-                          alt={`Preview ${idx + 1}`}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-                    ))
-                  )}
-                </div>
+                
+                <ImageUploader
+                  onImageSelect={(files) => {
+                    setImageFiles(files);
+                  }}
+                  previewImageUrl={imageFiles.length > 0 ? imageFiles : null}
+                  onRemoveImage={removeImage}
+                />
               </CardContent>
             </Card>
 
@@ -348,97 +326,7 @@ export default function ProductForm({
             )}
           </div>
 
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <CardTitle>Inventory Management</CardTitle>
-                  <InfoIndcator message="Control stock availability and quantity." />
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-1">Status</Label>
-                  <select
-                    name="status"
-                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    defaultValue={initialData?.status}
-                  >
-                    <option value="in-stock">Enable</option>
-                    <option value="out-of-stock">Disable</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-1">Checkpoint</Label>
-                  <select
-                    name="checkpoint"
-                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    defaultValue={initialData?.checkpoint}
-                  >
-                    <option value="in-stock">In stock</option>
-                    <option value="out-of-stock">Out of stock</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-1">Quantity</Label>
-                  <Input
-                    name="quantity"
-                    type="number"
-                    min="0"
-                    step="1"
-                    placeholder="0"
-                    defaultValue={
-                      firstVariant?.quantity || initialData?.quantity || ""
-                    }
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <CardTitle>Attributes</CardTitle>
-                  <InfoIndcator message="Define selectable variants." />
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-1">Color</Label>
-                  <select
-                    name="color"
-                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    defaultValue={
-                      firstVariant?.color || initialData?.color || ""
-                    }
-                  >
-                    <option value="">Select color</option>
-                    <option value="black">Black</option>
-                    <option value="white">White</option>
-                    <option value="navy">Navy</option>
-                    <option value="red">Red</option>
-                    <option value="green">Green</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-1">Size</Label>
-                  <select
-                    name="size"
-                    className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    defaultValue={firstVariant?.size || initialData?.size || ""}
-                  >
-                    <option value="">Select size</option>
-                    <option value="xs">XS</option>
-                    <option value="s">S</option>
-                    <option value="m">M</option>
-                    <option value="l">L</option>
-                    <option value="xl">XL</option>
-                    <option value="xxl">XXL</option>
-                  </select>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+ 
         </form>
         <div className="flex justify-end gap-3">
           <Button variant="outline" type="button" onClick={onCancel}>

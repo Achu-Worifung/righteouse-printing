@@ -15,7 +15,7 @@ export function InfoIndcator({message}: {message: string}) {
   return (
    <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant="outline"><CircleQuestionMark /></Button>
+        <Button variant="outline" type='button'><CircleQuestionMark /></Button>
       </TooltipTrigger>
       <TooltipContent>
         <p>{message}</p>
