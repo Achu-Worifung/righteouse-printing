@@ -41,10 +41,8 @@ export default function ProductForm({
   onSuccess,
   onCancel,
 }: ProductFormProps) {
-  const [imagePreviews, setImagePreviews] = useState<string[]>(
-    initialData?.images || []
-  );
-    const [imageFiles, setImageFiles] = useState<File[]>([]);
+  // Product-level images (separate from variant images)
+  const [productImages, setProductImages] = useState<File[]>([]);
 
   const [saving, setSaving] = useState(false);
   const [variants, setVariants] = useState<Variant[]>(
@@ -84,7 +82,7 @@ export default function ProductForm({
     if (!taxClass) errors.push("Select a tax class.");
     if (!category) errors.push("Select a category.");
     if (!description) errors.push("Description is required.");
-    if (imageFiles.length === 0 && !initialData?.images?.length)
+    if (productImages.length === 0 && !initialData?.images?.length)
       errors.push("At least one image is required.");
     if (!checkpoint) errors.push("Select a stock checkpoint.");
     if (!quantity || Number(quantity) < 0)
@@ -112,7 +110,7 @@ export default function ProductForm({
     body.append("status", status || "");
     body.append("sku", sku || "");
 
-    imageFiles.forEach((file) => body.append("images", file));
+    productImages.forEach((file) => body.append("images", file));
 
     try {
       const res = await fetch("/api/add-new-item", {
@@ -135,28 +133,6 @@ export default function ProductForm({
       setSaving(false);
     }
   };
-
-  const handleImages = (files?: FileList | null) => {
-    if (!files) {
-      setImagePreviews(initialData?.images || []);
-      setImageFiles([]);
-      return;
-    }
-
-    const next = Array.from(files).map((file) => URL.createObjectURL(file));
-    setImageFiles(Array.from(files));
-    setImagePreviews(next);
-  };
-
-  useEffect(() => {
-    return () => {
-      imagePreviews.forEach((url) => {
-        if (url.startsWith("blob:")) {
-          URL.revokeObjectURL(url);
-        }
-      });
-    };
-  }, [imagePreviews]);
 
   return (
     <div className="w-full flex flex-col items-center flex-1 px-4 py-6">
@@ -289,6 +265,7 @@ export default function ProductForm({
                 </div>
               </CardContent>
             </Card>
+            
             <Card>
               <CardHeader>
                 <div className="flex items-center gap-2">
@@ -297,37 +274,31 @@ export default function ProductForm({
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                
                 <ImageUploader
-                  onImageSelect={(files) => {
-                    setImageFiles(files);
-                  }}
-                  previewImageUrl={imageFiles.length > 0 ? imageFiles : null}
-                  onRemoveImage={removeImage}
+                  images={productImages}
+                  setImages={setProductImages}
+                  single={false}
                 />
               </CardContent>
             </Card>
 
-            {initialData && (
-              <Card>
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <CardTitle>Variants</CardTitle>
-                    <InfoIndcator message="Manage product variants with different colors, sizes, prices, and stock levels." />
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <VariantForm
-                    variants={variants}
-                    onVariantsChange={setVariants}
-                  />
-                </CardContent>
-              </Card>
-            )}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <CardTitle>Variants</CardTitle>
+                  <InfoIndcator message="Manage product variants with different colors, sizes, prices, and stock levels." />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <VariantForm
+                  variants={variants}
+                  onVariantsChange={setVariants}
+                />
+              </CardContent>
+            </Card>
           </div>
-
- 
         </form>
+        
         <div className="flex justify-end gap-3">
           <Button variant="outline" type="button" onClick={onCancel}>
             Cancel
