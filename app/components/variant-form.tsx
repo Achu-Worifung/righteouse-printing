@@ -24,6 +24,7 @@ type Variant = {
   quantity: number;
   status: "enabled" | "disabled";
   images?: string[];
+  imageFiles?: File[];
 };
 
 type VariantFormProps = {
@@ -37,6 +38,7 @@ export default function VariantForm({
 }: VariantFormProps) {
   const [open, setOpen] = useState(false);
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [variantImages, setVariantImages] = useState<File[]>([]);
   const [formData, setFormData] = useState<Variant>({
     sku: "",
     color: "",
@@ -57,6 +59,7 @@ export default function VariantForm({
       status: "enabled",
       images: [],
     });
+    setVariantImages([]);
     setEditingIndex(null);
   };
 
@@ -83,20 +86,34 @@ export default function VariantForm({
       errors.push("Price must be greater than or equal to 0.");
     if (formData.quantity < 0)
       errors.push("Quantity must be greater than or equal to 0.");
-
+    if (!formData.status) errors.push("Status is required.");
+    if(!variantImages.length) errors.push("At least one image is required.");
+    
     if (errors.length) {
       errors.forEach((msg) => toast.error(msg));
       return;
     }
 
+    // Create variant with image file references
+    const variantWithImages: Variant = {
+      sku: formData.sku,
+      color: formData.color,
+      size: formData.size,
+      price: formData.price,
+      quantity: formData.quantity,
+      status: formData.status,
+      images: formData.images,
+      imageFiles: variantImages,
+    };
+
     let updatedVariants: Variant[];
     if (editingIndex !== null) {
       updatedVariants = variants.map((v, i) =>
-        i === editingIndex ? formData : v
+        i === editingIndex ? variantWithImages : v
       );
       toast.success("Variant updated successfully.");
     } else {
-      updatedVariants = [...variants, formData];
+      updatedVariants = [...variants, variantWithImages];
       toast.success("Variant added successfully.");
     }
 
@@ -183,6 +200,7 @@ export default function VariantForm({
                       <Button
                         variant="outline"
                         size="sm"
+                        type="button"
                         onClick={() => handleEditVariant(index)}
                       >
                         Edit
@@ -190,6 +208,7 @@ export default function VariantForm({
                       <Button
                         variant="destructive"
                         size="sm"
+                        type="button"
                         onClick={() => handleDeleteVariant(index)}
                       >
                         Delete
@@ -205,7 +224,7 @@ export default function VariantForm({
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogTrigger asChild>
-          <Button className="bg-teal-600 hover:bg-teal-700">
+          <Button type="button" className="bg-teal-600 hover:bg-teal-700">
             {editingIndex !== null ? "Edit Variant" : "Add Variant"}
           </Button>
         </DialogTrigger>
@@ -222,10 +241,8 @@ export default function VariantForm({
           </DialogHeader>
           <div className="space-y-4 grid grid-cols-2 gap-4">
             <ImageUploader
-              images={formData.images}
-              setImages={(imgs) =>
-                setFormData((prev) => ({ ...prev, images: imgs }))
-              }
+              images={variantImages}
+              setImages={setVariantImages}
               single={true}
             />
 

@@ -28,6 +28,7 @@ type Variant = {
   quantity: number;
   status: "enabled" | "disabled";
   images?: string[];
+  imageFiles?: File[]; // Add this to track the File objects
 };
 
 type ProductFormProps = {
@@ -68,10 +69,6 @@ export default function ProductForm({
     const category = data.get("category")?.toString().trim();
     const description = data.get("description")?.toString().trim();
     const checkpoint = data.get("checkpoint")?.toString().trim();
-    const quantity = data.get("quantity")?.toString().trim();
-    const color = data.get("color")?.toString().trim();
-    const size = data.get("size")?.toString().trim();
-    const status = data.get("status")?.toString().trim();
     const sku = data.get("sku")?.toString().trim();
 
     const errors: string[] = [];
@@ -84,13 +81,7 @@ export default function ProductForm({
     if (!description) errors.push("Description is required.");
     if (productImages.length === 0 && !initialData?.images?.length)
       errors.push("At least one image is required.");
-    if (!checkpoint) errors.push("Select a stock checkpoint.");
-    if (!quantity || Number(quantity) < 0)
-      errors.push("Quantity is required and must be zero or greater.");
-    if (!color) errors.push("Select a color.");
-    if (!size) errors.push("Select a size.");
-    if (!status) errors.push("Select a status.");
-
+    if (variants.length === 0) errors.push("At least one variant is required.");
     if (errors.length) {
       errors.forEach((msg) => toast.error(msg));
       setSaving(false);
@@ -98,19 +89,38 @@ export default function ProductForm({
     }
 
     const body = new FormData();
-    body.append("productName", productName);
-    body.append("price", price);
-    body.append("taxClass", taxClass);
-    body.append("category", category);
-    body.append("description", description);
-    body.append("checkpoint", checkpoint);
-    body.append("quantity", quantity);
-    body.append("color", color);
-    body.append("size", size);
-    body.append("status", status || "");
-    body.append("sku", sku || "");
+    body.append("productName", productName!);
+    body.append("price", price!);
+    body.append("taxClass", taxClass!);
+    body.append("category", category!);
+    body.append("description", description!);
+    body.append("sku", sku!);
 
-    productImages.forEach((file) => body.append("images", file));
+    // Add product-level images
+    productImages.forEach((file) => body.append("productImages", file));
+
+    // Prepare variant data and images
+    variants.forEach((variant, index) => {
+      // Add variant image files with index
+      if (variant.imageFiles && variant.imageFiles.length > 0) {
+        variant.imageFiles.forEach((file) => {
+          body.append(`variantImages_${index}`, file);
+        });
+      }
+
+      // Create variant metadata without the File objects
+      const variantData = {
+        sku: variant.sku,
+        color: variant.color,
+        size: variant.size,
+        price: variant.price,
+        quantity: variant.quantity,
+        status: variant.status,
+        imageCount: variant.imageFiles?.length || 0,
+      };
+
+      body.append("variants", JSON.stringify(variantData));
+    });
 
     try {
       const res = await fetch("/api/add-new-item", {

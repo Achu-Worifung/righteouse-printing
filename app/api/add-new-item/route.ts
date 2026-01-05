@@ -12,27 +12,58 @@ export async function POST(request: Request) {
         if (contentType.includes("multipart/form-data")) {
             const form = await request.formData();
 
+            // Parse variants from JSON strings
+            const variantStrings = form.getAll("variants");
+            const variants = variantStrings.map((v) => JSON.parse(v.toString()));
+
+            // Process product-level images
+            const productImageFiles = form
+                .getAll("productImages")
+                .filter((file): file is File => file instanceof File);
+            
+            const productImages = productImageFiles.map((file) => ({
+                filename: file.name,
+                size: file.size,
+                type: file.type,
+            }));
+
+            // Collect variant images by index
+            const variantImagesByIndex: { [key: number]: File[] } = {};
+            for (const [key, value] of form.entries()) {
+                if (key.startsWith("variantImages_") && value instanceof File) {
+                    const index = parseInt(key.split("_")[1]);
+                    if (!variantImagesByIndex[index]) {
+                        variantImagesByIndex[index] = [];
+                    }
+                    variantImagesByIndex[index].push(value);
+                }
+            }
+
+            // Merge variant data with their specific images
+            const variantsWithImages = variants.map((variant, index) => {
+                const variantFiles = variantImagesByIndex[index] || [];
+                const variantImages = variantFiles.map((file) => ({
+                    filename: file.name,
+                    size: file.size,
+                    type: file.type,
+                }));
+
+                return {
+                    ...variant,
+                    images: variantImages,
+                };
+            });
+
             payload = {
                 productName: form.get("productName")?.toString(),
                 price: form.get("price") ? Number(form.get("price")) : undefined,
                 taxClass: form.get("taxClass")?.toString(),
                 category: form.get("category")?.toString(),
                 description: form.get("description")?.toString(),
-                status : form.get("status")?.toString(),
-                images: [],
-                variants:[{
-                    sku: form.get("sku")?.toString() || "",
-                    price: form.get("price") ? Number(form.get("price")) : undefined,
-                    color: form.get("color")?.toString(),
-                    size: form.get("size")?.toString(),
-                    quantity: form.get("quantity") ? Number(form.get("quantity")) : undefined,    
-                    status : form.get("status")?.toString(),
-                    images: [],
-                }],
-                // images: form
-                //     .getAll("images")
-                //     .filter((file): file is File => file instanceof File)
-                //     .map((file) => ({ filename: file.name, size: file.size, type: file.type })),
+                sku: form.get("sku")?.toString(),
+                status: form.get("status")?.toString(),
+                images: productImages, // Product-level images
+                variants: variantsWithImages, // Each variant has its own images
             };
         } else if (contentType.includes("application/json")) {
             payload = await request.json();
@@ -43,7 +74,19 @@ export async function POST(request: Request) {
             );
         }
 
-        console.log("Received new item data:", payload);
+        // console.log("Received new item data:");
+        // console.log("Product:", {
+        //     name: payload.productName,
+        //     price: payload.price,
+        //     productImages: payload.images?.length || 0,
+        // });
+        // console.log("Variants:", payload.variants?.map((v, i) => ({
+        //     index: i,
+        //     sku: v.sku,
+        //     color: v.color,
+        //     variantImages: v.images?.length || 0,
+        //     images: v.images,
+        // })));
 
         await client.connect();
         const database = client.db("RighteousePrinting");
