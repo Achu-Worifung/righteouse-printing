@@ -11,14 +11,14 @@ export type InsertProductPayLoad = {
     size?: string;
     sku?: string;
     status?: string;
-    images?: { filename: string; size: number; type: string }[];
+    images?: { filename: string; size: number; type: string; url: string }[];
     variants?: {
         sku: string;
         price?: number;
         color?: string;
         size?: string;
         quantity?: number;
-        images?: { filename: string; size: number; type: string }[];
+        images?: { filename: string; size: number; type: string; url: string }[];
         status?: string;
     }[];
 };

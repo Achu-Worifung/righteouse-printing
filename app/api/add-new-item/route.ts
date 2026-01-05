@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import {client} from "@/lib/db";
 import {InsertProductPayLoad} from "@/lib/types";
+import dotenv from "dotenv";
+import {BlobServiceClient} from "@azure/storage-blob";
+dotenv.config();
 
 
 export async function POST(request: Request) {
@@ -11,21 +14,39 @@ export async function POST(request: Request) {
 
         if (contentType.includes("multipart/form-data")) {
             const form = await request.formData();
+            const connectionString = process.env.AZURE_STORAGE_CONNECTION_STRING || "";
+            const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+            const containerName = process.env.AZURE_STORAGE_CONTAINER_NAME || "righteousprinting";
+            const containerClient = blobServiceClient.getContainerClient(containerName);
 
             // Parse variants from JSON strings
             const variantStrings = form.getAll("variants");
             const variants = variantStrings.map((v) => JSON.parse(v.toString()));
 
-            // Process product-level images
+            // Process and upload product-level images
             const productImageFiles = form
                 .getAll("productImages")
                 .filter((file): file is File => file instanceof File);
             
-            const productImages = productImageFiles.map((file) => ({
-                filename: file.name,
-                size: file.size,
-                type: file.type,
-            }));
+            const productImages = [];
+            for (const file of productImageFiles) {
+                const blobName = `products/${Date.now()}-${file.name}`;
+                const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+                
+                const arrayBuffer = await file.arrayBuffer();
+                const buffer = Buffer.from(arrayBuffer);
+                
+                await blockBlobClient.upload(buffer, buffer.length, {
+                    blobHTTPHeaders: { blobContentType: file.type }
+                });
+                
+                productImages.push({
+                    filename: file.name,
+                    size: file.size,
+                    type: file.type,
+                    url: blockBlobClient.url,
+                });
+            }
 
             // Collect variant images by index
             const variantImagesByIndex: { [key: number]: File[] } = {};
@@ -39,20 +60,37 @@ export async function POST(request: Request) {
                 }
             }
 
-            // Merge variant data with their specific images
-            const variantsWithImages = variants.map((variant, index) => {
-                const variantFiles = variantImagesByIndex[index] || [];
-                const variantImages = variantFiles.map((file) => ({
-                    filename: file.name,
-                    size: file.size,
-                    type: file.type,
-                }));
+            // Upload variant images and merge with variant data
+            const variantsWithImages = await Promise.all(
+                variants.map(async (variant, index) => {
+                    const variantFiles = variantImagesByIndex[index] || [];
+                    const variantImages = [];
+                    
+                    for (const file of variantFiles) {
+                        const blobName = `variants/${Date.now()}-${file.name}`;
+                        const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+                        
+                        const arrayBuffer = await file.arrayBuffer();
+                        const buffer = Buffer.from(arrayBuffer);
+                        
+                        await blockBlobClient.upload(buffer, buffer.length, {
+                            blobHTTPHeaders: { blobContentType: file.type }
+                        });
+                        
+                        variantImages.push({
+                            filename: file.name,
+                            size: file.size,
+                            type: file.type,
+                            url: blockBlobClient.url,
+                        });
+                    }
 
-                return {
-                    ...variant,
-                    images: variantImages,
-                };
-            });
+                    return {
+                        ...variant,
+                        images: variantImages,
+                    };
+                })
+            );
 
             payload = {
                 productName: form.get("productName")?.toString(),
