@@ -13,14 +13,6 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input"
 import { useState, useEffect } from "react";
 import { InsertProductPayLoad } from "@/lib/types";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import {toast} from "sonner"
 
 export default function ProductPage() {
@@ -39,6 +31,8 @@ export default function ProductPage() {
             const data = await response.json();
             setproducts(data);
             setfilteredProducts(data);
+            console.log("Fetched products data:", data);
+            console.log("Fetched products single data images:", data[0].images[0].url);
 
         }catch(error)
         {
@@ -86,7 +80,7 @@ export default function ProductPage() {
       <TableBody>
         {filteredProducts.map((product, index) => (
           <TableRow key={index} className="cursor-pointer" onClick={() => router.push(`/admin/products/edit/${product._id}`)}>
-            <TableCell><img src={product.images && product.images.length > 0 ? product.images[0].filename : '/placeholder.svg'} alt={product.productName} className="w-15 h-15 object-cover rounded-md"/></TableCell>
+            <TableCell><img src={product.images && product.images.length > 0 ? product.images[0].url : '/placeholder.svg'} alt={product.productName} className="w-15 h-15 object-cover rounded-md"/></TableCell>
             <TableCell className="font-medium">{product.productName}</TableCell>
             <TableCell>{product.price}</TableCell>
             <TableCell>{product.category}</TableCell>

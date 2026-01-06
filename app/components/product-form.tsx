@@ -53,6 +53,7 @@ export default function ProductForm({
       ? (initialData as any).variants
       : []
   );
+  console.log("Initial  data:", initialData?.taxClass);
 
   // Extract first variant data if available
   const firstVariant = variants.length > 0 ? variants[0] : null;

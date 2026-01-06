@@ -112,19 +112,6 @@ export async function POST(request: Request) {
             );
         }
 
-        // console.log("Received new item data:");
-        // console.log("Product:", {
-        //     name: payload.productName,
-        //     price: payload.price,
-        //     productImages: payload.images?.length || 0,
-        // });
-        // console.log("Variants:", payload.variants?.map((v, i) => ({
-        //     index: i,
-        //     sku: v.sku,
-        //     color: v.color,
-        //     variantImages: v.images?.length || 0,
-        //     images: v.images,
-        // })));
 
         await client.connect();
         const database = client.db("RighteousePrinting");
