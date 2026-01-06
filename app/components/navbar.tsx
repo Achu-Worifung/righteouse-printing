@@ -12,8 +12,8 @@ export function Navbar() {
   const { isAuthenticated, user, logout } = useAuth();
 
   return (
-    <header className="w-full">
-          <nav className="font-bold text-xl drop-shadow-2xl w-full flex justify-between items-center p-4 bg-white/10 backdrop-blur-3xl px-8">
+    <header className="w-full z-[600] relative">
+          <nav className="font-bold text-xl drop-shadow-2xl w-full flex justify-between items-center py-2 bg-white/10 backdrop-blur-3xl px-8">
             <div className="flex relative justify-between w-full h-full items-center md:block md:w-fit">
               <Logo />
               {
@@ -24,7 +24,7 @@ export function Navbar() {
               }
               {
                 isMenuOpen && (
-                  <div className="flex flex-col bg-white/10 backdrop-blur-3xl absolute top-20 left-4 right-4 p-4 rounded-lg gap-4 md:hidden box-content px-8 py-4 [&_a]:[-webkit-text-stroke:1px_black] text-black">
+                  <div className="z-[500] flex flex-col bg-black backdrop-blur-3xl absolute top-10 left-0 w-full items-center  rounded-lg gap-4 md:hidden box-content px-8 py-4 [&_a]:[-webkit-text-stroke:1px_black] text-black ">
                     <a href="" onClick={() => setIsMenuOpen(false)} className="">Products</a>
                     <a href="" onClick={() => setIsMenuOpen(false)} className="">Custom Design</a>
                     <a href="" onClick={() => setIsMenuOpen(false)} className="">Contact Us</a>
@@ -32,7 +32,7 @@ export function Navbar() {
                 )
               }
             </div>
-            <div className="hidden md:block stroke-black [&_a]:[-webkit-text-stroke:1px_black]">
+            <div className="hidden md:block stroke-black [&_a]:[-webkit-text-stroke:1px_black] ">
               <a href="" className="">Products</a>
               <a href="">Custom Design</a>
               <a href="">Contact Us</a>

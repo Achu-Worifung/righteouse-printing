@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ListingFilter } from "@/app/components/listing-filter";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/listing-sidebar"
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,9 +26,12 @@ export default function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-    <ListingFilter />
-      {children}
-    </>
+   <SidebarProvider>
+      <AppSidebar />
+      <main className="flex flex-1 flex-col">
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
   );
 }
