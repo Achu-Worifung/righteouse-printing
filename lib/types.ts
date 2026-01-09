@@ -12,14 +12,16 @@ export type InsertProductPayLoad = {
     sku?: string;
     status?: string;
     images?: { filename: string; size: number; type: string; url: string }[];
-    variants?: {
-        sku: string;
+    variants?: variant[];
+    createdAt?: Date;
+};
+
+export type variant = {
+        sku?: string;
         price?: number;
-        color?: string;
-        size?: string;
+        color?: string[];
+        size?: string; //size should be an array
         quantity?: number;
         images?: { filename: string; size: number; type: string; url: string }[];
         status?: string;
-    }[];
-};
-
+    }
