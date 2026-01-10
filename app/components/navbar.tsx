@@ -1,60 +1,144 @@
-
-'use client';
-import {  ShoppingCart , Menu , X, LogOut, User, LogIn  } from "lucide-react";
-import Image from "next/image";
-import React from "react";
+"use client";
+import { Menu, X, Handbag, UserRound } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Separator } from "@radix-ui/react-dropdown-menu";
+
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
 
   return (
-    <header className="w-full z-[600] relative">
-          <nav className="font-bold text-xl drop-shadow-2xl w-full flex justify-between items-center py-2 bg-white/10 backdrop-blur-3xl px-8">
-            <div className="flex relative justify-between w-full h-full items-center md:block md:w-fit">
-              <Logo />
-              {
-                isMenuOpen ? (<X size={32} onClick={() => setIsMenuOpen(false)} className="md:hidden block ml-4 cursor-pointer rounded-full hover:bg-white/10"/> 
-                ) : (
-                <Menu size={32} onClick={() => setIsMenuOpen(true)} className="md:hidden block ml-4 cursor-pointer rounded-full hover:bg-white/10"/>
-                )
-              }
-              {
-                isMenuOpen && (
-                  <div className="z-[500] flex flex-col bg-black backdrop-blur-3xl absolute top-10 left-0 w-full items-center  rounded-lg gap-4 md:hidden box-content px-8 py-4 [&_a]:[-webkit-text-stroke:1px_black] text-black ">
-                    <a href="" onClick={() => setIsMenuOpen(false)} className="">Products</a>
-                    <a href="" onClick={() => setIsMenuOpen(false)} className="">Custom Design</a>
-                    <a href="" onClick={() => setIsMenuOpen(false)} className="">Contact Us</a>
-                  </div>
-                )
-              }
-            </div>
-            <div className="hidden md:block stroke-black [&_a]:[-webkit-text-stroke:1px_black] ">
-              <a href="" className="">Products</a>
-              <a href="">Custom Design</a>
-              <a href="">Contact Us</a>
-            </div>
-            <div className="items-center gap-4 cursor-pointer hidden md:flex justify-center">
-              <ShoppingCart size={32} />
-              {isAuthenticated ? (
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <User size={24} />
-                    <span>{user?.name}</span>
-                  </div>
-                  <button onClick={logout} className="flex items-center gap-2 hover:text-red-400">
-                    <LogOut size={20} />
-                    Logout
-                  </button>
-                </div>
+    <header className="w-full relative">
+      <nav className="font-light text-xl drop-shadow-2xl w-full flex justify-between items-center py-2 bg-white/10 backdrop-blur-3xl">
+        <div className="flex flex-col gap-1 md:w-auto w-full">
+          <div className="flex  justify-between items-center flex-row px-4 md:w-auto w-full">
+            <Logo />
+            <div className="flex items-center gap-4">
+                <Handbag size={32} />
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    {" "}
+                    <UserRound size={34} />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    {isAuthenticated ? (
+                      <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>My Account</DropdownMenuItem>
+                        <DropdownMenuItem>Orders</DropdownMenuItem>
+                        <DropdownMenuItem onClick={logout}>
+                          Sign Out
+                        </DropdownMenuItem>
+                      </>
+                    ) : (
+                      <>
+                        <DropdownMenuItem>Sign In</DropdownMenuItem>
+                        <DropdownMenuItem>Sign Out</DropdownMenuItem>
+                      </>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              {isMenuOpen ? (
+                <X
+                  size={32}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="md:hidden block ml-4 cursor-pointer rounded-full hover:bg-white/10"
+                />
               ) : (
-                <Link href="/login" className="hover:bg-white/10 rounded-md py-2 px-4 !m-0"><LogIn size={32} /></Link>
+                <Menu
+                  size={32}
+                  onClick={() => setIsMenuOpen(true)}
+                  className="md:hidden block ml-4 cursor-pointer rounded-full hover:bg-white/10"
+                />
               )}
             </div>
-          </nav>
-        </header>
+
+            </div>
+            {isMenuOpen && (
+              <div className="w-full flex flex-col text-lg font-light backdrop-blur-3xl text-start items-start  rounded-lg gap-4 md:hidden px-4 py-4 -webkit-text-stroke:1px_black text-black  ">
+                <Link href="" onClick={() => setIsMenuOpen(false)} className="">
+                  Home
+                  <Separator />
+                </Link>
+                <Accordion type="single" collapsible className="w-full">
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger className="w-full text-xl font-light">
+                      Shop
+                    </AccordionTrigger>
+                    <AccordionContent className="flex flex-col gap-2 mt-2 ml-4 text-xl font-light">
+                      <Link href="/listing">All</Link>
+                      <Link href="/listing?category=tshirts">T-Shirts</Link>
+                      <Link href="/listing?category=hoodies">Hoodies</Link>
+                      <Link href="/listing?category=caps">Caps</Link>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+                <Link href="" onClick={() => setIsMenuOpen(false)} className="">
+                  New Arrivals
+                  <Separator />
+                </Link>
+              </div>
+            )}
+        </div>
+        <div className="hidden md:flex gap-4 md:gap-12 stroke-black [&_span]:[-webkit-text-stroke:1px_black]">
+          <span className="">Home</span>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <span>Shop</span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>All</DropdownMenuItem>
+              <DropdownMenuItem>T-Shirts</DropdownMenuItem>
+              <DropdownMenuItem>Hoodies</DropdownMenuItem>
+              <DropdownMenuItem>Caps</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <span>New Arrivals</span>
+        </div>
+        <div className="items-center gap-6 cursor-pointer hidden md:flex justify-center">
+          <Handbag size={32} />
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              {" "}
+              <UserRound size={34} />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {isAuthenticated ? (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>My Account</DropdownMenuItem>
+                  <DropdownMenuItem>Orders</DropdownMenuItem>
+                  <DropdownMenuItem onClick={logout}>Sign Out</DropdownMenuItem>
+                </>
+              ) : (
+                <>
+                  <DropdownMenuItem>Sign In</DropdownMenuItem>
+                  <DropdownMenuItem>Sign Out</DropdownMenuItem>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </nav>
+    </header>
   );
 }

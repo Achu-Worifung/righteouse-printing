@@ -2,25 +2,24 @@ import { NextResponse } from "next/server";
 import { client } from "@/lib/db";
 import { ObjectId } from "mongodb";
 
+
+//why are you fetching based on id
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
+    console.log("Fetching product with ID:", id);
 
-    if (!ObjectId.isValid(id)) {
-      return NextResponse.json(
-        { error: "Invalid product ID" },
-        { status: 400 }
-      );
-    }
+    const productName = id.replace(/-/g, " ");
+
 
     await client.connect();
     const database = client.db("RighteousePrinting");
     const products = database.collection("Products");
 
-    const product = await products.findOne({ _id: new ObjectId(id) });
+    const product = await products.findOne({ productName: productName });
     console.log("Fetched product:", product);
 
     if (!product) {
@@ -103,8 +102,8 @@ export async function DELETE(
     }
 
     await client.connect();
-    const database = client.db("RighteousePrinting");
-    const products = database.collection("Products");
+        const database = client.db("RighteousePrinting");
+        const products = database.collection("Products");
 
     const result = await products.deleteOne({ _id: new ObjectId(id) });
 
