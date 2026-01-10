@@ -22,6 +22,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { variant } from "@/lib/types";
+import { useRouter } from "next/navigation";
 
 export function ListingCard({
   name,
@@ -54,8 +55,18 @@ export function ListingCard({
   const [selectedColor, setSelectedColor] = useState<string | null>(
     availableColors[0]
   );
+  const router = useRouter();
   return (
-    <div className="w-full max-w-sm flex flex-col  bg-white rounded-sm shadow overflow-hidden   hover:shadow-xl ">
+    <div
+      className="w-full max-w-sm flex flex-col  bg-white rounded-sm shadow overflow-hidden   hover:shadow-xl "
+      onClick={(e) => {
+        e.stopPropagation();
+        router.push(`/listing/${name.replace(/\s+/g, "-").toLowerCase()}`);
+      }}
+      onMouseEnter={() =>
+        router.prefetch(`/listing/${name.replace(/\s+/g, "-").toLowerCase()}`)
+      }
+    >
       <div className="relative h-fit overflow-hidden bg-gray-100">
         <img
           src={img}
@@ -74,25 +85,30 @@ export function ListingCard({
           {name}
         </h2>
 
-
         <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
 
-        <div className="mt-1 sm:mt-3 flex flex-no-wrap items-start flex-col sm:flex-row justify-start sm:justify-between sm:gap-1">
-
-
+        <div className="mt-1 sm:mt-3 flex flex-no-wrap items-start flex-col sm:flex-row justify-start sm:justify-between sm:gap-1"
+          onClick={(e) => {
+            e.stopPropagation()
+          }}>
           <div className="text-lg sm:text-2xl md:text-4xl font-extrabold text-gray-900">
             <span>${price}</span>
           </div>
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button className="flex items-center gap-2 cursor-pointer rounded-2xl w-full sm:w-auto justify-center mt-3 sm:mt-0">
+              <Button
+                className="flex items-center gap-2 cursor-pointer rounded-2xl w-full sm:w-auto justify-center mt-3 sm:mt-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
                 <ShoppingCart className="w-5 h-5 hidden sm:inline" />
                 Add to Cart
               </Button>
             </SheetTrigger>
 
-            <SheetContent side={"bottom"}>
+            <SheetContent side={"bottom"} onClick={(e) => e.stopPropagation()}>
               <SheetHeader>
                 <SheetTitle>Add To Cart</SheetTitle>
                 <div className="flex flex-col items-start gap-1">
@@ -185,7 +201,11 @@ export function ListingCard({
                               style={{ backgroundColor: color.toLowerCase() }}
                             >
                               <span
-                                className={`h-5 w-5 rounded-full ${selectedColor === 'White'? 'ring-black' : 'ring-white'} ${
+                                className={`h-5 w-5 rounded-full ${
+                                  selectedColor === "White"
+                                    ? "ring-black"
+                                    : "ring-white"
+                                } ${
                                   selectedColor === color
                                     ? "ring-2  ring-offset-2"
                                     : ""
