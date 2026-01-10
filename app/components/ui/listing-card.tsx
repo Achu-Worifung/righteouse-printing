@@ -1,12 +1,16 @@
 import { Description } from "@radix-ui/react-dialog";
-import { ShoppingCart } from "lucide-react";
+import { Shirt, ShoppingCart } from "lucide-react";
 import { ShoppingBasket } from "lucide-react";
 import { Heart } from "lucide-react";
 import { Star } from "lucide-react";
 import { Button } from "./button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ShirtSizeMeasurement } from "./shirt-size-measurement";
+import { Separator } from "@/components/ui/separator";
+import { useState, useEffect } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import Link from "next/link";
 import {
   Sheet,
   SheetClose,
@@ -25,6 +29,8 @@ export function ListingCard({
   rating,
   review_score,
   discount,
+  availableSizes,
+  availableColors,
   category,
   img,
   description,
@@ -37,14 +43,19 @@ export function ListingCard({
   discount?: number;
   category: string;
   img: string;
+  availableSizes: string[];
+  availableColors: string[];
   description: string;
   variants: variant;
 }) {
-  review_score = 3.5; // Hardcoded for demo purposes
-  description =
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam consectetur explicabo odit ducimus! A, mollitia! Sit, quos voluptate dolor sed unde itaque in nihil ullam consectetur dolores culpa illum. Quos."; // Hardcoded for demo purposes
+  const [selectedSize, setSelectedSize] = useState<string | null>(
+    availableSizes[0]
+  );
+  const [selectedColor, setSelectedColor] = useState<string | null>(
+    availableColors[0]
+  );
   return (
-    <div className="w-full max-w-sm flex flex-row sm:flex-col  bg-white rounded-sm shadow overflow-hidden   hover:shadow-xl ">
+    <div className="w-full max-w-sm flex flex-col  bg-white rounded-sm shadow overflow-hidden   hover:shadow-xl ">
       <div className="relative h-fit overflow-hidden bg-gray-100">
         <img
           src={img}
@@ -54,7 +65,7 @@ export function ListingCard({
       </div>
 
       {/* product details  */}
-      <div className="p-4">
+      <div className="ms:p-4 p-2">
         <div className="text-indigo-600 text-sm sm:text-xs font-semibold uppercase tracking-wide mb-1 sm:mb-2">
           {category}
         </div>
@@ -63,52 +74,20 @@ export function ListingCard({
           {name}
         </h2>
 
-        {/* ratings  */}
-        <div className="flex items-center mr-2">
-          {/* Define gradients once outside the stars */}
-          <svg width="0" height="0" style={{ position: "absolute" }}>
-            <defs>
-              {Array.from({ length: 5 }).map((_, index) => {
-                const fillPercentage =
-                  Math.min(Math.max(rating - index, 0), 1) * 100;
 
-                return (
-                  <linearGradient key={index} id={`star-gradient-${index}`}>
-                    <stop offset={`${fillPercentage}%`} stopColor="#FACC15" />
-                    <stop offset={`${fillPercentage}%`} stopColor="#D1D5DB" />
-                  </linearGradient>
-                );
-              })}
-            </defs>
-          </svg>
+        <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
 
-          {/* Render stars referencing the gradients */}
+        <div className="mt-1 sm:mt-3 flex flex-no-wrap items-start flex-col sm:flex-row justify-start sm:justify-between sm:gap-1">
 
-          {Array.from({ length: 5 }).map((_, index) => (
-            <Star
-              key={index}
-              className="w-4 h-4 md:w-6 md:h-6 mr-1"
-              style={{
-                fill: `url(#star-gradient-${index})`,
-                stroke: "#D1D5DB",
-              }}
-            />
-          ))}
-        </div>
 
-        <div className="mt-3 flex flex-no-wrap items-start sm:items-center flex-col sm:flex-row sm:justify-between gap-4">
-          {/* price container  */}
-          <div className="text-2xl md:text-4xl font-extrabold text-gray-900">
+          <div className="text-lg sm:text-2xl md:text-4xl font-extrabold text-gray-900">
             <span>${price}</span>
           </div>
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button
-                size="lg"
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <ShoppingCart className="w-5 h-5" />
+              <Button className="flex items-center gap-2 cursor-pointer rounded-2xl w-full sm:w-auto justify-center mt-3 sm:mt-0">
+                <ShoppingCart className="w-5 h-5 hidden sm:inline" />
                 Add to Cart
               </Button>
             </SheetTrigger>
@@ -116,65 +95,112 @@ export function ListingCard({
             <SheetContent side={"bottom"}>
               <SheetHeader>
                 <SheetTitle>Add To Cart</SheetTitle>
-                <SheetDescription className="flex  items-start gap-1">
-                  <img
-                    src={img}
-                    alt={name}
-                    className="w-32 h-32 object-cover mb-4"
-                  />
-                  <span>
-                    <p className="mb-2 font-semibold">{name}</p>
-                    <p className="mb-2 text-gray-600 line-clamp-2">
-                      {description}
-                    </p>
-                    {/* Updated to dynamically render variants data */}
-                    {variants.map((variant, variantIndex) => (
-                      <div key={variant.sku} className="mb-4">
-                        <p className="font-semibold">Variant SKU: {variant.sku}</p>
-                        <p>Size: {variant.size}</p>
-                        <p>Price: ${variant.price}</p>
-                        <p>Quantity: {variant.quantity}</p>
-                        <p>Status: {variant.status}</p>
-
-                        {/* Render variant images */}
-                        {variant.images && variant.images.length > 0 && (
-                          <div className="flex gap-2 mt-2">
-                            {variant.images.map((image, imageIndex) => (
-                              <img
-                                key={imageIndex}
-                                src={image.url}
-                                alt={image.filename}
-                                className="w-16 h-16 object-cover rounded"
-                              />
-                            ))}
+                <div className="flex flex-col items-start gap-1">
+                  <div className="flex flex-row gap-1">
+                    <img
+                      src={img}
+                      alt={name}
+                      className="w-32 h-32 object-cover mb-4"
+                    />
+                    <span>
+                      <p className="mb-2 font-semibold">{name}</p>
+                      <p className="mb-2 text-gray-600 line-clamp-2">
+                        {description}
+                      </p>
+                      <Link href={"/listing"} className="underline">
+                        See all items details
+                      </Link>
+                    </span>
+                  </div>
+                  <Separator orientation="horizontal" className="" />
+                  <div className="w-full">
+                    <span className="flex flex-row justify-between items-baseline min-w-full ">
+                      <p className="mb-2 font-semibold">Size: {selectedSize}</p>
+                      <Link
+                        href={"/shirt-size-measurement"}
+                        className="underline"
+                      >
+                        How to measure shirt size?
+                      </Link>
+                    </span>
+                    <span className="min-w-full ">
+                      <RadioGroup
+                        defaultValue={availableSizes[0]}
+                        className="flex flex-row gap-4"
+                      >
+                        {availableSizes.map((size) => (
+                          <div
+                            key={size}
+                            className="flex items-center text-center justify-center "
+                          >
+                            <RadioGroupItem
+                              value={size}
+                              id={`${size}`}
+                              onClick={() => setSelectedSize(size)}
+                              className="hidden"
+                            />
+                            <span
+                              className={`border rounded-full cursor-pointer hover:bg-gray-200 select-none flex items-center justify-center h-10 w-10 ${
+                                selectedSize === size ? "bg-gray-300" : ""
+                              }`}
+                            >
+                              <Label
+                                htmlFor={`${size}`}
+                                className="cursor-pointer"
+                              >
+                                {size}
+                              </Label>
+                            </span>
                           </div>
-                        )}
+                        ))}
+                      </RadioGroup>
+                    </span>
+                  </div>
 
-                        {/* Render color options */}
-                        {variant.color && variant.color.length > 0 && (
-                          <div className="mt-2">
-                            <p>Colors:</p>
-                            <RadioGroup defaultValue={variant.color[0]}>
-                              {variant.color.map((colorOption, colorIndex) => (
-                                <div key={colorIndex} className="flex items-center space-x-2">
-                                  <RadioGroupItem value={colorOption} id={`${variant.sku}-color-${colorIndex}`} />
-                                  <Label htmlFor={`${variant.sku}-color-${colorIndex}`}>{colorOption}</Label>
-                                </div>
-                              ))}
-                            </RadioGroup>
+                  <div className="w-full">
+                    <span className="flex flex-row justify-between items-baseline min-w-full ">
+                      <p className="mb-2 font-semibold">
+                        Color: {selectedColor}
+                      </p>
+                    </span>
+                    <span className="min-w-full ">
+                      <RadioGroup
+                        defaultValue={availableColors[0]}
+                        className="flex flex-row gap-4"
+                      >
+                        {availableColors.map((color) => (
+                          <div
+                            key={color}
+                            className="flex items-center text-center justify-center "
+                          >
+                            <RadioGroupItem
+                              value={color}
+                              id={`${color}`}
+                              onClick={() => setSelectedColor(color)}
+                              className="hidden"
+                            />
+                            <Label
+                              htmlFor={`${color}`}
+                              className={`cursor-pointer rounded-full flex items-center justify-center h-10 w-10 rounded-rull border border-black`}
+                              style={{ backgroundColor: color.toLowerCase() }}
+                            >
+                              <span
+                                className={`h-5 w-5 rounded-full ${selectedColor === 'White'? 'ring-black' : 'ring-white'} ${
+                                  selectedColor === color
+                                    ? "ring-2  ring-offset-2"
+                                    : ""
+                                }`}
+                              ></span>
+                            </Label>
                           </div>
-                        )}
-                      </div>
-                    ))}
-                  </span>
-                </SheetDescription>
+                        ))}
+                      </RadioGroup>
+                    </span>
+                  </div>
+                </div>
               </SheetHeader>
-              <div className="grid gap-3">
-                <Label htmlFor="sheet-demo-username">Username</Label>
-                <Input id="sheet-demo-username" defaultValue="@peduarte" />
-              </div>
               <SheetFooter>
-                <Button type="submit">Save changes</Button>
+                <Button type="submit">Add to Cart</Button>
                 <SheetClose asChild>
                   <Button variant="outline">Close</Button>
                 </SheetClose>

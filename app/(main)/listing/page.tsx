@@ -23,10 +23,10 @@ export default function Listings() {
       <p>Listings found: {data.length}</p>
 
       {/* Example render */}
-      <ul className='grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 '>
+      <ul className='grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 '>
         {data.map(listing => (
           <li key={listing._id}>
-            <ListingCard name={listing.productName} price={listing.price} rating={listing.rating} review_score={listing.review_score} discount={listing.discount } category={listing.category} img={listing.images[0].url} variants={listing.variants}/>
+            <ListingCard name={listing.productName} price={listing.price} rating={listing.rating} review_score={listing.review_score} discount={listing.discount } category={listing.category} img={listing.images[0].url} variants={listing.variants} availableColors={listing.availableColors} availableSizes={listing.availableSizes} description={listing.description}/>
           </li>
         ))}
       </ul>
