@@ -12,8 +12,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {SizeTemplate} from "@/components/ui/size-template";
-
+import { SizeTemplate } from "@/components/ui/size-template";
+import { Stars } from "@/components/ui/stars";
+import { Star } from "lucide-react";
 export default function ListingItem() {
   const { id } = useParams();
 
@@ -114,72 +115,87 @@ export default function ListingItem() {
   if (!product) return null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:flex md:space-y-0 md:gap-8 lg:gap-16 md:p-8">
       {/* Main image */}
-      {mainImage && (
-        <div className="w-full">
-          <img
-            src={mainImage.url}
-            alt=""
-            className="w-full h-[420px] object-cover rounded-lg"
-          />
+      <div className="md:w-1/2 flex flex-col ">
+        {mainImage && (
+          <div className="w-full">
+            <img
+              src={mainImage.url}
+              alt=""
+              className="w-full h-[420px] object-cover rounded-lg"
+            />
+          </div>
+        )}
+
+        {/* Gallery thumbnails */}
+        <div className="mt-4 grid grid-cols-5 gap-2">
+          {galleryImages.map((img: any) => {
+            const isVariantImage =
+              selectedVariant &&
+              img.size === selectedVariant.size &&
+              img.color === selectedVariant.color;
+
+            return (
+              <button
+                key={img.url}
+                onClick={() => setMainImage(img)}
+                className={`border rounded overflow-hidden ${
+                  mainImage?.url === img.url
+                    ? "ring-2 ring-black"
+                    : isVariantImage
+                    ? "ring-2 ring-blue-500"
+                    : ""
+                }`}
+              >
+                <img
+                  src={img.url}
+                  alt=""
+                  className="h-20 w-full object-cover"
+                />
+              </button>
+            );
+          })}
         </div>
-      )}
-
-      {/* Gallery thumbnails */}
-      <div className="mt-4 grid grid-cols-5 gap-2">
-        {galleryImages.map((img: any) => {
-          const isVariantImage =
-            selectedVariant &&
-            img.size === selectedVariant.size &&
-            img.color === selectedVariant.color;
-
-          return (
-            <button
-              key={img.url}
-              onClick={() => setMainImage(img)}
-              className={`border rounded overflow-hidden ${
-                mainImage?.url === img.url
-                  ? "ring-2 ring-black"
-                  : isVariantImage
-                  ? "ring-2 ring-blue-500"
-                  : ""
-              }`}
-            >
-              <img src={img.url} alt="" className="h-20 w-full object-cover" />
-            </button>
-          );
-        })}
       </div>
       {/* Product name */}
-      <h1 className="text-2xl font-bold line-clamp-2 ">
-        {product.productName}
-      </h1>
+      <div className="md:w-1/2 flex flex-col justify-between">
+        <h1 className="text-2xl font-bold line-clamp-2 ">
+          {product.productName}
+        </h1>
+        <Stars count={34} avg={4.5} />
 
-      {/* Size selector */}
-      <div>
-        <div className="flex justify-between"><p className="font-medium mb-2">Size</p><SizeTemplate /></div>
-        <Select value={selectedSize || ""} onValueChange={setSelectedSize}>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select a size" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Sizes</SelectLabel>
-              {sizeOptions.map(({ size, enabled }: any) => (
-                <SelectItem key={size} value={size} disabled={!enabled}>
-                  {size}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
+        {/* Size selector */}
+        <div>
+          <div className="flex justify-between">
+            <p className="font-medium mb-2">Size</p>
+            <SizeTemplate />
+          </div>
+          <Select value={selectedSize || ""} onValueChange={setSelectedSize}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a size" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Sizes</SelectLabel>
+                {sizeOptions.map(({ size, enabled }: any) => (
+                  <SelectItem key={size} value={size} disabled={!enabled}>
+                    {size}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
 
-      {/* Color selector */}
+        {/* Color selector */}
         <div>
           <p className="font-medium mb-2">Color</p>
-          <Select disabled={!selectedSize} value={selectedColor || ""} onValueChange={setSelectedColor}>
+          <Select
+            disabled={!selectedSize}
+            value={selectedColor || ""}
+            onValueChange={setSelectedColor}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select a color" />
             </SelectTrigger>
@@ -196,10 +212,8 @@ export default function ListingItem() {
           </Select>
         </div>
 
-      {/* Variant info */}
+        {/* Variant info */}
         <div className="pt-4 border-t space-y-4">
-         
-
           <div className="flex gap-3 flex-col">
             <button
               disabled={!selectedVariant}
@@ -212,19 +226,20 @@ export default function ListingItem() {
               Add to Cart
             </button>
             <button
-                disabled={!selectedVariant}
+              disabled={!selectedVariant}
               className="flex-1 px-6 py-3 bg-white text-black border-2 border-black rounded-lg hover:bg-gray-50 transition-colors font-medium"
               onClick={() => {
                 // Buy now logic here
                 console.log("Buy now:", selectedVariant);
               }}
-              >
+            >
               Buy Now
             </button>
           </div>
         </div>
         <p className="text-lg text-black mb-3">Product descrioption</p>
-      <p className="text-md text-gray-600 mb-6">{product.description}</p>
+        <p className="text-md text-gray-600 mb-6">{product.description}</p>
+      </div>
     </div>
   );
 }

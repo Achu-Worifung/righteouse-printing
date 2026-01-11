@@ -9,6 +9,24 @@
     "images": [
       {}
     ],
+    "ratings": {
+      "count": 10,
+      "sum": 42,
+      "average": 4.2
+    },
+    "reviews": [
+      {
+        "userId": "u1",
+        "rating": 5,
+        "comment": "Great!"
+      },
+      {
+        "userId": "u2",
+        "rating": 4,
+        "comment": "Nice shirt"
+      }
+    ],
+    "status": "enabled",
     "options": {
       "sizes": [
         "S",
