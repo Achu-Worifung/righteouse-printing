@@ -123,6 +123,8 @@ export function ListingCard({
                     />
                     <span>
                       <p className="mb-2 font-semibold">{name}</p>
+                              <Stars count={ratings.count} avg={ratings.average} />
+
                       <p className="mb-2 text-gray-600 line-clamp-2">
                         {description}
                       </p>

@@ -27,10 +27,10 @@ export function Navbar() {
 
   return (
     <header className="w-full relative">
-      <nav className="font-light text-xl drop-shadow-2xl w-full flex justify-between items-center py-2 bg-white/10 backdrop-blur-3xl">
+      <nav className="font-light text-xl drop-shadow-2xl w-full flex justify-between items-center py-2 bg-white/10 backdrop-blur-3xl px-2 md:px-8 lg:px-16">
         <div className="flex flex-col gap-1 md:w-auto w-full">
           <div className="flex  justify-between items-center flex-row px-4 md:w-auto w-full">
-            <Logo />
+            <Logo className="relative left-0 p-0"/>
             <div className="md:hidden flex items-center gap-4">
                 <Handbag size={32} />
                 <DropdownMenu>
@@ -38,20 +38,24 @@ export function Navbar() {
                     {" "}
                     <UserRound size={34} />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent>
+                  <DropdownMenuContent className="font-light text-xl">
                     {isAuthenticated ? (
                       <>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>My Account</DropdownMenuItem>
-                        <DropdownMenuItem>Orders</DropdownMenuItem>
-                        <DropdownMenuItem onClick={logout}>
+                        <DropdownMenuItem className="font-light text-xl">My Account</DropdownMenuItem>
+                        <DropdownMenuItem className="font-light text-xl">Orders</DropdownMenuItem>
+                        <DropdownMenuItem onClick={logout} className="font-light text-xl">
                           Sign Out
                         </DropdownMenuItem>
                       </>
                     ) : (
                       <>
-                        <DropdownMenuItem>Sign In</DropdownMenuItem>
-                        <DropdownMenuItem>Sign Out</DropdownMenuItem>
+                        <DropdownMenuItem className="font-light text-xl">
+                          <Link href="/signin">Sign In</Link>
+                          </DropdownMenuItem>
+                        <DropdownMenuItem className="font-light text-xl">
+                          <Link href="/signup" className="text-xl font-light">Sign Up</Link>
+                        </DropdownMenuItem>
                       </>
                     )}
                   </DropdownMenuContent>
@@ -99,20 +103,22 @@ export function Navbar() {
             )}
         </div>
         <div className="hidden md:flex gap-4 md:gap-12 stroke-black [&_span]:[-webkit-text-stroke:1px_black]">
-          <span className="">Home</span>
+          <Link href="/" className="">Home</Link>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <span>Shop</span>
+              <span className="text-xl !font-light cursor-pointer">Shop</span>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="min-w-2xs">
               <DropdownMenuSeparator />
-              <DropdownMenuItem>All</DropdownMenuItem>
-              <DropdownMenuItem>T-Shirts</DropdownMenuItem>
-              <DropdownMenuItem>Hoodies</DropdownMenuItem>
-              <DropdownMenuItem>Caps</DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link href="/listing" className="text-2xl font-light">All</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem><Link href="/listing?category=tshirts" className="text-2xl font-light">T-Shirts</Link></DropdownMenuItem>
+              <DropdownMenuItem><Link href="/listing?category=hoodies" className="text-2xl font-light">Hoodies</Link></DropdownMenuItem>
+              <DropdownMenuItem><Link href="/listing?category=caps" className="text-2xl font-light">Caps</Link></DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <span>New Arrivals</span>
+          <Link href="/new-arrivals" className="text-2xl font-light">New Arrivals</Link>
         </div>
         <div className="items-center gap-6 cursor-pointer hidden md:flex justify-center">
           <Handbag size={32} />
@@ -125,15 +131,19 @@ export function Navbar() {
               {isAuthenticated ? (
                 <>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>My Account</DropdownMenuItem>
-                  <DropdownMenuItem>Orders</DropdownMenuItem>
-                  <DropdownMenuItem onClick={logout}>Sign Out</DropdownMenuItem>
+                  <DropdownMenuItem className="font-light text-xl">My Account</DropdownMenuItem>
+                  <DropdownMenuItem className="font-light text-xl">Orders</DropdownMenuItem>
+                  <DropdownMenuItem onClick={logout} className="font-light text-xl">Sign Out</DropdownMenuItem>
                 </>
               ) : (
-                <>
-                  <DropdownMenuItem>Sign In</DropdownMenuItem>
-                  <DropdownMenuItem>Sign Out</DropdownMenuItem>
-                </>
+                 <>
+                        <DropdownMenuItem className="font-light text-xl">
+                          <Link href="/signin">Sign In</Link>
+                          </DropdownMenuItem>
+                        <DropdownMenuItem className="font-light text-xl">
+                          <Link href="/signup" className="text-xl font-light">Sign Up</Link>
+                        </DropdownMenuItem>
+                      </>
               )}
             </DropdownMenuContent>
           </DropdownMenu>

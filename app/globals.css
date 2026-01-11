@@ -60,6 +60,7 @@ body{
     box-sizing: border-box;
     font-family: 'Inter', 'Poppins', sans-serif;
     overflow-x: hidden;
+    max-width: 100vw;
 }
 
 
