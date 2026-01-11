@@ -7,9 +7,9 @@ export function Stars({ count, avg }: { count: number; avg: number }) {
         const fill = Math.max(0, Math.min(1, avg - i))
 
         return (
-          <div key={i} className="relative w-5 h-5">
+          <div key={i} className="relative md:w-5 md:h-5 w-3 h-3">
             <Star
-              className="absolute inset-0 text-gray-300"
+              className="absolute inset-0 text-gray-300 w-full h-full"
               fill="currentColor"
             />
 
@@ -18,7 +18,7 @@ export function Stars({ count, avg }: { count: number; avg: number }) {
               style={{ width: `${fill * 100}%` }}
             >
               <Star
-                className="text-amber-400"
+                className="text-amber-400 w-full h-full"
                 fill="currentColor"
               />
             </div>
@@ -26,8 +26,8 @@ export function Stars({ count, avg }: { count: number; avg: number }) {
         )
       })}
 
-      <span className="ml-2 text-sm text-gray-600">
-        ({count} Reviews)
+      <span className="ml-2 text-sm text-gray-600 w-full flex gap-1">
+        (<span>{count}</span> <span className="hidden md:block "> Reviews</span>)
       </span>
     </div>
   )

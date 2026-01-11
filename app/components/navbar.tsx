@@ -31,7 +31,7 @@ export function Navbar() {
         <div className="flex flex-col gap-1 md:w-auto w-full">
           <div className="flex  justify-between items-center flex-row px-4 md:w-auto w-full">
             <Logo />
-            <div className="flex items-center gap-4">
+            <div className="md:hidden flex items-center gap-4">
                 <Handbag size={32} />
                 <DropdownMenu>
                   <DropdownMenuTrigger>

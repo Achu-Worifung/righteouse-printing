@@ -26,7 +26,7 @@ export default function Listings() {
       <ul className='grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 '>
         {data.map(listing => (
           <li key={listing._id}>
-            <ListingCard name={listing.productName} price={listing.price} rating={listing.rating} review_score={listing.review_score} discount={listing.discount } category={listing.category} img={listing.images[0].url} variants={listing.variants} availableColors={listing.availableColors} availableSizes={listing.availableSizes} description={listing.description}/>
+            <ListingCard name={listing.productName} price={listing.price} rating={listing.rating} review_score={listing.review_score} discount={listing.discount } category={listing.category} img={listing.images[0].url} variants={listing.variants} availableColors={listing.availableColors} availableSizes={listing.availableSizes} description={listing.description} ratings={listing.ratings}/>
           </li>
         ))}
       </ul>

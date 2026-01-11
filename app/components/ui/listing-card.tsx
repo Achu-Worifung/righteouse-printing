@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/sheet";
 import { variant } from "@/lib/types";
 import { useRouter } from "next/navigation";
-
+import { Stars } from "./stars";
 export function ListingCard({
   name,
   price,
@@ -36,6 +36,7 @@ export function ListingCard({
   img,
   description,
   variants,
+  ratings
 }: {
   name: string;
   price: number;
@@ -48,6 +49,7 @@ export function ListingCard({
   availableColors: string[];
   description: string;
   variants: variant;
+  ratings: { count: number; average: number; sum: number };
 }) {
   const [selectedSize, setSelectedSize] = useState<string | null>(
     availableSizes[0]
@@ -84,6 +86,7 @@ export function ListingCard({
         <h2 className="text-lg md:text-3xl font-bold text-gray-900 leading-tight sm:mb-3 mb-1">
           {name}
         </h2>
+        <Stars count={ratings.count} avg={ratings.average} />
 
         <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
 

@@ -16,12 +16,45 @@
                 "url": "https://bstoriesstorage.blob.core.windows.net/righteousprinting/products/1767659428127-Screenshot%202025-12-20%20205127.png"
             }
         ],
-        "availableSizes": ["S", "M", "L", "XL", "2XL"],
-        "availableColors": ["Black", "White", "Blue", "Red"],
+        "ratings": {
+            "count": 10,
+            "sum": 42,
+            "average": 4.2
+        },
+        "reviews": [
+            {
+                "userId": "u1",
+                "rating": 5,
+                "comment": "Great!"
+            },
+            {
+                "userId": "u2",
+                "rating": 4,
+                "comment": "Nice shirt"
+            }
+        ],
+        "availableSizes": [
+            "S",
+            "M",
+            "L",
+            "XL",
+            "2XL"
+        ],
+        "availableColors": [
+            "Black",
+            "White",
+            "Blue",
+            "Red"
+        ],
         "variants": [
             {
                 "sku": "GIGB-29232",
-                "color": ["Black", "White", "Blue", "Red"],
+                "color": [
+                    "Black",
+                    "White",
+                    "Blue",
+                    "Red"
+                ],
                 "size": "M",
                 "price": 35,
                 "quantity": 10,
@@ -48,6 +81,23 @@
         "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt facere enim voluptatum laboriosam possimus fugiat cumque neque ipsam fugit dicta tempora beatae doloremque quas, ipsum aperiam dolor iste ab ratione.",
         "sku": "sku-yello",
         "status": null,
+        "ratings": {
+            "count": 10,
+            "sum": 42,
+            "average": 4.2
+        },
+        "reviews": [
+            {
+                "userId": "u1",
+                "rating": 5,
+                "comment": "Great!"
+            },
+            {
+                "userId": "u2",
+                "rating": 4,
+                "comment": "Nice shirt"
+            }
+        ],
         "images": [
             {
                 "filename": "Screenshot 2025-12-20 205127.png",
@@ -56,12 +106,28 @@
                 "url": "https://bstoriesstorage.blob.core.windows.net/righteousprinting/products/1767637736118-Screenshot%202025-12-20%20205127.png"
             }
         ],
-        "availableSizes": ["S", "M", "L", "XL", "2XL"],
-        "availableColors": ["Black", "White", "Blue", "Red"],
+        "availableSizes": [
+            "S",
+            "M",
+            "L",
+            "XL",
+            "2XL"
+        ],
+        "availableColors": [
+            "Black",
+            "White",
+            "Blue",
+            "Red"
+        ],
         "variants": [
             {
                 "sku": "sku-yello",
-                "color": ["Black", "White", "Blue", "Red"],
+                "color": [
+                    "Black",
+                    "White",
+                    "Blue",
+                    "Red"
+                ],
                 "size": "M",
                 "price": 100,
                 "quantity": 100,
