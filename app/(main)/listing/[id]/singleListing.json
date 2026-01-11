@@ -1,0 +1,60 @@
+[
+  {
+    "_id": "695c02e9167c15c09e7cdaa8",
+    "productName": "hello there",
+    "basePrice": 10,
+    "category": "tshirt",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea eum, non quas, suscipit impedit perferendis deleniti minus corporis, officiis aut sint? Asperiores quisquam omnis maxime, obcaecati assumenda ipsum delectus architecto.",
+    "sku": "HELLO-TEE",
+    "images": [
+      {}
+    ],
+    "options": {
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "2XL"
+      ],
+      "colors": [
+        "Black",
+        "White",
+        "Blue",
+        "Red"
+      ]
+    },
+    "variants": [
+      {
+        "sku": "HELLO-TEE-BLK-M",
+        "size": "M",
+        "color": "Black",
+        "price": 100,
+        "quantity": 12,
+        "status": "enabled",
+        "images": [
+          {
+            "url": "https://bstoriesstorage.blob.core.windows.net/righteousprinting/products/1767659428127-Screenshot%202025-12-20%20205127.png"
+          },
+          {
+            "url": "/childofgod.png"
+          }
+        ]
+      },
+      {
+        "sku": "HELLO-TEE-RED-L",
+        "size": "L",
+        "color": "Red",
+        "price": 100,
+        "quantity": 10,
+        "status": "disabled",
+        "images": [
+          {
+            "url": "https://bstoriesstorage.blob.core.windows.net/righteousprinting/products/1767659428127-Screenshot%202025-12-20%20205127.png"
+          }
+        ]
+      }
+    ],
+    "createdAt": "2026-01-05T18:28:57.440Z"
+  }
+]
