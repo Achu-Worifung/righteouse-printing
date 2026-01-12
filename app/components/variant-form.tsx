@@ -28,12 +28,16 @@ type Variant = {
 };
 
 type VariantFormProps = {
+  allColors: { name: string; hex: string }[];
+  allSizes: string[];
   variants: Variant[];
   onVariantsChange: (variants: Variant[]) => void;
 };
 
 export default function VariantForm({
   variants,
+  allColors,
+  allSizes,
   onVariantsChange,
 }: VariantFormProps) {
   const [open, setOpen] = useState(false);
@@ -224,7 +228,9 @@ export default function VariantForm({
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogTrigger asChild>
-          <Button type="button" className="bg-teal-600 hover:bg-teal-700">
+          <Button 
+          disabled={allColors.length === 0 && allSizes.length === 0}
+          type="button" className="disabled:cursor-not-allowed bg-teal-600 hover:bg-teal-700">
             {editingIndex !== null ? "Edit Variant" : "Add Variant"}
           </Button>
         </DialogTrigger>
@@ -251,26 +257,40 @@ export default function VariantForm({
                 <Label htmlFor="color" className="flex items-center gap-1">
                   Color <RequiredIndicator />
                 </Label>
-                <Input
+                <select
                   id="color"
                   value={formData.color}
                   onChange={(e) =>
                     setFormData({ ...formData, color: e.target.value })
                   }
-                  placeholder="e.g., Black, White"
-                />
+                  className="border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-600 w-full"
+                >
+                  <option value="">Select a color</option>
+                  {allColors.map((color) => (
+                    <option key={color.name} value={color.name}>
+                      {color.name}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="size">Size</Label>
-                <Input
+                <select
                   id="size"
                   value={formData.size || ""}
                   onChange={(e) =>
                     setFormData({ ...formData, size: e.target.value })
                   }
-                  placeholder="e.g., M, L, XL"
-                />
+                  className="border border-gray-300 px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-600 w-full"
+                >
+                  <option value="">Select a size</option>
+                  {allSizes.map((size) => (
+                    <option key={size} value={size}>
+                      {size}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="space-y-2">

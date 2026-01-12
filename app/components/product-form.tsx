@@ -49,6 +49,7 @@ export default function ProductForm({
   const [colorName, setColorName] = useState<string>("");
   const [colorHex, setColorHex] = useState<string>("#000000");
   const [saving, setSaving] = useState(false);
+  const [allSizes , setAllSizes] = useState<string[]>([]);
   const [variants, setVariants] = useState<Variant[]>(
     initialData &&
       "variants" in initialData &&
@@ -298,6 +299,13 @@ export default function ProductForm({
                             defaultChecked={initialData?.productAvailableSizes?.includes(
                               size
                             )}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setAllSizes([...allSizes, size]);
+                              } else {
+                                setAllSizes(allSizes.filter((s) => s !== size));
+                              }
+                            }}
                             className="cursor-pointer data-[state=unchecked]:border-black data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
                           />
                           <Label
@@ -405,6 +413,8 @@ export default function ProductForm({
               </CardHeader>
               <CardContent>
                 <VariantForm
+                  allColors={allColors}
+                  allSizes={allSizes}
                   variants={variants}
                   onVariantsChange={setVariants}
                 />
