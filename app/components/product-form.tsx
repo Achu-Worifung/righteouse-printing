@@ -20,6 +20,7 @@ import { InsertProductPayLoad } from "@/lib/types";
 import VariantForm from "@/app/components/variant-form";
 import ImageUploader from "./ui/image-uploader";
 import { Checkbox } from "@/components/ui/checkbox";
+import { json } from "stream/consumers";
 
 type Variant = {
   sku: string;
@@ -103,7 +104,7 @@ export default function ProductForm({
     body.append("description", description!);
     body.append("sku", sku!);
     body.append("status", status!);
-    allSizes.forEach((size) => body.append("productAvailableSizes", size));
+    allSizes.forEach((size) => body.append("productAvailableSizes", JSON.stringify(size)));
     allColors.forEach((color) =>
       body.append("productAvailableColors", JSON.stringify(color))
     );                                                

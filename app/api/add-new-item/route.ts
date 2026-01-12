@@ -69,8 +69,8 @@ export async function POST(request: Request) {
             );
 
             const options: [string[], { colorName: string; colorHex: string }[]] = [
-                form.get("sizes") ? JSON.parse(form.get("sizes")!.toString()) : [],
-                form.get("productAvailableColors") ? JSON.parse(form.get("productAvailableColors")!.toString()) : [],
+                form.getAll("productAvailableSizes").map(size => size.toString()),
+                form.getAll("productAvailableColors").map(color => JSON.parse(color.toString())),
             ];
 
             payload = {
