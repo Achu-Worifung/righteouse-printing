@@ -9,7 +9,7 @@ export function Stars({ count, avg }: { count: number; avg: number }) {
         return (
           <div key={i} className="relative md:w-5 md:h-5 w-3 h-3">
             <Star
-              className="absolute inset-0 text-gray-300 w-full h-full"
+              className="absolute inset-0 text-gray-300"
               fill="currentColor"
             />
 
@@ -18,7 +18,7 @@ export function Stars({ count, avg }: { count: number; avg: number }) {
               style={{ width: `${fill * 100}%` }}
             >
               <Star
-                className="text-amber-400 w-full h-full"
+                className="text-amber-400 md:w-5 md:h-5 w-3 h-3"
                 fill="currentColor"
               />
             </div>

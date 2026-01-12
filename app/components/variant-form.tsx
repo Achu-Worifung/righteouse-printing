@@ -243,7 +243,7 @@ export default function VariantForm({
             <ImageUploader
               images={variantImages}
               setImages={setVariantImages}
-              single={true}
+              single={false}
             />
 
             <form onSubmit={handleSubmit} className="space-y-4">

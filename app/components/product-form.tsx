@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { InsertProductPayLoad } from "@/lib/types";
 import VariantForm from "@/app/components/variant-form";
 import ImageUploader from "./ui/image-uploader";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type Variant = {
   sku: string;
@@ -44,7 +45,9 @@ export default function ProductForm({
 }: ProductFormProps) {
   // Product-level images (separate from variant images)
   const [productImages, setProductImages] = useState<File[]>([]);
-
+  const [allColors, setAllCColors] = useState<{ name: string; hex: string }[]>([]);
+  const [colorName, setColorName] = useState<string>("");
+  const [colorHex, setColorHex] = useState<string>("#000000");
   const [saving, setSaving] = useState(false);
   const [variants, setVariants] = useState<Variant[]>(
     initialData &&
@@ -191,15 +194,31 @@ export default function ProductForm({
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label className="flex items-center gap-1">
-                    Product Name <RequiredIndicator />
-                  </Label>
-                  <Input
-                    name="productName"
-                    placeholder="e.g. Classic Cotton Tee"
-                    defaultValue={initialData?.productName}
-                  />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="flex items-center gap-1">
+                      Product Name <RequiredIndicator />
+                    </Label>
+                    <Input
+                      name="productName"
+                      placeholder="e.g. Classic Cotton Tee"
+                      defaultValue={initialData?.productName}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="flex items-center gap-1">
+                      Status <RequiredIndicator />
+                    </Label>
+                    <select
+                      name="status"
+                      className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      defaultValue={initialData?.status || ""}
+                    >
+                      <option value="">Select status</option>
+                      <option value="standard">Enabled</option>
+                      <option value="reduced">Disabled</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -262,6 +281,106 @@ export default function ProductForm({
                   </div>
                 </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-4">
+                    <Label className="">
+                      All Available Sizes <RequiredIndicator />
+                    </Label>
+                    <div className="space-y-2 flex gap-3 items-baseline justify-start flex-wrap">
+                      {["XS", "S", "M", "L", "XL", "XXL"].map((size) => (
+                        <div
+                          key={size}
+                          className="flex align-center flex-col items-center cursor-pointer justify-center gap-1"
+                        >
+                          <Checkbox
+                            id={`size-${size}`}
+                            value={size}
+                            defaultChecked={initialData?.productAvailableSizes?.includes(
+                              size
+                            )}
+                            className="cursor-pointer data-[state=unchecked]:border-black data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
+                          />
+                          <Label
+                            htmlFor={`size-${size}`}
+                            className="cursor-pointer"
+                          >
+                            {size}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="flex items-center gap-1">
+                      All Available Colors <RequiredIndicator />
+                    </Label>
+                    <div className="grid grid-cols-12 gap-2 items-end">
+                      <span className="col-span-3 flex items-start flex-col">
+                        <label htmlFor="background" className="text-sm mb-1">Choose a color</label>
+                        <input
+                          type="color"
+                          id="background"
+                          name="background"
+                          value={colorHex}
+                          onChange={(e) => setColorHex(e.target.value)}
+                          className="w-full h-10 rounded border border-input cursor-pointer"
+                        />
+                      </span>
+
+                      <span className="col-span-6 gap-1 flex flex-col">
+                        <Label className="flex items-center gap-1">
+                          Color Name <RequiredIndicator />
+                        </Label>
+                        <Input
+                          name="colorName"
+                          placeholder="eg. Lavender Red"
+                          value={colorName}
+                          onChange={(e) => setColorName(e.target.value)}
+                        />
+                      </span>
+                      <Button
+                        type="button"
+                        className="col-span-3"
+                        onClick={() => {
+                          if (!colorName.trim()) {
+                            toast.error("Color name cannot be empty.");
+                            return;
+                          }
+                          if (!colorHex) {
+                            toast.error("Select a color.");
+                            return;
+                          }
+                          console.log("Adding color:", colorName, colorHex);
+                          setAllCColors([...allColors, { name: colorName, hex: colorHex }]);
+                          setColorName("");
+                          setColorHex("#000000");
+                        }}
+                      >Add Color</Button>
+                    </div>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {allColors.map((color, idx) => (
+                        <div
+                          key={idx}
+                          className="flex items-center gap-2 px-3 py-1 border rounded-md"
+                        >
+                          <div
+                            className="w-4 h-4 rounded border"
+                            style={{ backgroundColor: color.hex }}
+                          />
+                          <span className="text-sm">{color.name}</span>
+                          <button
+                            type="button"
+                            onClick={() => setAllCColors(allColors.filter((_, i) => i !== idx))}
+                            className="text-red-500 hover:text-red-700 ml-1"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
                 <div className="space-y-2">
                   <Label className="flex items-center gap-2">
                     Description <RequiredIndicator />
@@ -274,22 +393,6 @@ export default function ProductForm({
                     defaultValue={initialData?.description}
                   />
                 </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <CardTitle>Media</CardTitle>
-                  <InfoIndcator message="Upload product imagery. Preview updates immediately." />
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <ImageUploader
-                  images={productImages}
-                  setImages={setProductImages}
-                  single={false}
-                />
               </CardContent>
             </Card>
 
@@ -309,7 +412,7 @@ export default function ProductForm({
             </Card>
           </div>
         </form>
-        
+
         <div className="flex justify-end gap-3">
           <Button variant="outline" type="button" onClick={onCancel}>
             Cancel

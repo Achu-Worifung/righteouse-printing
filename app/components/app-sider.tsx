@@ -36,7 +36,7 @@ export function AppSidebar() {
         {
           name: "NEW PRODUCT",
           icon: PackagePlus,
-          url: "/admin/new-product",
+          url: "/admin/products/new",
         },
         {
           name: "DISCOUNT",
@@ -51,7 +51,7 @@ export function AppSidebar() {
         {
           name: "PRODUCT",
           icon: ShoppingBasket,
-          url: "/admin/product",
+          url: "/admin/products",
         },
         {
           name: "CATEGORIES",
