@@ -44,10 +44,9 @@ export default function ProductForm({
   onCancel,
 }: ProductFormProps) {
   // Product-level images (separate from variant images)
-  const [productImages, setProductImages] = useState<File[]>([]);
   const [allColors, setAllCColors] = useState<{ name: string; hex: string }[]>([]);
   const [colorName, setColorName] = useState<string>("");
-  const [colorHex, setColorHex] = useState<string>("#000000");
+  const [colorHex, setColorHex] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [allSizes , setAllSizes] = useState<string[]>([]);
   const [variants, setVariants] = useState<Variant[]>(
@@ -69,23 +68,26 @@ export default function ProductForm({
     const data = new FormData(form);
 
     const productName = data.get("productName")?.toString().trim();
+    const status = data.get("status")?.toString().trim();
     const price = data.get("price")?.toString().trim();
     const taxClass = data.get("taxClass")?.toString().trim();
     const category = data.get("category")?.toString().trim();
-    const description = data.get("description")?.toString().trim();
-    const checkpoint = data.get("checkpoint")?.toString().trim();
     const sku = data.get("sku")?.toString().trim();
+    const description = data.get("description")?.toString().trim();
 
     const errors: string[] = [];
-
+    
     if (!productName) errors.push("Product name is required.");
     if (!price || Number(price) < 0)
       errors.push("Price is required and must be zero or greater.");
     if (!taxClass) errors.push("Select a tax class.");
     if (!category) errors.push("Select a category.");
     if (!description) errors.push("Description is required.");
-    if (productImages.length === 0 && !initialData?.images?.length)
-      errors.push("At least one image is required.");
+    if (!sku) errors.push("SKU is required.");
+    if (!status) errors.push("Status is required.");
+
+    if(allSizes.length === 0) errors.push("At least one size must be selected.");
+    if(allColors.length === 0) errors.push("At least one color must be added.");
     if (variants.length === 0) errors.push("At least one variant is required.");
     if (errors.length) {
       errors.forEach((msg) => toast.error(msg));
@@ -100,9 +102,11 @@ export default function ProductForm({
     body.append("category", category!);
     body.append("description", description!);
     body.append("sku", sku!);
-
-    // Add product-level images
-    productImages.forEach((file) => body.append("productImages", file));
+    body.append("status", status!);
+    allSizes.forEach((size) => body.append("productAvailableSizes", size));
+    allColors.forEach((color) =>
+      body.append("productAvailableColors", JSON.stringify(color))
+    );                                                
 
     // Prepare variant data and images
     variants.forEach((variant, index) => {
@@ -112,6 +116,7 @@ export default function ProductForm({
           body.append(`variantImages_${index}`, file);
         });
       }
+
 
       // Create variant metadata without the File objects
       const variantData = {
@@ -411,6 +416,10 @@ export default function ProductForm({
                   <InfoIndcator message="Manage product variants with different colors, sizes, prices, and stock levels." />
                 </div>
               </CardHeader>
+              <p className="px-6 text-sm text-muted-foreground">
+                Please ensure all colors and sizes are defined above before
+                adding variants.
+              </p>
               <CardContent>
                 <VariantForm
                   allColors={allColors}
