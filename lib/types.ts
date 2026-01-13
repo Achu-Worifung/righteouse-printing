@@ -1,26 +1,30 @@
-export type InsertProductPayLoad = {
+export interface InsertProductPayLoad {
     _id?: string;
-    productName?: string;
-    price?: number;
-    taxClass?: string;
-    category?: string;
-    description?: string;
-    checkpoint?: string;
-    quantity?: number;
-    color?: string;
-    size?: string;
+    productName: string;
+    status: string;
+    price: number;
+    taxClass: string;
+    category: string;
+    description: string;
     sku?: string;
-    status?: string;
-    images?: { filename: string; size: number; type: string; url: string }[];
     variants?: variant[];
-    createdAt?: Date;
-    updatedAt?: Date;
-    options?: [string[], { colorName: string; colorHex: string }[]];
+    createdAt?: Date | string;
+    updatedAt?: Date | string;
+    options: Options;
     rating?: rating;
     reviews?: review[];
 };
 
-export type rating = {
+export interface ListingCardProps {
+    listing: InsertProductPayLoad;
+}
+
+
+export type Options = {
+    sizes: string[];
+    colors: { name: string; hex: string }[];
+}
+export interface rating {
     avg?: number;
     count?: number;
     sum?: number;
@@ -36,9 +40,17 @@ export type review = {
 export type variant = {
         sku?: string;
         price?: number;
-        color?: string[];
+        color?: string;
+        imageCount?: number;
         size?: string; //size should be an array
         quantity?: number;
         images?: { filename: string; size: number; type: string; url: string }[];
         status?: string;
     }
+
+
+export type filterOptions = {
+    sizes?: string[];
+    colors?: string[];
+    type?: string[];
+}

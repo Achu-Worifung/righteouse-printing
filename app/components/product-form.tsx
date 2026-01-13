@@ -45,11 +45,13 @@ export default function ProductForm({
   onCancel,
 }: ProductFormProps) {
   // Product-level images (separate from variant images)
-  const [allColors, setAllCColors] = useState<{ name: string; hex: string }[]>([]);
+  const [allColors, setAllCColors] = useState<{ name: string; hex: string }[]>(
+    []
+  );
   const [colorName, setColorName] = useState<string>("");
   const [colorHex, setColorHex] = useState<string>("");
   const [saving, setSaving] = useState(false);
-  const [allSizes , setAllSizes] = useState<string[]>([]);
+  const [allSizes, setAllSizes] = useState<string[]>([]);
   const [variants, setVariants] = useState<Variant[]>(
     initialData &&
       "variants" in initialData &&
@@ -77,7 +79,7 @@ export default function ProductForm({
     const description = data.get("description")?.toString().trim();
 
     const errors: string[] = [];
-    
+
     if (!productName) errors.push("Product name is required.");
     if (!price || Number(price) < 0)
       errors.push("Price is required and must be zero or greater.");
@@ -87,8 +89,10 @@ export default function ProductForm({
     if (!sku) errors.push("SKU is required.");
     if (!status) errors.push("Status is required.");
 
-    if(allSizes.length === 0) errors.push("At least one size must be selected.");
-    if(allColors.length === 0) errors.push("At least one color must be added.");
+    if (allSizes.length === 0)
+      errors.push("At least one size must be selected.");
+    if (allColors.length === 0)
+      errors.push("At least one color must be added.");
     if (variants.length === 0) errors.push("At least one variant is required.");
     if (errors.length) {
       errors.forEach((msg) => toast.error(msg));
@@ -104,10 +108,10 @@ export default function ProductForm({
     body.append("description", description!);
     body.append("sku", sku!);
     body.append("status", status!);
-    allSizes.forEach((size) => body.append("productAvailableSizes", JSON.stringify(size)));
-    allColors.forEach((color) =>
-      body.append("productAvailableColors", JSON.stringify(color))
-    );                                                
+    allSizes.forEach((size) => {
+      body.append("productAvailableSizes", size);
+    });
+    body.append("productAvailableColors", JSON.stringify(allColors));
 
     // Prepare variant data and images
     variants.forEach((variant, index) => {
@@ -117,7 +121,6 @@ export default function ProductForm({
           body.append(`variantImages_${index}`, file);
         });
       }
-
 
       // Create variant metadata without the File objects
       const variantData = {
@@ -330,7 +333,9 @@ export default function ProductForm({
                     </Label>
                     <div className="grid grid-cols-12 gap-2 items-end">
                       <span className="col-span-3 flex items-start flex-col">
-                        <label htmlFor="background" className="text-sm mb-1">Choose a color</label>
+                        <label htmlFor="background" className="text-sm mb-1">
+                          Choose a color
+                        </label>
                         <input
                           type="color"
                           id="background"
@@ -365,11 +370,16 @@ export default function ProductForm({
                             return;
                           }
                           console.log("Adding color:", colorName, colorHex);
-                          setAllCColors([...allColors, { name: colorName, hex: colorHex }]);
+                          setAllCColors([
+                            ...allColors,
+                            { name: colorName, hex: colorHex },
+                          ]);
                           setColorName("");
                           setColorHex("#000000");
                         }}
-                      >Add Color</Button>
+                      >
+                        Add Color
+                      </Button>
                     </div>
                     <div className="flex flex-wrap gap-2 mt-2">
                       {allColors.map((color, idx) => (
@@ -384,7 +394,11 @@ export default function ProductForm({
                           <span className="text-sm">{color.name}</span>
                           <button
                             type="button"
-                            onClick={() => setAllCColors(allColors.filter((_, i) => i !== idx))}
+                            onClick={() =>
+                              setAllCColors(
+                                allColors.filter((_, i) => i !== idx)
+                              )
+                            }
                             className="text-red-500 hover:text-red-700 ml-1"
                           >
                             ×

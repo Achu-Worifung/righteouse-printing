@@ -8,71 +8,66 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ShirtSizeMeasurement } from "./shirt-size-measurement";
 import { Separator } from "@/components/ui/separator";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Link from "next/link";
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { variant } from "@/lib/types";
+import { ListingCardProps,  } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { Stars } from "./stars";
-export function ListingCard({
-  name,
-  price,
-  rating,
-  review_score,
-  discount,
-  availableSizes,
-  availableColors,
-  category,
-  img,
-  description,
-  variants,
-  ratings
-}: {
-  name: string;
-  price: number;
-  rating: number;
-  review_score: number;
-  discount?: number;
-  category: string;
-  img: string;
-  availableSizes: string[];
-  availableColors: string[];
-  description: string;
-  variants: variant;
-  ratings: { count: number; average: number; sum: number };
-}) {
+import Image from "next/image";
+export function ListingCard({ listing }: ListingCardProps) {
+  const {
+    _id,
+    productName,
+    price,
+    category,
+    description,
+    variants,
+    options,
+    rating,
+  } = listing;
+  const img = variants?.[0]?.images?.[0]?.url;
+  const availableSizes = variants?.map((v) => v.size).filter(Boolean) ?? [];
+
+  const availableColors = variants?.map((v) => v.color).filter(Boolean) ?? [
+    "White",
+  ];
+
   const [selectedSize, setSelectedSize] = useState<string | null>(
-    availableSizes[0]
+    availableSizes[0] ?? null
   );
-  const [selectedColor, setSelectedColor] = useState<string | null>(
-    availableColors[0]
+
+  const [selectedColor, setSelectedColor] = useState<{name: string; hex: string}>(
+    options.colors[0] ?? { name: "White", hex: "#FFFFFF" }
   );
+
   const router = useRouter();
   return (
     <div
       className="w-full max-w-sm flex flex-col  bg-white rounded-sm shadow overflow-hidden   hover:shadow-xl "
       onClick={(e) => {
         e.stopPropagation();
-        router.push(`/listing/${name.replace(/\s+/g, "-").toLowerCase()}`);
+        router.push(`/listing/${productName.replace(/\s+/g, "-").toLowerCase()}`);
       }}
       onMouseEnter={() =>
-        router.prefetch(`/listing/${name.replace(/\s+/g, "-").toLowerCase()}`)
+        router.prefetch(`/listing/${productName.replace(/\s+/g, "-").toLowerCase()}`)
       }
     >
       <div className="relative h-fit overflow-hidden bg-gray-100">
-        <img
-          src={img}
-          alt={name}
+        <Image
+          src={img || "/placeholder-image.png"}
+          width={300}
+          height={300}
+          alt={productName}
           className="w-full h-[80%] object-cover object-center transform transition-transform duration-300 hover:scale-105"
         />
       </div>
@@ -84,16 +79,18 @@ export function ListingCard({
         </div>
 
         <h2 className="text-lg md:text-3xl font-bold text-gray-900 leading-tight sm:mb-3 mb-1">
-          {name}
+          {productName}
         </h2>
-        <Stars count={ratings.count} avg={ratings.average} />
+        <Stars rating = {rating} />
 
         <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
 
-        <div className="mt-1 sm:mt-3 flex flex-no-wrap items-start flex-col sm:flex-row justify-start sm:justify-between sm:gap-1"
+        <div
+          className="mt-1 sm:mt-3 flex flex-no-wrap items-start flex-col sm:flex-row justify-start sm:justify-between sm:gap-1"
           onClick={(e) => {
-            e.stopPropagation()
-          }}>
+            e.stopPropagation();
+          }}
+        >
           <div className="text-lg sm:text-2xl md:text-4xl font-extrabold text-gray-900">
             <span>${price}</span>
           </div>
@@ -116,14 +113,16 @@ export function ListingCard({
                 <SheetTitle>Add To Cart</SheetTitle>
                 <div className="flex flex-col items-start gap-1">
                   <div className="flex flex-row gap-1">
-                    <img
-                      src={img}
-                      alt={name}
+                    <Image
+                      src={img || "/placeholder-image.png"}
+                      width={32}
+                      height={32}
+                      alt={productName}
                       className="w-32 h-32 object-cover mb-4"
                     />
                     <span>
-                      <p className="mb-2 font-semibold">{name}</p>
-                              <Stars count={ratings.count} avg={ratings.average} />
+                      <p className="mb-2 font-semibold">{productName}</p>
+                      <Stars rating = {rating}/>
 
                       <p className="mb-2 text-gray-600 line-clamp-2">
                         {description}
@@ -146,10 +145,10 @@ export function ListingCard({
                     </span>
                     <span className="min-w-full ">
                       <RadioGroup
-                        defaultValue={availableSizes[0]}
+                        defaultValue={options.sizes[0]}
                         className="flex flex-row gap-4"
                       >
-                        {availableSizes.map((size) => (
+                        {options.sizes.map((size) => (
                           <div
                             key={size}
                             className="flex items-center text-center justify-center "
@@ -181,33 +180,33 @@ export function ListingCard({
                   <div className="w-full">
                     <span className="flex flex-row justify-between items-baseline min-w-full ">
                       <p className="mb-2 font-semibold">
-                        Color: {selectedColor}
+                        Color: {selectedColor.name}
                       </p>
                     </span>
                     <span className="min-w-full ">
                       <RadioGroup
-                        defaultValue={availableColors[0]}
+                        defaultValue={options.colors[0].name}
                         className="flex flex-row gap-4"
                       >
-                        {availableColors.map((color) => (
+                        {options.colors.map((color) => (
                           <div
-                            key={color}
+                            key={color.name }
                             className="flex items-center text-center justify-center "
                           >
                             <RadioGroupItem
-                              value={color}
-                              id={`${color}`}
+                              value={color.name}
+                              id={`${color.name}`}
                               onClick={() => setSelectedColor(color)}
                               className="hidden"
                             />
                             <Label
-                              htmlFor={`${color}`}
-                              className={`cursor-pointer rounded-full flex items-center justify-center h-10 w-10 rounded-rull border border-black`}
-                              style={{ backgroundColor: color.toLowerCase() }}
+                              htmlFor={`${color.name}`}
+                              className={`cursor-pointer rounded-full flex items-center justify-center h-10 w-10  border border-black`}
+                              style={{ backgroundColor: color.hex }}
                             >
                               <span
                                 className={`h-5 w-5 rounded-full ${
-                                  selectedColor === "White"
+                                  color.name === "White"
                                     ? "ring-black"
                                     : "ring-white"
                                 } ${

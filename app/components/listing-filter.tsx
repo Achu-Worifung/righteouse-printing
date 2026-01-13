@@ -1,15 +1,145 @@
 "use client";
-
+import * as React from "react";
 import { useState } from "react";
-import { ChevronDown, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { filterOptions } from "@/lib/types";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 
-interface FilterState {
-  priceRange: [number, number];
-  sortBy: string;
-  gender: string[];
-  productType: string[];
-}
 
-export function ListingFilter() {
- return <div>Listing Filter Component</div>;
+
+export function ListingFilterMobile({sizes, colors, type}: filterOptions) {
+    const   FILTER_CATEGORIES = [
+    { id: 'size', label: 'Size', options: sizes || [] },
+    { id: 'color', label: 'Color', options: colors || [] },
+    { id: 'type', label: 'Type', options: type || [] },
+     { id: 'rating', label: 'Rating', options: ['5 Stars', '4 Stars & Up', '3 Stars & Up', '2 Stars & Up', ] },
+  ];
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const currentCategory = FILTER_CATEGORIES.find(cat => cat.id === activeCategory);
+
+  // Animation variants for the slide effect
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? "100%" : "-100%",
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      x: direction < 0 ? "100%" : "-100%",
+      opacity: 0,
+    }),
+  };
+
+  return (
+    <Sheet onOpenChange={() => setActiveCategory(null)}>
+      <SheetTrigger asChild>
+        <Button variant="outline" className="gap-2">
+          <SlidersHorizontal className="h-4 w-4" />
+          Filters
+        </Button>
+      </SheetTrigger>
+
+      <SheetContent side="right" className="w-full sm:max-w-md p-0 overflow-hidden">
+        <div className="flex flex-col h-full relative">
+          
+          {/* HEADER */}
+          <SheetHeader className="p-4 border-b flex flex-row items-center gap-2 space-y-0 h-16">
+            <div className="w-10">
+              {activeCategory && (
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  onClick={() => setActiveCategory(null)}
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </Button>
+              )}
+            </div>
+            <SheetTitle className="flex-1 text-start mr-10">
+              {activeCategory ? currentCategory?.label : "Filters"}
+            </SheetTitle>
+          </SheetHeader>
+
+          {/* ANIMATED CONTENT AREA */}
+          <div className="flex-1 relative overflow-hidden">
+            <AnimatePresence initial={false} custom={activeCategory ? 1 : -1}>
+              {!activeCategory ? (
+                /* MAIN VIEW */
+                <motion.div
+                  key="main"
+                  custom={-1}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  className="absolute inset-0 divide-y bg-white"
+                >
+                  {FILTER_CATEGORIES.map((cat) => (
+                    <button
+                      key={cat.id}
+                      onClick={() => setActiveCategory(cat.id)}
+                      className="w-full flex items-center justify-between p-5 hover:bg-slate-50 transition-colors"
+                    >
+                      <span className="font-medium">{cat.label}</span>
+                      <div className="flex items-center text-muted-foreground">
+                        <span className="text-sm mr-2 text-blue-600 font-normal">All</span>
+                        <ChevronRight className="h-4 w-4" />
+                      </div>
+                    </button>
+                  ))}
+                </motion.div>
+              ) : (
+                /* SUB VIEW */
+                <motion.div
+                  key="sub"
+                  custom={1}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  className="absolute inset-0 bg-white p-4"
+                >
+                  <div className="flex flex-col gap-1">
+                    {currentCategory?.options.map((option) => (
+                      <label 
+                        key={option} 
+                        className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 cursor-pointer border-b last:border-0"
+                      >
+                        <span className="text-base">{option}</span>
+                        <input 
+                          type="checkbox" 
+                          className="h-5 w-5 rounded-full border-gray-300 accent-black" 
+                        />
+                      </label>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* FOOTER */}
+          <div className="p-4 border-t bg-white z-10">
+            <Button className="w-full h-12 text-lg rounded-full">
+              Show Items
+            </Button>
+          </div>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
 }

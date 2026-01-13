@@ -1,148 +1,113 @@
 [
     {
-        "_id": "695c57a6167c15c09e7cdaa9",
-        "productName": "God is Good",
-        "price": 30,
+        "_id": "6965953a5cc24d0b178b90bf",
+        "productName": "test-08",
+        "price": 9.97,
         "taxClass": "standard",
         "category": "tshirt",
-        "description": "During my internship with Infosys, I contributed to a full-stack booking platform built with Next.js, FastAPI (Python), Redis, and PostgreSQL. I have led various backend-related developments in implementing secure authentication, rate limiting, and distributed microservices, thereby enhancing my skills in designing reliable, high-performance systems. I also got hands-on experience with CI/CD pipelines, test automation (Selenium), and Agile workflows while maintaining clean, maintainable, and well-documented code.\r\n\r\nSDL's role in delivering high-end, advanced satellite and sensor systems for the Department of Defense and Intelligence Community really caught my attention. The potential to put my knowledge in object-oriented programming, either Python, C++, or Java, into practice, linking it to system reliability in a mission-critical environment, deeply motivates me. I am also convinced that my technical foundation, along with a teamwork mindset and commitment to excellence, should be an excellent fit for SDL's core values: collaboration and accountability.\r\n\r\nI would welcome the opportunity to contribute to your team and to grow as a part of an organization committed to national security and technological innovation. Thank you for considering my application. I look forward to the possibility of discussing how my skills and enthusiasm can support SDL's mission.",
-        "sku": "GIG-2024",
-        "status": null,
-        "images": [
-            {
-                "filename": "Screenshot 2025-12-20 205127.png",
-                "size": 114352,
-                "type": "image/png",
-                "url": "https://bstoriesstorage.blob.core.windows.net/righteousprinting/products/1767659428127-Screenshot%202025-12-20%20205127.png"
-            }
-        ],
-        "ratings": {
-            "count": 10,
-            "sum": 42,
-            "average": 4.2
+        "discount": 0,
+        "description": "productAvailableSizesp roductAvailableSizesproductA vailableSizesproduc tAvailable SizesproductAv ailableSizes productAvaila bleSizesproductAvailab leSizesproductAva ilableSizesproductAv ailableSizesproduc tAvailableSize sproductAvailableSize sproductA vailableSize sproductAvail ableSizesproductAvailableSiz esproduc tAvailableSiz esproductA ail ableSizesproduct AvailableSizesprod uctAvailableSizes",
+        "sku": "test-07",
+        "rating": null,
+        "reviews": null,
+        "options": {
+            "sizes": [
+                "XS",
+                "S",
+                "M",
+                "L",
+                "XL"
+            ],
+            "colors": [
+                [
+                    {
+                        "name": "red",
+                        "hex": "#f10e0e"
+                    },
+                    {
+                        "name": "bleu",
+                        "hex": "#1a44c1"
+                    }
+                ]
+            ]
         },
-        "reviews": [
-            {
-                "userId": "u1",
-                "rating": 5,
-                "comment": "Great!"
-            },
-            {
-                "userId": "u2",
-                "rating": 4,
-                "comment": "Nice shirt"
-            }
-        ],
-        "availableSizes": [
-            "S",
-            "M",
-            "L",
-            "XL",
-            "2XL"
-        ],
-        "availableColors": [
-            "Black",
-            "White",
-            "Blue",
-            "Red"
-        ],
+        "status": "standard",
         "variants": [
             {
-                "sku": "GIGB-29232",
-                "color": [
-                    "Black",
-                    "White",
-                    "Blue",
-                    "Red"
-                ],
+                "sku": "test-07-red",
+                "color": "red",
                 "size": "M",
-                "price": 35,
+                "price": 10,
                 "quantity": 10,
                 "status": "enabled",
                 "imageCount": 1,
                 "images": [
                     {
-                        "filename": "2ChocolateChipCookies.jpg",
-                        "size": 3756555,
+                        "filename": "9bb871d4ce0b622cf4ec3caf0edd89d97535d847.jpg",
+                        "size": 5985004,
                         "type": "image/jpeg",
-                        "url": "https://bstoriesstorage.blob.core.windows.net/righteousprinting/variants/1767659428538-2ChocolateChipCookies.jpg"
+                        "url": "https://bstoriesstorage.blob.core.windows.net/righteousprinting/variants/1768265016744-9bb871d4ce0b622cf4ec3caf0edd89d97535d847.jpg"
                     }
                 ]
             }
         ],
-        "createdAt": "2026-01-06T00:30:30.216Z"
+        "createdAt": "2026-01-13T00:43:38.439Z",
+        "updatedAt": "2026-01-13T00:43:37.536Z"
     },
     {
-        "_id": "695c02e9167c15c09e7cdaa8",
-        "productName": "hello there",
-        "price": 10,
+        "_id": "696594fb5cc24d0b178b90be",
+        "productName": "test-7",
+        "price": 9.97,
         "taxClass": "standard",
+                "discount": 0,
+
         "category": "tshirt",
-        "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt facere enim voluptatum laboriosam possimus fugiat cumque neque ipsam fugit dicta tempora beatae doloremque quas, ipsum aperiam dolor iste ab ratione.",
-        "sku": "sku-yello",
-        "status": null,
-        "ratings": {
-            "count": 10,
-            "sum": 42,
-            "average": 4.2
+        "description": "productAvailableSizesp roductAvailableSizesproductA vailableSizesproduc tAvailable SizesproductAv ailableSizes productAvaila bleSizesproductAvailab leSizesproductAva ilableSizesproductAv ailableSizesproduc tAvailableSize sproductAvailableSize sproductA vailableSize sproductAvail ableSizesproductAvailableSiz esproduc tAvailableSiz esproductA ail ableSizesproduct AvailableSizesprod uctAvailableSizes",
+        "sku": "test-07",
+        "rating": null,
+        "reviews": null,
+        "options": {
+            "sizes": [
+                "XS",
+                "S",
+                "M",
+                "L",
+                "XL"
+            ],
+            "colors": [
+                [
+                    {
+                        "name": "black",
+                        "hex": "#252222"
+                    },
+                    {
+                        "name": "red",
+                        "hex": "#f10e0e"
+                    }
+                ]
+            ]
         },
-        "reviews": [
-            {
-                "userId": "u1",
-                "rating": 5,
-                "comment": "Great!"
-            },
-            {
-                "userId": "u2",
-                "rating": 4,
-                "comment": "Nice shirt"
-            }
-        ],
-        "images": [
-            {
-                "filename": "Screenshot 2025-12-20 205127.png",
-                "size": 114352,
-                "type": "image/png",
-                "url": "https://bstoriesstorage.blob.core.windows.net/righteousprinting/products/1767637736118-Screenshot%202025-12-20%20205127.png"
-            }
-        ],
-        "availableSizes": [
-            "S",
-            "M",
-            "L",
-            "XL",
-            "2XL"
-        ],
-        "availableColors": [
-            "Black",
-            "White",
-            "Blue",
-            "Red"
-        ],
+        "status": "standard",
         "variants": [
             {
-                "sku": "sku-yello",
-                "color": [
-                    "Black",
-                    "White",
-                    "Blue",
-                    "Red"
-                ],
+                "sku": "test-07-red",
+                "color": "red",
                 "size": "M",
-                "price": 100,
-                "quantity": 100,
+                "price": 10,
+                "quantity": 10,
                 "status": "enabled",
                 "imageCount": 1,
                 "images": [
                     {
-                        "filename": "Screenshot 2025-12-20 204923.png",
-                        "size": 385752,
-                        "type": "image/png",
-                        "url": "https://bstoriesstorage.blob.core.windows.net/righteousprinting/variants/1767637736474-Screenshot%202025-12-20%20204923.png"
+                        "filename": "9bb871d4ce0b622cf4ec3caf0edd89d97535d847.jpg",
+                        "size": 5985004,
+                        "type": "image/jpeg",
+                        "url": "https://bstoriesstorage.blob.core.windows.net/righteousprinting/variants/1768264953291-9bb871d4ce0b622cf4ec3caf0edd89d97535d847.jpg"
                     }
                 ]
             }
         ],
-        "createdAt": "2026-01-05T18:28:57.440Z"
+        "createdAt": "2026-01-13T00:42:35.489Z",
+        "updatedAt": "2026-01-13T00:42:34.572Z"
     }
 ]
