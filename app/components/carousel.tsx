@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 
 
@@ -88,7 +89,7 @@ export function Carousel() {
         <div className="carousel" ref={carouselRef}>
             <div className="list">
                 <div className="item">
-                    <img src="/img1.jpg" />
+                    <Image src="/img1.jpg" alt="Image 1" width={800} height={600} />
                     <div className="content">
                         <div className="author">LUNDEV</div>
                         <div className="title">DESIGN SLIDER</div>
@@ -103,7 +104,7 @@ export function Carousel() {
                     </div>
                 </div>
                 <div className="item">
-                    <img src="/img2.jpg" />
+                    <Image src="/img2.jpg" alt="Image 2" width={800} height={600} />
                     <div className="content">
                         <div className="author">LUNDEV</div>
                         <div className="title">DESIGN SLIDER</div>
@@ -118,7 +119,7 @@ export function Carousel() {
                     </div>
                 </div>
                 <div className="item">
-                    <img src="/img3.jpg" />
+                    <Image src="/img3.jpg" alt="Image 3" width={800} height={600} />
                     <div className="content">
                         <div className="author">LUNDEV</div>
                         <div className="title">DESIGN SLIDER</div>
@@ -133,7 +134,7 @@ export function Carousel() {
                     </div>
                 </div>
                 <div className="item">
-                    <img src="/img4.jpg" />
+                    <Image src="/img4.jpg" alt="Image 4" width={800} height={600} />
                     <div className="content">
                         <div className="author">LUNDEV</div>
                         <div className="title">DESIGN SLIDER</div>
@@ -150,7 +151,7 @@ export function Carousel() {
             </div>
             <div className="thumbnail">
                 <div className="item">
-                    <img src="/img1.jpg" />
+                    <Image src="/img1.jpg" alt="Image 1" width={200} height={150} />
                     <div className="content">
                         <div className="title">
                             Name Slider
@@ -161,7 +162,7 @@ export function Carousel() {
                     </div>
                 </div>
                 <div className="item">
-                    <img src="/img2.jpg" />
+                    <Image src="/img2.jpg" alt="Image 2" width={200} height={150} />
                     <div className="content">
                         <div className="title">
                             Name Slider
@@ -172,7 +173,7 @@ export function Carousel() {
                     </div>
                 </div>
                 <div className="item">
-                    <img src="/img3.jpg" />
+                    <Image src="/img3.jpg" alt="Image 3" width={200} height={150} />
                     <div className="content">
                         <div className="title">
                             Name Slider
@@ -183,7 +184,7 @@ export function Carousel() {
                     </div>
                 </div>
                 <div className="item">
-                    <img src="/img4.jpg" />
+                    <Image src="/img4.jpg" alt="Image 4" width={200} height={150} />
                     <div className="content">
                         <div className="title">
                             Name Slider

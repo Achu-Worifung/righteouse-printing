@@ -1,4 +1,5 @@
 import { Truck, LockKeyhole  } from 'lucide-react';
+import Image from 'next/image';
 
 const CreativeCards = () => {
   const cards = [
@@ -54,16 +55,7 @@ const CreativeCards = () => {
         Shop with Confidence
       </h1>
 
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      />
-
-      {/* Google Fonts */}
-      <link
-        href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Dancing+Script:wght@400..700&display=swap"
-        rel="stylesheet"
-      />
+      
 
       <section className=" relative w-full flex items-center justify-center">
         <div className="max-w-[1320px] w-full px-3 mx-auto">
@@ -75,14 +67,16 @@ const CreativeCards = () => {
               >
                 <div className="relative group transition-all duration-300 ease-in-out w-4/5 lg:w-4/5 mx-auto">
                   {/* Skewed Background Effect */}
-                  <div className="absolute left-1/2 top-1/2 w-[190px] h-[380px] bg-[#f7f6f2]  transform -translate-x-1/2 -translate-y-1/2 -skew-x-[20deg] transition-all duration-300 ease-in-out group-hover:bg-[#fffab3] "></div>
+                  <div className="absolute left-1/2 top-1/2 w-[190px] h-[380px] bg-[#f7f6f2]  transform -translate-x-1/2 -translate-y-1/2 -skew-x-20 transition-all duration-300 ease-in-out group-hover:bg-[#fffab3] "></div>
 
                   {/* Card Content */}
                   <div className="relative z-10 p-8 text-center rounded-2xl">
                     {/* Icon Container */}
                     <div className="relative w-[140px] h-[150px] mx-auto flex items-center justify-center">
-                      <div className="absolute top-0 left-0 w-full h-full border border-[#ffee02] bg-white -skew-x-[20deg] transition-all duration-300 ease-in-out group-hover:bg-[#ffee02]"></div>
-                      <img
+                      <div className="absolute top-0 left-0 w-full h-full border border-[#ffee02] bg-white -skew-x-20 transition-all duration-300 ease-in-out group-hover:bg-[#ffee02]"></div>
+                      <Image
+                        width={70}
+                        height={70}
                         src={card.icon}
                         alt={card.title}
                         className="relative w-[70px] h-[70px]"
@@ -100,7 +94,7 @@ const CreativeCards = () => {
                       </a>
                     </h3>
 
-                    <p className="text-[#444] mb-8 text-base leading-[30px] !bg-transparent">
+                    <p className="text-[#444] mb-8 text-base leading-[30px] bg-transparent">
                       {card.description}
                     </p>
                   </div>

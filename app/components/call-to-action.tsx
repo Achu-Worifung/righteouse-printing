@@ -1,5 +1,6 @@
 import { Logo } from "./ui/logo";
 import { MoveLeft, MoveRight } from "lucide-react";
+import Image from "next/image";
 
 export function CallToAction() {
   return (
@@ -51,7 +52,7 @@ export function CallToAction() {
             </a>
           </div>
         </span>
-        <img src={"/childofgod.png"} className="aspect-auto w-1/2" />
+        <Image width={500} height={500} src={"/childofgod.png"} alt="Child of God" className="aspect-auto w-1/2" />
       </div>
     </div>
   );
