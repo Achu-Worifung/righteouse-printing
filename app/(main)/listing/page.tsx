@@ -7,10 +7,7 @@ import { useState, useEffect } from "react";
 import { ListingFilterMobile } from "@/app/components/listing-filter";
 import {
   filterOptions,
-  InsertProductPayLoad,
-  ListingCardProps,
   Color,
-  Options,
 } from "@/lib/types";
 
 export default function Listings() {

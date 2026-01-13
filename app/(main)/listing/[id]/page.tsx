@@ -14,26 +14,38 @@ import {
 } from "@/components/ui/select";
 import { SizeTemplate } from "@/components/ui/size-template";
 import { Stars } from "@/components/ui/stars";
-import { Star } from "lucide-react";
+import Image from "next/image";
+import { ImageType, InsertProductPayLoad, variant, Color } from "@/lib/types";
+
+interface ListingImg extends ImageType {
+  sku: string;
+  size: string | undefined;
+  color: string;
+  filename: string;
+  type: string;
+  url: string;
+}
+
 export default function ListingItem() {
   const { id } = useParams();
 
   // State
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<InsertProductPayLoad | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
-  const [mainImage, setMainImage] = useState<any>(null);
+  const [mainImage, setMainImage] = useState<ListingImg | null>(null);
 
   // Simulate fetch
   useEffect(() => {
-    setProduct(data[0]);
+    setProduct(data);
+    console.log("Loaded product data:", data.variants);
   }, []);
 
   // Enabled variants
   const enabledVariants = useMemo(() => {
-    if (!product) return [];
+    if (!product || !product.variants) return [];
     return product.variants.filter(
-      (v: any) => v.status === "enabled" && v.quantity > 0
+      (v) => v.status === "enabled" && v.quantity > 0
     );
   }, [product]);
 
@@ -41,8 +53,8 @@ export default function ListingItem() {
   const galleryImages = useMemo(() => {
     if (!enabledVariants.length) return [];
 
-    const images = enabledVariants.flatMap((v: any) =>
-      (v.images || []).map((img: any) => ({
+    const images = enabledVariants.flatMap((v: variant) =>
+      (v.images || []).map((img: ImageType) => ({
         ...img,
         sku: v.sku,
         size: v.size,
@@ -54,32 +66,44 @@ export default function ListingItem() {
     return Array.from(new Map(images.map((img) => [img.url, img])).values());
   }, [enabledVariants]);
 
-  // Initialize main image
+  // Set initial main image when gallery images are available
   useEffect(() => {
-    if (product) {
-      setMainImage(galleryImages[0] || null);
+    if (galleryImages.length && !mainImage) {
+      setMainImage(galleryImages[0]);
     }
-  }, [product, galleryImages]);
+  }, [galleryImages, mainImage]);
 
   // Size options (derived from variants)
   const sizeOptions = useMemo(() => {
     if (!product) return [];
 
+
+
     return product.options.sizes.map((size: string) => {
-      const enabled = enabledVariants.some((v: any) => v.size === size);
+      const enabled = enabledVariants.some((v: variant) => v.size === size);
       return { size, enabled };
     });
   }, [product, enabledVariants]);
 
-  // Color options (depends on selected size)
+// Color options (depends on selected size)
   const colorOptions = useMemo(() => {
-    if (!product || !selectedSize) return [];
+    if (!product) return [];
 
-    return product.options.colors.map((color: string) => {
+    // If no size selected, show all colors but disabled
+    if (!selectedSize) {
+      return product.options.colors.map((color: Color) => ({
+        color: color.name,
+        hex: color.hex,
+        enabled: false,
+      }));
+    }
+
+    // Show all colors, enabled if there's a variant with the selected size
+    return product.options.colors.map((color: Color) => {
       const enabled = enabledVariants.some(
-        (v: any) => v.size === selectedSize && v.color === color
+        (v: variant) => v.size === selectedSize && v.color === color.name
       );
-      return { color, enabled };
+      return { color: color.name, hex: color.hex, enabled };
     });
   }, [product, selectedSize, enabledVariants]);
 
@@ -88,7 +112,7 @@ export default function ListingItem() {
     if (!selectedSize || !selectedColor) return null;
 
     return enabledVariants.find(
-      (v: any) => v.size === selectedSize && v.color === selectedColor
+      (v: variant) => v.size === selectedSize && v.color === selectedColor
     );
   }, [selectedSize, selectedColor, enabledVariants]);
 
@@ -99,18 +123,41 @@ export default function ListingItem() {
     }
   }, [selectedVariant]);
 
+  // Reset color when size changes
+  useEffect(() => {
+   function resetColor() {
+      setSelectedColor(null);
+    }
+    resetColor();
+  }, [selectedSize]);
+
   // Reset invalid color if it no longer exists
   useEffect(() => {
-    if (!selectedColor) return;
+    if (!selectedColor || !selectedSize) return;
 
     const stillValid = enabledVariants.some(
-      (v: any) => v.size === selectedSize && v.color === selectedColor
+      (v: variant) => v.size === selectedSize && v.color === selectedColor
     );
 
     if (!stillValid) {
-      setSelectedColor(null);
+      function resetColor() {
+        setSelectedColor(null);
+      }
+      resetColor();
     }
-  }, [selectedSize]);
+  }, [selectedSize, selectedColor, enabledVariants]);
+
+  // Debug logs
+  useEffect(() => {
+    console.log("Debug info:");
+    console.log("Selected size:", selectedSize);
+    console.log("Color options:", colorOptions);
+    console.log("Enabled variants count:", enabledVariants.length);
+    if (product) {
+      console.log("Product colors:", product.options.colors);
+      console.log("Product variants:", product.variants);
+    }
+  }, [selectedSize, colorOptions, enabledVariants, product]);
 
   if (!product) return null;
 
@@ -120,7 +167,9 @@ export default function ListingItem() {
       <div className="md:w-1/2 flex flex-col ">
         {mainImage && (
           <div className="w-full">
-            <img
+            <Image
+              width={420}
+              height={420}
               src={mainImage.url}
               alt=""
               className="w-full h-[420px] object-cover rounded-lg"
@@ -130,7 +179,7 @@ export default function ListingItem() {
 
         {/* Gallery thumbnails */}
         <div className="mt-4 grid grid-cols-5 gap-2">
-          {galleryImages.map((img: any) => {
+          {galleryImages.map((img: ListingImg) => {
             const isVariantImage =
               selectedVariant &&
               img.size === selectedVariant.size &&
@@ -148,7 +197,9 @@ export default function ListingItem() {
                     : ""
                 }`}
               >
-                <img
+                <Image
+                  width={420}
+                  height={420}
                   src={img.url}
                   alt=""
                   className="h-20 w-full object-cover"
@@ -158,12 +209,13 @@ export default function ListingItem() {
           })}
         </div>
       </div>
-      {/* Product name */}
+
+      {/* Product info */}
       <div className="md:w-1/2 flex flex-col justify-between">
         <h1 className="text-2xl font-bold line-clamp-2 ">
           {product.productName}
         </h1>
-        <Stars count={34} avg={4.5} />
+        <Stars rating={product.rating || null} />
 
         {/* Size selector */}
         <div>
@@ -178,35 +230,67 @@ export default function ListingItem() {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Sizes</SelectLabel>
-                {sizeOptions.map(({ size, enabled }: any) => (
-                  <SelectItem key={size} value={size} disabled={!enabled}>
-                    {size}
-                  </SelectItem>
-                ))}
+                {sizeOptions.map(
+                  ({ size, enabled }: { size: string; enabled: boolean }) => (
+                    <SelectItem key={size} value={size} disabled={!enabled}>
+                      {size}
+                    </SelectItem>
+                  )
+                )}
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
 
-        {/* Color selector */}
+        {/* Color selector - FIXED: Removed empty value SelectItem */}
         <div>
           <p className="font-medium mb-2">Color</p>
           <Select
-            disabled={!selectedSize}
+            disabled={!selectedSize || colorOptions.length === 0}
             value={selectedColor || ""}
             onValueChange={setSelectedColor}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select a color" />
+              <SelectValue
+                placeholder={
+                  !selectedSize
+                    ? "Select a size first"
+                    : colorOptions.length === 0
+                    ? "No colors available for this size"
+                    : "Select a color"
+                }
+              />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Colors</SelectLabel>
-                {colorOptions.map(({ color, enabled }: any) => (
-                  <SelectItem key={color} value={color} disabled={!enabled}>
-                    {color}
-                  </SelectItem>
-                ))}
+                {colorOptions.length > 0 ? (
+                  colorOptions.map(
+                    (
+                      {
+                        color,
+                        hex,
+                        enabled,
+                      }: { color: string; hex: string; enabled: boolean },
+                      index: number
+                    ) => (
+                      <SelectItem key={index} value={color}>
+                        <div className="flex items-center gap-2">
+                          <div
+                            className="w-4 h-4 rounded-full border"
+                            style={{ backgroundColor: hex }}
+                          />
+                          <span>{color}</span>
+                        </div>
+                      </SelectItem>
+                    )
+                  )
+                ) : (
+                  // Changed from SelectItem to div to avoid empty value error
+                  <div className="px-2 py-1.5 text-sm text-gray-500">
+                    No colors available for this size
+                  </div>
+                )}
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -217,7 +301,7 @@ export default function ListingItem() {
           <div className="flex gap-3 flex-col">
             <button
               disabled={!selectedVariant}
-              className="flex-1 px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors font-medium"
+              className="flex-1 px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => {
                 // Add to cart logic here
                 console.log("Added to cart:", selectedVariant);
@@ -227,7 +311,7 @@ export default function ListingItem() {
             </button>
             <button
               disabled={!selectedVariant}
-              className="flex-1 px-6 py-3 bg-white text-black border-2 border-black rounded-lg hover:bg-gray-50 transition-colors font-medium"
+              className="flex-1 px-6 py-3 bg-white text-black border-2 border-black rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => {
                 // Buy now logic here
                 console.log("Buy now:", selectedVariant);
@@ -237,7 +321,7 @@ export default function ListingItem() {
             </button>
           </div>
         </div>
-        <p className="text-lg text-black mb-3">Product descrioption</p>
+        <p className="text-lg text-black mb-3">Product description</p>
         <p className="text-md text-gray-600 mb-6">{product.description}</p>
       </div>
     </div>

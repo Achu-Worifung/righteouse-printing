@@ -2,7 +2,7 @@ import { Star } from "lucide-react";
 
 import { rating } from "@/lib/types";
 
-export function Stars({ rating }: { rating: rating }) {
+export function Stars({ rating }: { rating: rating | null }) {
   return (
     <div className="flex items-center gap-1">
       {rating ? (
