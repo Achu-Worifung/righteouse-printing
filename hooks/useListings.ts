@@ -2,11 +2,11 @@
 
 import { useEffect, useState, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
-
+import { InsertProductPayLoad } from '@/lib/types'
 export function useListings() {
   const searchParams = useSearchParams()
 
-  const [listings, setListings] = useState<any[]>([])
+  const [listings, setListings] = useState<InsertProductPayLoad[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -34,8 +34,8 @@ export function useListings() {
         const json = await res.json()
         console.log('Fetched listings:', json)
         setListings(json.data ?? [])
-      } catch (err: any) {
-        if (err.name !== 'AbortError') {
+      } catch (err: unknown) {
+        if ((err as Error).name !== 'AbortError') {
           console.error('Error fetching listings:', err)
           setError('Failed to fetch listings')
         }

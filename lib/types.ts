@@ -22,13 +22,18 @@ export interface ListingCardProps {
 
 export type Options = {
     sizes: string[];
-    colors: { name: string; hex: string }[];
+    colors: Color[];
 }
 export interface rating {
     avg?: number;
     count?: number;
     sum?: number;
 }
+export type Color = {
+  name: string;
+  hex: string;
+};
+
 
 export type review = {
     userName?: string;

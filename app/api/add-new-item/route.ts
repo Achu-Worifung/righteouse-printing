@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   const contentType = request.headers.get("content-type") || "";
 
   try {
-    let payload: InsertProductPayLoad = {};
+    let payload = {};
 
     if (contentType.includes("multipart/form-data")) {
       const form = await request.formData();
@@ -72,15 +72,19 @@ export async function POST(request: Request) {
       );
 
       const options = {
-        sizes: form.getAll("productAvailableSizes").map((size) => size.toString()),
-        colors: form.getAll("productAvailableColors").map((color) => JSON.parse(color.toString())),
+        sizes: form
+          .getAll("productAvailableSizes")
+          .map((size) => size.toString()),
+        colors: form
+          .getAll("productAvailableColors")
+          .map((c) => JSON.parse(c.toString())),
       };
 
       payload = {
         productName: form.get("productName")?.toString(),
-        price: form.get("price") ? Number(form.get("price")) : undefined,
-        taxClass: form.get("taxClass")?.toString(),
-        category: form.get("category")?.toString(),
+        price: form.get("price") ? Number(form.get("price")) : 0,
+        taxClass: form.get("taxClass")?.toString() || "standard",
+        category: form.get("category")?.toString() || "Uncategorized",
         description: form.get("description")?.toString(),
         sku: form.get("sku")?.toString(),
         rating: form.get("rating")
@@ -92,16 +96,8 @@ export async function POST(request: Request) {
               .map((review) => JSON.parse(review.toString()))
           : undefined,
         options: options,
-        rating: form.get("rating")
-          ? (JSON.parse(form.get("rating")!.toString()) as rating)
-          : undefined,
-        reviews: form.get("reviews")
-          ? form
-              .getAll("reviews")
-              .map((review) => JSON.parse(review.toString()))
-          : undefined,
-        status: form.get("status")?.toString(),
-        variants: variantsWithImages, // Each variant has its own images
+        status: form.get("status")?.toString() || "enabled",
+        variants: variantsWithImages,
         createdAt: new Date(),
         updatedAt: new Date(),
       };

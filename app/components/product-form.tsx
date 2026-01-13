@@ -111,7 +111,9 @@ export default function ProductForm({
     allSizes.forEach((size) => {
       body.append("productAvailableSizes", size);
     });
-    body.append("productAvailableColors", JSON.stringify(allColors));
+    allColors.forEach((color) => {
+      body.append("productAvailableColors", JSON.stringify(color));
+    });
 
     // Prepare variant data and images
     variants.forEach((variant, index) => {
