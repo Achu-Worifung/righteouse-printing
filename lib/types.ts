@@ -14,7 +14,13 @@ export interface InsertProductPayLoad {
   rating?: rating;
   reviews?: review[];
 }
-
+export interface PasswordValidation {
+  minLength: boolean;
+  hasUppercase: boolean;
+  hasLowercase: boolean;
+  hasNumber: boolean;
+  hasSpecialChar: boolean;
+}
 export interface ListingCardProps {
   listing: InsertProductPayLoad;
 }

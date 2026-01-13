@@ -7,14 +7,8 @@ import Link from "next/link";
 import { Logo } from "../components/ui/logo";
 import { Check, X } from "lucide-react";
 import { toast } from "sonner";
+import { PasswordValidation } from "@/lib/types";
 
-interface PasswordValidation {
-  minLength: boolean;
-  hasUppercase: boolean;
-  hasLowercase: boolean;
-  hasNumber: boolean;
-  hasSpecialChar: boolean;
-}
 
 export default function SignUp() {
   const [password, setPassword] = useState("");
@@ -110,8 +104,27 @@ export default function SignUp() {
 
   const handleSignUp = () => {
     if (validateForm()) {
-      toast.success("Sign up successful!");
-      // Handle sign up logic here
+      // Proceed with form submission or further processing
+      const form = new FormData();
+      form.append("firstName", fname);
+      form.append("lastName", lname);
+      form.append("email", email);
+      form.append("password", password);
+      form.append("google", "false");
+
+      fetch("/api/auth/signup", {
+        method: "POST",
+        body: form,
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          toast.success("Sign up successful!");
+        })
+        .catch((error) => {
+          console.error("Error during sign-up:", error);
+          toast.error("Sign up failed!");
+        });
     }
   };
 
