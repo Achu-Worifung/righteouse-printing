@@ -46,13 +46,15 @@ export default function ListingItem() {
     if (!product || !product.variants) return [];
     return product.variants.filter(
       (v) => v.status === "enabled" && v.quantity > 0
+      
     );
   }, [product]);
+
+
 
   // Gallery images (all variant images deduped)
   const galleryImages = useMemo(() => {
     if (!enabledVariants.length) return [];
-
     const images = enabledVariants.flatMap((v: variant) =>
       (v.images || []).map((img: ImageType) => ({
         ...img,
@@ -73,39 +75,60 @@ export default function ListingItem() {
     }
   }, [galleryImages, mainImage]);
 
-  // Size options (derived from variants)
+  // Size options (derived from enabled variants)
   const sizeOptions = useMemo(() => {
-    if (!product) return [];
+    if (!enabledVariants.length) return [];
 
+    // Get all unique sizes from enabled variants
+    const uniqueSizes = Array.from(
+      new Set(
+        enabledVariants
+          .map((v: variant) => v.size)
+          .filter((s): s is string => typeof s === "string" && s.length > 0)
+      )
+    );
 
+    return uniqueSizes.map((size: string) => ({
+      size,
+      enabled: true,
+    }));
+  }, [enabledVariants]);
 
-    return product.options.sizes.map((size: string) => {
-      const enabled = enabledVariants.some((v: variant) => v.size === size);
-      return { size, enabled };
-    });
-  }, [product, enabledVariants]);
-
-// Color options (depends on selected size)
+  // Color options (depends on selected size)
   const colorOptions = useMemo(() => {
-    if (!product) return [];
+    if (!enabledVariants.length) return [];
 
-    // If no size selected, show all colors but disabled
+    let colorsToShow: string[] = [];
+
     if (!selectedSize) {
-      return product.options.colors.map((color: Color) => ({
-        color: color.name,
-        hex: color.hex,
-        enabled: false,
-      }));
+      // If no size selected, show all colors from all enabled variants
+      colorsToShow = Array.from(
+        new Set(enabledVariants.map((v: variant) => v.color).filter(Boolean))
+      );
+    } else {
+      // If size selected, show only colors available for that size
+      colorsToShow = Array.from(
+        new Set(
+          enabledVariants
+            .filter((v: variant) => v.size === selectedSize)
+            .map((v: variant) => v.color)
+            .filter(Boolean)
+        )
+      );
     }
 
-    // Show all colors, enabled if there's a variant with the selected size
-    return product.options.colors.map((color: Color) => {
-      const enabled = enabledVariants.some(
-        (v: variant) => v.size === selectedSize && v.color === color.name
+    // If product has hex colors mapping, use it; otherwise return color names only
+    return colorsToShow.map((colorName: string) => {
+      const colorData = product?.options?.colors?.find(
+        (c: Color) => c.name === colorName
       );
-      return { color: color.name, hex: color.hex, enabled };
+      return {
+        color: colorName,
+        hex: colorData?.hex || "#999999",
+        enabled: true,
+      };
     });
-  }, [product, selectedSize, enabledVariants]);
+  }, [selectedSize, enabledVariants, product]);
 
   // Selected variant (size + color)
   const selectedVariant = useMemo(() => {

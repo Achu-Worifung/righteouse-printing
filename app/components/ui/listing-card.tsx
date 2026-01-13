@@ -1,6 +1,4 @@
-import { Description } from "@radix-ui/react-dialog";
-import { Shirt, ShoppingCart } from "lucide-react";
-import { ShoppingBasket } from "lucide-react";
+import {  ShoppingCart } from "lucide-react";
 import { Heart } from "lucide-react";
 import { Star } from "lucide-react";
 import { Button } from "./button";
@@ -81,7 +79,7 @@ export function ListingCard({ listing }: ListingCardProps) {
         <h2 className="text-lg md:text-3xl font-bold text-gray-900 leading-tight sm:mb-3 mb-1">
           {productName}
         </h2>
-        <Stars rating = {rating} />
+        <Stars rating = {rating || null} />
 
         <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
 
@@ -122,7 +120,7 @@ export function ListingCard({ listing }: ListingCardProps) {
                     />
                     <span>
                       <p className="mb-2 font-semibold">{productName}</p>
-                      <Stars rating = {rating}/>
+                      <Stars rating = {rating || null}/>
 
                       <p className="mb-2 text-gray-600 line-clamp-2">
                         {description}
