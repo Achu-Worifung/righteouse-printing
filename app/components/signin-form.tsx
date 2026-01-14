@@ -20,18 +20,19 @@ export function SignInForm() {
       toast.error("Email and password are required.");
       return;
     }
-    const res = await fetch("/api/auth/login", {
+    const res = await fetch("/api/auth/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, google: false }),
     });
     if (!res.ok) {
       toast.error("Invalid email or password.");
       return;
     }
     toast.success("Login successful!");
+    window.location.href = "/";
   };
 
  

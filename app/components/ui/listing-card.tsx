@@ -60,15 +60,13 @@ export function ListingCard({ listing }: ListingCardProps) {
         router.prefetch(`/listing/${productName.replace(/\s+/g, "-").toLowerCase()}`)
       }
     >
-      <div className="relative h-fit overflow-hidden bg-gray-100">
         <Image
           src={img || "/placeholder-image.png"}
           width={300}
           height={300}
           alt={productName}
-          className="w-full h-[80%] object-cover object-center transform transition-transform duration-300 hover:scale-105"
+          className="w-full h-40 sm:h-48 md:h-64 object-cover object-center transform transition-transform duration-300 hover:scale-105"
         />
-      </div>
 
       {/* product details  */}
       <div className="ms:p-4 p-2">
@@ -113,10 +111,10 @@ export function ListingCard({ listing }: ListingCardProps) {
                   <div className="flex flex-row gap-1">
                     <Image
                       src={img || "/placeholder-image.png"}
-                      width={32}
-                      height={32}
+                      width={128}
+                      height={128}
                       alt={productName}
-                      className="w-32 h-32 object-cover mb-4"
+                      className="w-32 h-32 object-cover mb-4 rounded"
                     />
                     <span>
                       <p className="mb-2 font-semibold">{productName}</p>

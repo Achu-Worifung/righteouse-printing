@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { client } from "@/lib/db";
 import dotenv from "dotenv";
 import bcrypt from 'bcrypt';
-
+import {generateToken} from "../token-generator";
 dotenv.config();
 
 
@@ -38,15 +38,17 @@ export async function POST(request: Request)
         }
 
         const hashedPassword = await bcrypt.hash(form.get("password") as string, process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10);
-        await users.insertOne({
+        const result = await users.insertOne({
             ...payload,
             password: hashedPassword
         })
+        const id = result.insertedId;
         await client.close();
 
-        return NextResponse.json({ ok: true, received: payload });
+        await generateToken({ _id: id });
+        return NextResponse.json({ "success": "Sign-up successful" }, { status: 200 });
     }catch (error) {
-        console.error("Error during sign-in:", error);
+        console.error("Error during sign-up:", error);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }

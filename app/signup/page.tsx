@@ -8,9 +8,11 @@ import { Logo } from "../components/ui/logo";
 import { Check, X } from "lucide-react";
 import { toast } from "sonner";
 import { PasswordValidation } from "@/lib/types";
+import { useRouter } from "next/navigation";
 
 
 export default function SignUp() {
+
   const [password, setPassword] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
@@ -24,7 +26,7 @@ export default function SignUp() {
       hasSpecialChar: false,
     });
   const [showValidation, setShowValidation] = useState(false);
-
+  const router = useRouter();
   const validatePassword = (pass: string) => {
     const validation: PasswordValidation = {
       minLength: pass.length >= 8,
@@ -124,6 +126,9 @@ export default function SignUp() {
         .catch((error) => {
           console.error("Error during sign-up:", error);
           toast.error("Sign up failed!");
+          setTimeout(() => {
+            router.push("/");
+          }, 2000);
         });
     }
   };
