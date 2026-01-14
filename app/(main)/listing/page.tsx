@@ -1,7 +1,6 @@
 "use client";
 
 import { useListings } from "@/hooks/useListings";
-import data from "./listing.json";
 import { ListingCard } from "@/app/components/ui/listing-card";
 import { useState, useEffect } from "react";
 import { ListingFilterMobile } from "@/app/components/listing-filter";
@@ -19,7 +18,7 @@ export default function Listings() {
     const colors: string[] = [];
     const type: string[] = [];
 
-    data.forEach((listing) => {
+    listings.forEach((listing) => {
       console.log("Listing Options:", listing.options);
 
       if (listing.options && listing.options.sizes) {
@@ -61,7 +60,7 @@ export default function Listings() {
         type={filters.type}
       />
 
-      <p>Listings found: {data.length}</p>
+      <p>Listings found: {listings.length}</p>
 
       <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 ">
         {listings.map((listing) => (
