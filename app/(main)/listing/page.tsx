@@ -30,9 +30,7 @@ export default function Listings() {
       }
 
       if (listing.options?.colors) {
-        // console.log("Listing Colors:", listing.options.colors);
         listing.options.colors.map((color: Color) => {
-          // console.log("Processing color:", color.name);
           if (!colors.includes(color?.name)) {
             colors.push(color.name);
           }
