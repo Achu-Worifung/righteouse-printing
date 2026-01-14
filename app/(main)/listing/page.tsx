@@ -16,7 +16,7 @@ export default function Listings() {
   const { listings, loading, error } = useListings();
   useEffect(() => {
     const sizes: string[] = [];
-    const colors: Color[] = [];
+    const colors: string[] = [];
     const type: string[] = [];
 
     data.forEach((listing) => {
@@ -31,12 +31,16 @@ export default function Listings() {
       }
 
       if (listing.options?.colors) {
-        listing.options.colors.forEach((color: Color) => {
-          if (!colors.some((c: Color) => c.name === color?.name)) {
-            colors.push(color);
+        // console.log("Listing Colors:", listing.options.colors);
+        listing.options.colors.map((color: Color) => {
+          // console.log("Processing color:", color.name);
+          if (!colors.includes(color?.name)) {
+            colors.push(color.name);
           }
         });
       }
+
+      console.log('all colors:', colors);
 
       if (listing.category && !type.includes(listing.category)) {
         type.push(listing.category);

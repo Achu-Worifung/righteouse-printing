@@ -1,10 +1,13 @@
 "use client";
+
 import * as React from "react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { filterOptions } from "@/lib/types";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   Sheet,
   SheetContent,
@@ -14,7 +17,12 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
-
+type Filters = {
+  size: string[];
+  color: string[];
+  type: string[];
+  rating: string[];
+};
 
 export function ListingFilterMobile({sizes, colors, type}: filterOptions) {
     const   FILTER_CATEGORIES = [
@@ -25,6 +33,15 @@ export function ListingFilterMobile({sizes, colors, type}: filterOptions) {
   ];
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const currentCategory = FILTER_CATEGORIES.find(cat => cat.id === activeCategory);
+  const router = useRouter();
+
+  const [filters, setFilters] = useState<Filters>({
+  size: [],
+  color: [],
+  type: [],
+  rating: [],
+});
+
 
   // Animation variants for the slide effect
   const variants = {
@@ -41,6 +58,46 @@ export function ListingFilterMobile({sizes, colors, type}: filterOptions) {
       opacity: 0,
     }),
   };
+
+const showItems = () => {
+  const params = new URLSearchParams();
+
+  Object.entries(filters).forEach(([category, values]) => {
+    values.forEach(value => {
+      params.append(category, value);
+    });
+  });
+
+  router.push(`/listing?${params.toString()}`);
+};
+
+
+  const toggleFilter = (category: keyof Filters, value: string) => {
+  setFilters(prev => {
+    const exists = prev[category].includes(value);
+
+    return {
+      ...prev,
+      [category]: exists
+        ? prev[category].filter(v => v !== value)
+        : [...prev[category], value],
+    };
+  });
+};
+
+useEffect(() => {
+    //getting the filters from the url
+    const params = new URLSearchParams(window.location.search);
+    const newFilters: Filters = {
+      size: params.getAll("size"),
+      color: params.getAll("color"),
+      type: params.getAll("type"),
+      rating: params.getAll("rating"),
+    };
+    setFilters(newFilters);
+    console.log("Initial Filters from URL:", newFilters);
+}, []);
+
 
   return (
     <Sheet onOpenChange={() => setActiveCategory(null)}>
@@ -114,13 +171,15 @@ export function ListingFilterMobile({sizes, colors, type}: filterOptions) {
                   className="absolute inset-0 bg-white p-4"
                 >
                   <div className="flex flex-col gap-1">
-                    {currentCategory?.options.map((option) => (
+                    {currentCategory?.options.map((option, idx) => (
                       <label 
-                        key={option} 
+                        key={idx} 
                         className="flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 cursor-pointer border-b last:border-0"
                       >
                         <span className="text-base">{option}</span>
                         <input 
+                          checked={filters[activeCategory as keyof Filters].includes(option)}
+                          onChange={() => toggleFilter(activeCategory as keyof Filters, option)}
                           type="checkbox" 
                           className="h-5 w-5 rounded-full border-gray-300 accent-black" 
                         />
@@ -134,7 +193,7 @@ export function ListingFilterMobile({sizes, colors, type}: filterOptions) {
 
           {/* FOOTER */}
           <div className="p-4 border-t bg-white z-10">
-            <Button className="w-full h-12 text-lg rounded-full">
+            <Button className="w-full h-12 text-lg rounded-full" onClick={showItems}>
               Show Items
             </Button>
           </div>

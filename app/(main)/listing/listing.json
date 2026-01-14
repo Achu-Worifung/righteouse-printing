@@ -4,7 +4,7 @@
         "productName": "test-08",
         "price": 9.97,
         "taxClass": "standard",
-        "category": "tshirt",
+        "category": "longsleeve",
         "discount": 0,
         "description": "productAvailableSizesp roductAvailableSizesproductA vailableSizesproduc tAvailable SizesproductAv ailableSizes productAvaila bleSizesproductAvailab leSizesproductAva ilableSizesproductAv ailableSizesproduc tAvailableSize sproductAvailableSize sproductA vailableSize sproductAvail ableSizesproductAvailableSiz esproduc tAvailableSiz esproductA ail ableSizesproduct AvailableSizesprod uctAvailableSizes",
         "sku": "test-07",
@@ -19,7 +19,6 @@
                 "XL"
             ],
             "colors": [
-                [
                     {
                         "name": "red",
                         "hex": "#f10e0e"
@@ -28,7 +27,6 @@
                         "name": "bleu",
                         "hex": "#1a44c1"
                     }
-                ]
             ]
         },
         "status": "standard",
@@ -75,7 +73,6 @@
                 "XL"
             ],
             "colors": [
-                [
                     {
                         "name": "black",
                         "hex": "#252222"
@@ -84,7 +81,6 @@
                         "name": "red",
                         "hex": "#f10e0e"
                     }
-                ]
             ]
         },
         "status": "standard",
