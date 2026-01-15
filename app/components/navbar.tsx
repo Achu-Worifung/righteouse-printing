@@ -1,6 +1,5 @@
 "use client";
 import { Menu, X, Handbag, UserRound } from "lucide-react";
-import {NavigationUser} from "@/components/ui/navigation-user";
 import { useState } from "react";
 import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
