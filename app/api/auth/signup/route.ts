@@ -4,9 +4,9 @@ import { client } from "@/lib/db";
 import dotenv from "dotenv";
 import bcrypt from 'bcrypt';
 import {generateToken} from "../token-generator";
+
+
 dotenv.config();
-
-
 interface SignInRequestBody {
     firstName: string;
     lastName: string;
@@ -36,6 +36,7 @@ export async function POST(request: Request)
         if (existingUser) {
             return NextResponse.json({ error: "User already exists" }, { status: 400 });
         }
+        
 
         const hashedPassword = await bcrypt.hash(form.get("password") as string, process.env.SALT_ROUNDS ? parseInt(process.env.SALT_ROUNDS) : 10);
         const result = await users.insertOne({
