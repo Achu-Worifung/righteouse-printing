@@ -16,7 +16,7 @@ export async function generateToken(payload: tokenPayload, expiresIn: string = "
     if (!secretKey) {
         throw new Error("JWT_SECRET is not defined in environment variables");
     }
-    const token = jwt.sign(payload, secretKey, { expiresIn });
+    const token = jwt.sign(payload, secretKey);
     const cookieStore = await cookies();
     cookieStore.set('authToken', token, { httpOnly: true, maxAge: 60 * 60 * 24 * 30 });
     return token;

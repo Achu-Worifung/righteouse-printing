@@ -1,4 +1,4 @@
-export default function UserAccountDetails() {
+export  function UserAccountDetails() {
     return (
         <div>
 
