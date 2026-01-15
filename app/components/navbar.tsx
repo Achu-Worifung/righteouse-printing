@@ -1,5 +1,6 @@
 "use client";
 import { Menu, X, Handbag, UserRound } from "lucide-react";
+import {NavigationUser} from "@/components/ui/navigation-user";
 import { useState } from "react";
 import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
@@ -23,7 +24,7 @@ import { Separator } from "@radix-ui/react-dropdown-menu";
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, logout} = useAuth();
 
   return (
     <header className="w-full relative">
@@ -106,7 +107,7 @@ export function Navbar() {
           <Link href="/" className="">Home</Link>
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <span className="text-xl !font-light cursor-pointer">Shop</span>
+              <p className="text-xl font-light cursor-pointer">Shop</p>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="min-w-2xs">
               <DropdownMenuSeparator />
