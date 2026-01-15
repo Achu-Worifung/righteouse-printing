@@ -26,11 +26,11 @@ export default async function MyAccountPage() {
     }
 
   return (
-    <div className="p-8">
+    <div className="p-4">
       <UserAccountDetails user={data.user} />
-      <Addresses addresses={data.user.addresses || []} />
-      <Payment userId = {data.user._id} />
-      
+      {/* <Addresses addresses={data.user.addresses || []} />
+      <Payment userId = {data.user._id} /> */}
+
       
     </div>
   );
