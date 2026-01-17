@@ -1,6 +1,9 @@
+'use client';
+import { useState } from "react";
 import { Button } from "../button";
 import { Input } from "../input";
 import { Label } from "../label";
+import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -10,12 +13,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Location } from "@/lib/types";
 export function UserAccountDetails() {
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [addingMethod, setAddingMethod] = useState(false);
   return (
     <div className="border border-gray-300 max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-md grid grid-cols-1 gap-6 md:grid-cols-2 py-4 ">
       <div className="col-span-2">
-        <h1 className=" text-xl md:text-3xl ">Account Details</h1>
-        <p className="text-[#570009]">Update your personal information below.</p>
+        <h1 className=" text-xl md:text-3xl text-[#570009] font-semibold ">
+          Account Details
+        </h1>
+        <p className="">Update your personal information below.</p>
       </div>
       <div className="col-span-1">
         <Label
@@ -61,92 +69,43 @@ export function UserAccountDetails() {
       </div>
 
       <div className="col-span-2">
-        <h1 className="text-xl md:text-3xl">Address Details</h1>
-        <p className="text-[#570009]">Update your address information below.</p>
+        <h1 className="text-xl md:text-3xl text-[#570009] font-semibold ">
+          Address Details
+        </h1>
+        <p className="">Update your address information below.</p>
       </div>
-      <div className="col-span-1 ">
-        <Label
-          htmlFor="street"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          Street
-        </Label>
-        <Input
-          type="text"
-          id="street"
-          name="street"
-          className="w-full border border-gray-300 rounded-md p-2"
-        />
-      </div>
-      <div className="col-span-1">
-        <Label
-          htmlFor="city"
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
-          City
-        </Label>
-        <Input
-          type="text"
-          id="city"
-          name="city"
-          className="w-full border border-gray-300 rounded-md p-2"
-        />
-      </div>
-      <span className="grid grid-cols-1 md:grid-cols-3 col-span-2 gap-2">
-        <div className="col-span-1">
-          <Label
-            htmlFor="state"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            State/Province
-          </Label>
-          <Select>
-            <SelectTrigger className="w-full border border-gray-300 rounded-md p-2">
-              <SelectValue placeholder="Select Your State" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Fruits</SelectLabel>
-                <SelectItem value="apple">Apple</SelectItem>
-                <SelectItem value="banana">Banana</SelectItem>
-                <SelectItem value="blueberry">Blueberry</SelectItem>
-                <SelectItem value="grapes">Grapes</SelectItem>
-                <SelectItem value="pineapple">Pineapple</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="col-span-1">
-          <Label
-            htmlFor="zip"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            ZIP/Postal Code
-          </Label>
-          <Input
-            type="text"
-            id="zip"
-            name="zip"
-            className="w-full border border-gray-300 rounded-md p-2"
-          />
-        </div>
-        <div className="col-span-1">
-          <Label
-            htmlFor="country"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            Country
-          </Label>
-          <Input
-            id="country"
-            name="country"
-            className="w-full border border-gray-300 rounded-md p-2"
-            value="United States"
-            readOnly
-          />
-        </div>
-      </span>
-          <Button type="submit" className="col-2 bg-[#1c3144] text-white  cursor-pointer rounded-none py-2">Save Changes</Button>
+
+       {locations.length === 0  ? (
+                <div className="w-full flex justify-center items-center flex-col col-span-2">
+                  <Image
+                    src="/no location.svg"
+                    alt="No Addresses Found"
+                    width={100}
+                    height={100}
+                    className="mt-4"
+                  />
+                  <h1>No addresses found</h1>
+                  <p className="text-center text-gray-500">
+                    You have not added any addresses yet.
+                  </p>
+                  <button
+                    onClick={() => setAddingMethod(true)}
+                    className="bg-[#570009] text-white rounded-md px-4 py-2 mt-4 cursor-pointer"
+                  >
+                    Add Address
+                  </button>
+      
+                 
+                </div>
+              ) : // {/* visa cards start with 4, mastercard with 5, amex with 3 */}
+              null}
+      
+      <Button
+        type="submit"
+        className="col-2 hover:bg-[#7a020e] text-white  cursor-pointer bg-[#570009] rounded-none py-2"
+      >
+        Save Changes
+      </Button>
     </div>
   );
 }

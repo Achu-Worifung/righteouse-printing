@@ -31,13 +31,13 @@ export default async function MyAccountPage() {
 
     return (
         <div className="px-8 lg:px-16">
-            <h1 className="text-2xl sm:text-4xl text-semibold sm:text-bold">Settings</h1>
+            <h1 className="text-2xl sm:text-4xl text-[#570009] font-bold font-[Playfair Display]">Settings</h1>
             <p>Manage your account settings and preferences.</p>
             <Tabs
                 defaultValue="personal-info"
                 className=" mt-5 w-full"
             >
-                <TabsList className="  mx-auto [&>button]:px-6 [&>button]:tracking-wide [&>button]:text-semibold hidden sm:flex ">
+                <TabsList className="  mx-auto [&>button]:px-6 [&>button]:tracking-wide [&>button]:text-semibold hidden sm:flex  ">
                     <TabsTrigger value="personal-info" className="px-4">
                         <User />Personal Information
                     </TabsTrigger>
