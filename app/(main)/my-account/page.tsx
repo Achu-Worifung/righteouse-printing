@@ -30,14 +30,14 @@ export default async function MyAccountPage() {
     // }
 
     return (
-        <div className="p-4">
+        <div className="px-8 lg:px-16">
             <h1 className="text-2xl sm:text-4xl text-semibold sm:text-bold">Settings</h1>
             <p>Manage your account settings and preferences.</p>
             <Tabs
                 defaultValue="personal-info"
                 className=" mt-5 w-full"
             >
-                <TabsList className="  mx-auto [&>button]:px-6 [&>button]:tracking-wide [&>button]:text-semibold ">
+                <TabsList className="  mx-auto [&>button]:px-6 [&>button]:tracking-wide [&>button]:text-semibold hidden sm:flex ">
                     <TabsTrigger value="personal-info" className="px-4">
                         <User />Personal Information
                     </TabsTrigger>
@@ -52,7 +52,7 @@ export default async function MyAccountPage() {
                     </TabsTrigger>
                 </TabsList>
 
-                <TabsContent value="personal-info">
+                <TabsContent value="personal-info" className="py-4">
                     <UserAccountDetails/>
                 </TabsContent>
                 <TabsContent value="email&password">
