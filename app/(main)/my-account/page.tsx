@@ -4,7 +4,8 @@ import { cookies } from "next/headers";
 import { UserAccountDetails } from "@/components/ui/myaccount/user-account-details";
 import { ChevronRight, User, CreditCard, ShieldX, BellRing } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {PasswordForm} from "@/components/ui/myaccount/password-form";
+import {PaymentMethod} from "@/components/ui/myaccount/payment-method";
+import { PasswordForm } from "@/app/components/ui/myaccount/password-form";
 export default async function MyAccountPage() {
     const cookieStore = await cookies();
     const isAuthenticated = cookieStore.get("authToken") !== undefined;
@@ -56,6 +57,9 @@ export default async function MyAccountPage() {
                 </TabsContent>
                 <TabsContent value="password">
                     <PasswordForm />
+                </TabsContent>
+                <TabsContent value="payment">
+                    <PaymentMethod />
                 </TabsContent>
             </Tabs>
             {/* <Addresses addresses={data.user.addresses || []} />
