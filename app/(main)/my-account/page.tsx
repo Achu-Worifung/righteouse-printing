@@ -3,9 +3,8 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { UserAccountDetails } from "@/components/ui/myaccount/user-account-details";
 import { ChevronRight, User, CreditCard, ShieldX, BellRing } from 'lucide-react';
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
+import {PasswordForm} from "@/components/ui/myaccount/password-form";
 export default async function MyAccountPage() {
     const cookieStore = await cookies();
     const isAuthenticated = cookieStore.get("authToken") !== undefined;
@@ -41,8 +40,8 @@ export default async function MyAccountPage() {
                     <TabsTrigger value="personal-info" className="px-4">
                         <User />Personal Information
                     </TabsTrigger>
-                    <TabsTrigger value="email&password" className="px-4">
-                        <ShieldX /> Email & Password
+                    <TabsTrigger value="password" className="px-4">
+                        <ShieldX /> Password
                     </TabsTrigger>
                     <TabsTrigger value="payment" className="px-4">
                         <CreditCard />Payment
@@ -55,8 +54,8 @@ export default async function MyAccountPage() {
                 <TabsContent value="personal-info" className="py-4">
                     <UserAccountDetails/>
                 </TabsContent>
-                <TabsContent value="email&password">
-                    Change your password here.
+                <TabsContent value="password">
+                    <PasswordForm />
                 </TabsContent>
             </Tabs>
             {/* <Addresses addresses={data.user.addresses || []} />

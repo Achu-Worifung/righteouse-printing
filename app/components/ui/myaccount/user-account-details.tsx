@@ -146,7 +146,7 @@ export function UserAccountDetails() {
           />
         </div>
       </span>
-      <Button type="submit" className="col-2 bg-[#1c3144] text-white  cursor-pointer rounded-none py-2">Save Changes</Button>
+          <Button type="submit" className="col-2 bg-[#1c3144] text-white  cursor-pointer rounded-none py-2">Save Changes</Button>
     </div>
   );
 }
