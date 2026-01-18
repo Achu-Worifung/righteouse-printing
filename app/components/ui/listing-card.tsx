@@ -18,6 +18,7 @@ import { ListingCardProps, variant, Color } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { Stars } from "./stars";
 import Image from "next/image";
+import { addToCart } from "@/lib/to-cart";
 export function ListingCard({ listing }: ListingCardProps) {
   const {
     productName,
@@ -77,7 +78,10 @@ export function ListingCard({ listing }: ListingCardProps) {
     null
   );
 
-  // Reset color when selecting a new size happens in the click handler below.
+  // Find the selected variant based on size and color
+  const selectedVariant = enabledVariants.find(
+    (v: variant) => v.size === selectedSize && v.color === selectedColor?.name
+  );
 
   const router = useRouter();
   return (
@@ -259,7 +263,22 @@ export function ListingCard({ listing }: ListingCardProps) {
                 </div>
               </SheetHeader>
               <SheetFooter>
-                <Button type="submit">Add to Cart</Button>
+                <Button 
+                  type="button"
+                  disabled={!selectedVariant}
+                  onClick={() => {
+                    if (selectedVariant) {
+                      addToCart({
+                        productId: listing._id || '',
+                        productName: productName,
+                        selectedVariant: selectedVariant
+                      });
+                      alert(`Added ${productName} (${selectedSize}, ${selectedColor?.name}) to cart!`);
+                    }
+                  }}
+                >
+                  Add to Cart
+                </Button>
                 <SheetClose asChild>
                   <Button variant="outline">Close</Button>
                 </SheetClose>
