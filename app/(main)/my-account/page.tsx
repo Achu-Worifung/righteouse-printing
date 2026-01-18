@@ -2,10 +2,11 @@ import { toast } from "sonner";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { UserAccountDetails } from "@/components/ui/myaccount/user-account-details";
-import { ChevronRight, User, CreditCard, ShieldX, BellRing } from 'lucide-react';
+import { User, CreditCard, ShieldX, BellRing, MapPin } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {PaymentMethod} from "@/components/ui/myaccount/payment-method";
 import { PasswordForm } from "@/app/components/ui/myaccount/password-form";
+import { AddressManager } from "@/components/ui/myaccount/address-manager";
 export default async function MyAccountPage() {
     const cookieStore = await cookies();
     const isAuthenticated = cookieStore.get("authToken") !== undefined;
@@ -51,6 +52,9 @@ export default async function MyAccountPage() {
                     <TabsTrigger value="payment" className="px-4">
                         <CreditCard />Payment
                     </TabsTrigger>
+                    <TabsTrigger value="addresses" className="px-4">
+                        <MapPin />Addresses
+                    </TabsTrigger>
                     <TabsTrigger value="notification" className="px-4">
                         <BellRing /> Notifications
                     </TabsTrigger>
@@ -64,6 +68,12 @@ export default async function MyAccountPage() {
                 </TabsContent>
                 <TabsContent value="payment">
                     <PaymentMethod />
+                </TabsContent>
+                <TabsContent value="addresses">
+                    <AddressManager 
+                      initialAddresses={data.user.addresses || []}
+                      userId={data.user._id}
+                    />
                 </TabsContent>
             </Tabs>
             {/* <Addresses addresses={data.user.addresses || []} />
