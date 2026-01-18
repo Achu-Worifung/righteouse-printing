@@ -11,6 +11,11 @@ export async function POST(request: Request) {
     const payload = await request.json();
     const { currentPassword, newPassword } = payload;
     
+    // Validate current password is provided
+    if (!currentPassword || !currentPassword.trim()) {
+        return new Response(JSON.stringify({ success: false, message: "Current password is required" }), { status: 400 });
+    }
+    
     // Validate new password format
     if (!newPassword || newPassword.length < 8) {
         return new Response(JSON.stringify({ success: false, message: "New password must be at least 8 characters" }), { status: 400 });
@@ -44,6 +49,12 @@ export async function POST(request: Request) {
         if (!user) {
             return new Response(JSON.stringify({ success: false, message: "User not found" }), { status: 404 });
         }
+        
+        // Check if user has a password (not Google sign-in user)
+        if (!user.password) {
+            return new Response(JSON.stringify({ success: false, message: "Cannot change password for Google sign-in accounts" }), { status: 400 });
+        }
+        
         const passwordMatch = await bcrypt.compare(currentPassword, user.password);
         if (!passwordMatch) {
             return new Response(JSON.stringify({ success: false, message: "Current password is incorrect" }), { status: 400 });
@@ -55,7 +66,8 @@ export async function POST(request: Request) {
         );
         return new Response(JSON.stringify({ success: true, message: "Password changed successfully" }), { status: 200 });
 
-    } catch (error) {
-        return new Response(JSON.stringify({ success: false, message: "Invalid token" }), { status: 401 });
+    } catch (error: unknown) {
+        console.error("Error changing password:", error);
+        return new Response(JSON.stringify({ success: false, message: "Invalid token or authentication error" }), { status: 401 });
     }
 }

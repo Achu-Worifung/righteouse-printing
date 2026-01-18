@@ -63,7 +63,7 @@ export function UserAccountDetails({ user }: { user: any }) {
           defaultValue={user.lastName}
         />
       </div>
-      <div className="col-span-2 md:col-span-1">
+      <div className="col-span-2 ">
         <Label
           htmlFor="email"
           className="block text-sm font-medium text-gray-700 mb-1"
@@ -81,7 +81,7 @@ export function UserAccountDetails({ user }: { user: any }) {
 
       <Button
         type="submit"
-        className="col-span-2  md:col-span-1 hover:bg-[#7a020e] text-white  cursor-pointer bg-[#570009] rounded-none py-2"
+        className="col-span-2 md:col-span-1 md:col-start-2 hover:bg-[#7a020e] text-white cursor-pointer bg-[#570009] rounded-none py-2"
       >
         Save Changes
       </Button>

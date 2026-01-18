@@ -6,7 +6,7 @@ export function SaveChangesBtn({text, onClick, disabled}: {text: string, onClick
         <Button 
             onClick={onClick} 
             disabled={disabled}
-            className="col-2 bg-[#1c3144] text-white  cursor-pointer rounded-none py-2"
+        className="col-span-2 md:col-span-1 md:col-start-2 hover:bg-[#7a020e] text-white cursor-pointer bg-[#570009] rounded-none py-2"
         >
             {text}
         </Button>

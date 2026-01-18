@@ -151,7 +151,7 @@ export function PasswordForm() {
               required
               onChange={(e)=>{setPassword({...password, current: e.target.value})}}
               type={passwordVisible.current ? "text" : "password"}
-              className=" py-0 text-lg border-0 focus:border-0 focus:ring-0 focus:outline-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+              className=" py-0 text-lg "
             />
             {passwordVisible.current ? (
               <EyeClosed
@@ -182,7 +182,7 @@ export function PasswordForm() {
               onChange={handleNewPasswordChange}
               value={password.new}
               type={passwordVisible.new ? "text" : "password"}
-              className=" py-0 text-lg border-0 focus:border-0 focus:ring-0 focus:outline-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+              className=" py-0 text-lg "
             />
             {passwordVisible.new ? (
               <EyeClosed
@@ -289,7 +289,7 @@ export function PasswordForm() {
               value={password.confirm}
               onChange={handleConfirmPasswordChange}
               type={passwordVisible.confirm ? "text" : "password"}
-              className=" py-0 text-lg border-0 focus:border-0 focus:ring-0 focus:outline-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+              className=" py-0 text-lg "
             />
             {passwordVisible.confirm ? (
               <EyeClosed
