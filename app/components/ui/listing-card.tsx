@@ -1,10 +1,6 @@
-import {  ShoppingCart } from "lucide-react";
-import { Heart } from "lucide-react";
-import { Star } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { Button } from "./button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ShirtSizeMeasurement } from "./shirt-size-measurement";
 import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -18,13 +14,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ListingCardProps,  } from "@/lib/types";
+import { ListingCardProps, variant, Color } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { Stars } from "./stars";
 import Image from "next/image";
 export function ListingCard({ listing }: ListingCardProps) {
   const {
-    _id,
     productName,
     price,
     category,
@@ -34,24 +29,60 @@ export function ListingCard({ listing }: ListingCardProps) {
     rating,
   } = listing;
   const img = variants?.[0]?.images?.[0]?.url;
-  const availableSizes = variants?.map((v) => v.size).filter(Boolean) ?? [];
-
-  const availableColors = variants?.map((v) => v.color).filter(Boolean) ?? [
-    "White",
-  ];
-
-  const [selectedSize, setSelectedSize] = useState<string | null>(
-    availableSizes[0] ?? null
+  // Derive enabled variants based on availability
+  const enabledVariants = (variants || []).filter(
+    (v: variant) => v.status === "enabled" && (v.quantity ?? 0) > 0
   );
 
-  const [selectedColor, setSelectedColor] = useState<{name: string; hex: string}>(
-    options.colors[0] ?? { name: "White", hex: "#FFFFFF" }
+  // Size options derived from enabled variants
+  const sizeOptions: string[] = Array.from(
+    new Set(
+      enabledVariants
+        .map((v: variant) => v.size)
+        .filter((s): s is string => typeof s === "string" && s.length > 0)
+    )
   );
+
+  // Manage selected size (start with no selection)
+  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+
+  // Color options depend on selected size (match names to option color objects)
+  const colorOptions: { name: string; hex: string }[] = (() => {
+    const names: string[] = selectedSize
+      ? Array.from(
+          new Set(
+            enabledVariants
+              .filter((v: variant) => v.size === selectedSize)
+              .map((v: variant) => v.color)
+              .filter((c): c is string => typeof c === "string" && c.length > 0)
+          )
+        )
+      : Array.from(
+          new Set(
+            enabledVariants
+              .map((v: variant) => v.color)
+              .filter((c): c is string => typeof c === "string" && c.length > 0)
+          )
+        );
+
+    // Map color names to configured option colors to retain hex and references
+    const optionColors = options?.colors || [];
+    return names
+      .map((name) => optionColors.find((c: Color) => c.name === name))
+      .filter((c): c is { name: string; hex: string } => !!c);
+  })();
+
+  // Manage selected color (object reference from options.colors, start with no selection)
+  const [selectedColor, setSelectedColor] = useState<{ name: string; hex: string } | null>(
+    null
+  );
+
+  // Reset color when selecting a new size happens in the click handler below.
 
   const router = useRouter();
   return (
     <div
-      className="w-full max-w-sm flex flex-col  bg-white rounded-sm shadow overflow-hidden   hover:shadow-xl "
+      className="group w-full max-w-sm flex flex-col bg-white rounded-sm shadow overflow-hidden hover:shadow-xl"
       onClick={(e) => {
         e.stopPropagation();
         router.push(`/listing/${productName.replace(/\s+/g, "-").toLowerCase()}`);
@@ -60,13 +91,15 @@ export function ListingCard({ listing }: ListingCardProps) {
         router.prefetch(`/listing/${productName.replace(/\s+/g, "-").toLowerCase()}`)
       }
     >
-        <Image
-          src={img || "/placeholder-image.png"}
-          width={300}
-          height={300}
-          alt={productName}
-          className="w-full h-40 sm:h-48 md:h-64 object-cover object-center transform transition-transform duration-300 hover:scale-105"
-        />
+        <div className="relative w-full h-40 sm:h-48 md:h-64 overflow-hidden">
+          <Image
+            src={img || "/placeholder-image.png"}
+            width={300}
+            height={300}
+            alt={productName}
+            className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
 
       {/* product details  */}
       <div className="ms:p-4 p-2">
@@ -131,7 +164,7 @@ export function ListingCard({ listing }: ListingCardProps) {
                   <Separator orientation="horizontal" className="" />
                   <div className="w-full">
                     <span className="flex flex-row justify-between items-baseline min-w-full ">
-                      <p className="mb-2 font-semibold">Size: {selectedSize}</p>
+                      <p className="mb-2 font-semibold">Size: {selectedSize || "Select a size"}</p>
                       <Link
                         href={"/shirt-size-measurement"}
                         className="underline"
@@ -141,10 +174,14 @@ export function ListingCard({ listing }: ListingCardProps) {
                     </span>
                     <span className="min-w-full ">
                       <RadioGroup
-                        defaultValue={options.sizes[0]}
+                        value={selectedSize || ""}
+                        onValueChange={(size) => {
+                          setSelectedSize(size);
+                          setSelectedColor(null);
+                        }}
                         className="flex flex-row gap-4"
                       >
-                        {options.sizes.map((size) => (
+                        {sizeOptions.map((size) => (
                           <div
                             key={size}
                             className="flex items-center text-center justify-center "
@@ -152,11 +189,10 @@ export function ListingCard({ listing }: ListingCardProps) {
                             <RadioGroupItem
                               value={size}
                               id={`${size}`}
-                              onClick={() => setSelectedSize(size)}
                               className="hidden"
                             />
                             <span
-                              className={`border rounded-full cursor-pointer hover:bg-gray-200 select-none flex items-center justify-center h-10 w-10 ${
+                              className={`border rounded-full select-none flex items-center justify-center h-10 w-10 cursor-pointer hover:bg-gray-200 ${
                                 selectedSize === size ? "bg-gray-300" : ""
                               }`}
                             >
@@ -176,23 +212,26 @@ export function ListingCard({ listing }: ListingCardProps) {
                   <div className="w-full">
                     <span className="flex flex-row justify-between items-baseline min-w-full ">
                       <p className="mb-2 font-semibold">
-                        Color: {selectedColor.name}
+                        Color: {selectedColor?.name ?? (selectedSize ? "Select a color" : "Select a size first")}
                       </p>
                     </span>
                     <span className="min-w-full ">
                       <RadioGroup
-                        defaultValue={options.colors[0].name}
+                        value={selectedColor?.name || ""}
+                        onValueChange={(colorName) => {
+                          const color = colorOptions.find(c => c.name === colorName);
+                          if (color) setSelectedColor(color);
+                        }}
                         className="flex flex-row gap-4"
                       >
-                        {options.colors.map((color) => (
+                        {colorOptions.map((color) => (
                           <div
-                            key={color.name }
+                            key={color.name}
                             className="flex items-center text-center justify-center "
                           >
                             <RadioGroupItem
                               value={color.name}
                               id={`${color.name}`}
-                              onClick={() => setSelectedColor(color)}
                               className="hidden"
                             />
                             <Label
@@ -206,7 +245,7 @@ export function ListingCard({ listing }: ListingCardProps) {
                                     ? "ring-black"
                                     : "ring-white"
                                 } ${
-                                  selectedColor === color
+                                  selectedColor?.name === color.name
                                     ? "ring-2  ring-offset-2"
                                     : ""
                                 }`}
