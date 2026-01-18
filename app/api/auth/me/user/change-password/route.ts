@@ -8,8 +8,25 @@ import bcrypt from "bcrypt";
 dotenv.config();
 export async function POST(request: Request) {
 
-    const paayload = await request.json();
-    const { currentPassword, newPassword } = paayload;
+    const payload = await request.json();
+    const { currentPassword, newPassword } = payload;
+    
+    // Validate new password format
+    if (!newPassword || newPassword.length < 8) {
+        return new Response(JSON.stringify({ success: false, message: "New password must be at least 8 characters" }), { status: 400 });
+    }
+    if (!/[A-Z]/.test(newPassword)) {
+        return new Response(JSON.stringify({ success: false, message: "New password must contain an uppercase letter" }), { status: 400 });
+    }
+    if (!/[a-z]/.test(newPassword)) {
+        return new Response(JSON.stringify({ success: false, message: "New password must contain a lowercase letter" }), { status: 400 });
+    }
+    if (!/\d/.test(newPassword)) {
+        return new Response(JSON.stringify({ success: false, message: "New password must contain a number" }), { status: 400 });
+    }
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(newPassword)) {
+        return new Response(JSON.stringify({ success: false, message: "New password must contain a special character" }), { status: 400 });
+    }
     const cookieStore = await cookies();
     const authToken =  cookieStore.get('authToken')?.value;
     if (!authToken) {
@@ -41,6 +58,4 @@ export async function POST(request: Request) {
     } catch (error) {
         return new Response(JSON.stringify({ success: false, message: "Invalid token" }), { status: 401 });
     }
-
-\
 }

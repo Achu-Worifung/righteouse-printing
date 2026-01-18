@@ -28,6 +28,7 @@ export function PasswordForm() {
     const [showValidation, setShowValidation] = useState(false);
     const [passwordsMatch, setPasswordsMatch] = useState(false);
     const [showMatchValidation, setShowMatchValidation] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const validatePassword = (pass: string) => {
         const validation: PasswordValidation = {
@@ -71,6 +72,57 @@ export function PasswordForm() {
             setPasswordsMatch(password.new === confirmPassword);
         } else {
             setShowMatchValidation(false);
+        }
+    };
+
+    const handlePasswordChange = async () => {
+        // Validate all fields
+        if (!password.current.trim()) {
+            alert("Please enter your current password");
+            return;
+        }
+        
+        const isNewPasswordValid = Object.values(passwordValidation).every((v) => v);
+        if (!isNewPasswordValid) {
+            alert("Please ensure new password meets all requirements");
+            return;
+        }
+        
+        if (!passwordsMatch || password.confirm !== password.new) {
+            alert("Passwords do not match");
+            return;
+        }
+        
+        setIsSubmitting(true);
+        
+        try {
+            const response = await fetch('/api/auth/me/user/change-password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    currentPassword: password.current,
+                    newPassword: password.new,
+                }),
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                alert("Password changed successfully!");
+                // Reset form
+                setPassword({ current: "", new: "", confirm: "" });
+                setShowValidation(false);
+                setShowMatchValidation(false);
+            } else {
+                alert(data.message || "Failed to change password");
+            }
+        } catch (error) {
+            console.error("Error changing password:", error);
+            alert("An error occurred. Please try again.");
+        } finally {
+            setIsSubmitting(false);
         }
     };
   return (
@@ -272,7 +324,11 @@ export function PasswordForm() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2">
 
-        <SaveChangesBtn text="Save Changes" onClick={() => {}} />
+        <SaveChangesBtn 
+          text={isSubmitting ? "Saving..." : "Save Changes"} 
+          onClick={handlePasswordChange}
+          disabled={isSubmitting}
+        />
         </div>
     </div>
   );

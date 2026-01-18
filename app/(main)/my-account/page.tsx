@@ -41,9 +41,13 @@ export default async function MyAccountPage() {
                     <TabsTrigger value="personal-info" className="px-4">
                         <User />Personal Information
                     </TabsTrigger>
+                   {
+                    data.user.google ? null : (
                     <TabsTrigger value="password" className="px-4">
-                        <ShieldX /> Password
+                        <ShieldX /> Change Password
                     </TabsTrigger>
+                    )
+                   }
                     <TabsTrigger value="payment" className="px-4">
                         <CreditCard />Payment
                     </TabsTrigger>
