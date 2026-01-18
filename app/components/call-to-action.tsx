@@ -1,58 +1,76 @@
 import { Logo } from "./ui/logo";
-import { MoveLeft, MoveRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 export function CallToAction() {
   return (
-    <div className="w-full flex flex-col bg-amber-100 relative mt-10">
-      <div className="absolute top-0 left-[50%] -translate-x-1/2 -translate-y-1/2 w-fit z-10 max-h-[60px] box-border">
-        <span className="text-lg font-light flex items-center text-black gap-4">
-          <MoveRight className="" />
-          <div className="flex items-center gap-2 border-2 border-black px-4 py-1 bg-white rounded-sm">
-            <Logo />
-            <p>RHPrintDesigns</p>
+    <div className="w-full bg-white relative py-16 md:py-24 mt-10 overflow-hidden">
+      {/* Minimalistic background accent */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[#570009]/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#570009]/5 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>
+
+      <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          {/* Left side - Content */}
+          <div className="flex flex-col justify-center space-y-6">
+            {/* Brand tag */}
+            <div className="w-fit">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold text-[#570009] uppercase tracking-widest border-b-2 border-[#570009] pb-1">
+                <div className="w-2 h-2 bg-[#570009] rounded-full"></div>
+                RHPrintDesigns
+              </span>
+            </div>
+
+            {/* Heading */}
+            <div>
+              <h1 className="text-5xl md:text-6xl font-bold text-gray-900 leading-tight">
+                Be <span className="text-[#570009]">Unique</span>
+              </h1>
+              <div className="h-1 w-16 bg-[#570009] mt-4"></div>
+            </div>
+
+            {/* Description */}
+            <p className="text-lg text-gray-600 max-w-md leading-relaxed">
+              Your style, your fit. Express yourself with one-of-a-kind pieces designed to make a statement.
+            </p>
+
+            {/* CTA Button */}
+            <div>
+              <button className="group inline-flex items-center gap-3 px-8 py-4 bg-[#570009] text-white font-semibold rounded-lg hover:bg-[#7a020e] transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+                Create Your Design
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+
+            {/* Stats or social proof */}
+            <div className="flex gap-8 pt-4">
+              <div>
+                <p className="text-2xl font-bold text-gray-900">500+</p>
+                <p className="text-sm text-gray-500">Designs Created</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-gray-900">4.9★</p>
+                <p className="text-sm text-gray-500">Customer Rating</p>
+              </div>
+            </div>
           </div>
-          <MoveLeft className="" />
-        </span>
-      </div>
-      <div className="grid grid-cols-2 items-center justify-between">
-        <span className="text-center ">
-          <h1 className="scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance uppercase">
-            Be Unique
-          </h1>
-          <p className="leading-7 text-center  text-lg my-4 text-balance">
-            Your style, Your fit. Make a statement with our one-of-a-kind
-            pieces.
-          </p>
-          <div className="relative inline-flex items-center justify-center gap-4 group">
-            <div className="absolute inset-0 duration-1000 opacity-60 transitiona-all bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 rounded-xl blur-lg filter group-hover:opacity-100 group-hover:duration-200"></div>
-            <a
-              role="button"
-              className="group relative inline-flex items-center justify-center text-base rounded-xl bg-gray-900 px-8 py-3 font-semibold text-white transition-all duration-200 hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30"
-              href="#"
-            >
-              Create Your Own Design
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 10 10"
-                height="10"
-                width="10"
-                fill="none"
-                className="mt-0.5 ml-2 -mr-1 stroke-white stroke-2"
-              >
-                <path
-                  d="M0 5h7"
-                  className="transition opacity-0 group-hover:opacity-100"
-                ></path>
-                <path
-                  d="M1 1l4 4-4 4"
-                  className="transition group-hover:translate-x-[3px]"
-                ></path>
-              </svg>
-            </a>
+
+          {/* Right side - Image */}
+          <div className="relative flex justify-center md:justify-end">
+            <div className="relative w-full max-w-md">
+              {/* Subtle background shape */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#570009]/10 to-transparent rounded-3xl transform -rotate-3"></div>
+              
+              <Image 
+                width={500} 
+                height={500} 
+                src={"/childofgod.png"} 
+                alt="Unique Design" 
+                className="w-full h-auto rounded-2xl object-cover relative z-10 shadow-lg"
+              />
+            </div>
           </div>
-        </span>
-        <Image width={500} height={500} src={"/childofgod.png"} alt="Child of God" className="aspect-auto w-1/2" />
+        </div>
       </div>
     </div>
   );
