@@ -69,7 +69,7 @@ export function ReadyToWear() {
 
   return (
     <div className="w-full flex items-center flex-col justify-center py-10">
-      <div className="text-center p-10 w-full flex flex-col items-center justify-center gap-6">
+      <div className="text-center p-2 w-full flex flex-col items-center justify-center gap-4">
         <h1 className="font-bold text-2xl sm:text-4xl uppercase">
           Featured Products
         </h1>
@@ -101,7 +101,7 @@ export function ReadyToWear() {
           ) : (
             <>
               <TabsContent value="FEATURED">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center mt-12 px-4 w-full">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center mt-12 w-full">
                   {products && products.length > 0 ? (
                     products.map((product) => (
                       <ReadyMadeWear key={product.id} {...product} />
@@ -112,7 +112,7 @@ export function ReadyToWear() {
                 </div>
               </TabsContent>
               <TabsContent value="NEW_ARRIVAL">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center mt-12 px-4 w-full">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center mt-12 w-full">
                   {products && products.length > 0 ? (
                     products.map((product) => (
                       <ReadyMadeWear key={product.id} {...product} />
@@ -123,7 +123,7 @@ export function ReadyToWear() {
                 </div>
               </TabsContent>
               <TabsContent value="BEST_SELLERS">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center mt-12 px-4 w-full">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center mt-12  w-full">
                   {products && products.length > 0 ? (
                     products.map((product) => (
                       <ReadyMadeWear key={product.id} {...product} />

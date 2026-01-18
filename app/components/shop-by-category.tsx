@@ -44,11 +44,11 @@ export function ShopByCategory() {
               className="w-full h-full object-cover rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-105"
             />
 
-            {/* Overlay */}
-            <div className="absolute inset-0 rounded-lg bg-gradient-to-t bg-black/20 " />
+            {/* Gradient overlay at bottom only */}
+            <div className="absolute bottom-0 left-0 right-0 h-24 rounded-lg bg-gradient-to-t from-black/40 via-black/20 to-transparent" />
 
-            {/* Text */}
-            <h2 className="absolute bottom-2 left-3 z-10 text-lg font-semibold text-white drop-shadow-md">
+            {/* Text with subtle background */}
+            <h2 className="absolute bottom-4 left-4 z-10 text-lg font-semibold text-white drop-shadow-lg">
               {category.name}
             </h2>
           </Link>
