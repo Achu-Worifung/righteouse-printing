@@ -51,7 +51,7 @@ export type variant = {
   price: number;
   color: string;
   imageCount?: number;
-  size?: string; 
+  size: string; 
   quantity: number;
   images: ImageType[];
   status: string;
