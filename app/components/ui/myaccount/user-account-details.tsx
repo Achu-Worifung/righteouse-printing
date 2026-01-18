@@ -14,9 +14,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Location } from "@/lib/types";
-export function UserAccountDetails() {
+export function UserAccountDetails({user}: {user: any}) {
   const [locations, setLocations] = useState<Location[]>([]);
   const [addingMethod, setAddingMethod] = useState(false);
+  console.log('first name:', user.firstName, 'last name:', user.lastName, 'email:', user.email);
   return (
     <div className="border border-gray-300 max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-md grid grid-cols-1 gap-6 md:grid-cols-2 py-4 ">
       <div className="col-span-2">
@@ -37,6 +38,7 @@ export function UserAccountDetails() {
           id="firstName"
           name="firstName"
           className="w-full border border-gray-300 rounded-md p-2"
+          defaultValue={user.firstName}
         />
       </div>
       <div className="col-span-1">
@@ -51,6 +53,7 @@ export function UserAccountDetails() {
           id="lastName"
           name="lastName"
           className="w-full border border-gray-300 rounded-md p-2"
+          defaultValue={user.lastName}
         />
       </div>
       <div className="col-span-1 md:col-span-2">
@@ -65,7 +68,8 @@ export function UserAccountDetails() {
           id="email"
           name="email"
           className="w-full border border-gray-300 rounded-md p-2"
-        />
+          defaultValue={user.email}
+        />  
       </div>
 
       <div className="col-span-2">
