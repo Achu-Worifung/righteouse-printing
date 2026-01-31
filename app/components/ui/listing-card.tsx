@@ -32,7 +32,7 @@ export function ListingCard({ listing }: ListingCardProps) {
   const img = variants?.[0]?.images?.[0]?.url;
   // Derive enabled variants based on availability
   const enabledVariants = (variants || []).filter(
-    (v: variant) => v.status === "enabled" && (v.quantity ?? 0) > 0
+    (v: variant) => v.status === "enabled" && (v.quantity ?? 0) > 0,
   );
 
   // Size options derived from enabled variants
@@ -40,8 +40,8 @@ export function ListingCard({ listing }: ListingCardProps) {
     new Set(
       enabledVariants
         .map((v: variant) => v.size)
-        .filter((s): s is string => typeof s === "string" && s.length > 0)
-    )
+        .filter((s): s is string => typeof s === "string" && s.length > 0),
+    ),
   );
 
   // Manage selected size (start with no selection)
@@ -55,15 +55,19 @@ export function ListingCard({ listing }: ListingCardProps) {
             enabledVariants
               .filter((v: variant) => v.size === selectedSize)
               .map((v: variant) => v.color)
-              .filter((c): c is string => typeof c === "string" && c.length > 0)
-          )
+              .filter(
+                (c): c is string => typeof c === "string" && c.length > 0,
+              ),
+          ),
         )
       : Array.from(
           new Set(
             enabledVariants
               .map((v: variant) => v.color)
-              .filter((c): c is string => typeof c === "string" && c.length > 0)
-          )
+              .filter(
+                (c): c is string => typeof c === "string" && c.length > 0,
+              ),
+          ),
         );
 
     // Map color names to configured option colors to retain hex and references
@@ -74,49 +78,54 @@ export function ListingCard({ listing }: ListingCardProps) {
   })();
 
   // Manage selected color (object reference from options.colors, start with no selection)
-  const [selectedColor, setSelectedColor] = useState<{ name: string; hex: string } | null>(
-    null
-  );
+  const [selectedColor, setSelectedColor] = useState<{
+    name: string;
+    hex: string;
+  } | null>(null);
 
   // Find the selected variant based on size and color
   const selectedVariant = enabledVariants.find(
-    (v: variant) => v.size === selectedSize && v.color === selectedColor?.name
+    (v: variant) => v.size === selectedSize && v.color === selectedColor?.name,
   );
 
   const router = useRouter();
   return (
     <div
-      className="group w-full max-w-sm flex flex-col bg-offwhite rounded-sm shadow overflow-hidden hover:shadow-xl"
+      className="group cursor-pointer w-full max-w-sm flex flex-col bg-offwhite  shadow overflow-hidden hover:shadow-xl"
       onClick={(e) => {
         e.stopPropagation();
-        router.push(`/listing/${productName.replace(/\s+/g, "-").toLowerCase()}`);
+        router.push(
+          `/listing/${productName.replace(/\s+/g, "-").toLowerCase()}`,
+        );
       }}
       onMouseEnter={() =>
-        router.prefetch(`/listing/${productName.replace(/\s+/g, "-").toLowerCase()}`)
+        router.prefetch(
+          `/listing/${productName.replace(/\s+/g, "-").toLowerCase()}`,
+        )
       }
     >
-        <div className="relative w-full h-40 sm:h-48 md:h-64 overflow-hidden">
-          <Image
-            src={img || "/placeholder-image.png"}
-            width={300}
-            height={300}
-            alt={productName}
-            className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
-          />
-        </div>
+      <div className="relative w-full h-40 sm:h-48 md:h-64 overflow-hidden">
+        <Image
+          src={img || "/placeholder-image.png"}
+          width={300}
+          height={300}
+          alt={productName}
+          className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+        />
+      </div>
 
       {/* product details  */}
       <div className="ms:p-4 p-2">
-        <div className="text-indigo-600 text-sm sm:text-xs font-semibold uppercase tracking-wide mb-1 sm:mb-2">
+        <div className="text-burgundy text-sm sm:text-xs font-semibold uppercase tracking-wide mb-1 sm:mb-2">
           {category}
         </div>
 
-        <h2 className="text-lg md:text-3xl font-bold text-gray-900 leading-tight sm:mb-3 mb-1">
+        <h2 className="text-lg md:text-3xl font-bold text-ptext leading-tight sm:mb-3 mb-1">
           {productName}
         </h2>
-        <Stars rating = {rating || null} />
+        <Stars rating={rating || null} />
 
-        <p className="text-sm text-gray-600 line-clamp-2">{description}</p>
+        <p className="text-sm text-ptext line-clamp-2">{description}</p>
 
         <div
           className="mt-1 sm:mt-3 flex flex-no-wrap items-start flex-col sm:flex-row justify-start sm:justify-between sm:gap-1"
@@ -124,19 +133,19 @@ export function ListingCard({ listing }: ListingCardProps) {
             e.stopPropagation();
           }}
         >
-          <div className="text-lg sm:text-2xl md:text-4xl font-extrabold text-gray-900">
+          <div className="text-lg sm:text-2xl md:text-4xl font-extrabold text-ptext">
             <span>${price}</span>
           </div>
 
           <Sheet>
             <SheetTrigger asChild>
               <Button
-                className="flex items-center gap-2 cursor-pointer rounded-2xl w-full sm:w-auto justify-center mt-3 sm:mt-0"
+                className="flex items-center gap-2 cursor-pointer rounded-none w-full sm:w-auto justify-center mt-3 sm:mt-0 group-hover:!bg-hoverprimary group-hover:!text-hovertext hover:scale-105 transition-transform duration-200 focus:scale-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-hoverprimary"
                 onClick={(e) => {
                   e.stopPropagation();
                 }}
               >
-                <ShoppingCart className="w-5 h-5 hidden sm:inline" />
+                <ShoppingCart className="w-5 h-5 hidden sm:inline " />
                 Add to Cart
               </Button>
             </SheetTrigger>
@@ -155,7 +164,7 @@ export function ListingCard({ listing }: ListingCardProps) {
                     />
                     <span>
                       <p className="mb-2 font-semibold">{productName}</p>
-                      <Stars rating = {rating || null}/>
+                      <Stars rating={rating || null} />
 
                       <p className="mb-2 text-gray-600 line-clamp-2">
                         {description}
@@ -168,7 +177,9 @@ export function ListingCard({ listing }: ListingCardProps) {
                   <Separator orientation="horizontal" className="" />
                   <div className="w-full">
                     <span className="flex flex-row justify-between items-baseline min-w-full ">
-                      <p className="mb-2 font-semibold">Size: {selectedSize || "Select a size"}</p>
+                      <p className="mb-2 font-semibold">
+                        Size: {selectedSize || "Select a size"}
+                      </p>
                       <Link
                         href={"/shirt-size-measurement"}
                         className="underline"
@@ -216,14 +227,20 @@ export function ListingCard({ listing }: ListingCardProps) {
                   <div className="w-full">
                     <span className="flex flex-row justify-between items-baseline min-w-full ">
                       <p className="mb-2 font-semibold">
-                        Color: {selectedColor?.name ?? (selectedSize ? "Select a color" : "Select a size first")}
+                        Color:{" "}
+                        {selectedColor?.name ??
+                          (selectedSize
+                            ? "Select a color"
+                            : "Select a size first")}
                       </p>
                     </span>
                     <span className="min-w-full ">
                       <RadioGroup
                         value={selectedColor?.name || ""}
                         onValueChange={(colorName) => {
-                          const color = colorOptions.find(c => c.name === colorName);
+                          const color = colorOptions.find(
+                            (c) => c.name === colorName,
+                          );
                           if (color) setSelectedColor(color);
                         }}
                         className="flex flex-row gap-4"
@@ -263,17 +280,19 @@ export function ListingCard({ listing }: ListingCardProps) {
                 </div>
               </SheetHeader>
               <SheetFooter>
-                <Button 
+                <Button
                   type="button"
                   disabled={!selectedVariant}
                   onClick={() => {
                     if (selectedVariant) {
                       addToCart({
-                        productId: listing._id || '',
+                        productId: listing._id || "",
                         productName: productName,
-                        selectedVariant: selectedVariant
+                        selectedVariant: selectedVariant,
                       });
-                      alert(`Added ${productName} (${selectedSize}, ${selectedColor?.name}) to cart!`);
+                      alert(
+                        `Added ${productName} (${selectedSize}, ${selectedColor?.name}) to cart!`,
+                      );
                     }
                   }}
                 >

@@ -3,7 +3,7 @@
 import { useListings } from "@/hooks/useListings";
 import { ListingCard } from "@/app/components/ui/listing-card";
 import { useState, useEffect } from "react";
-import { ListingFilterMobile } from "@/app/components/listing-filter";
+import { ListingFilterMobile, ListingFilterDesktop } from "@/app/components/listing-filter";
 import {
   filterOptions,
   Color,
@@ -51,22 +51,37 @@ export default function Listings() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <ListingFilterMobile
-        sizes={filters.sizes}
-        colors={filters.colors}
-        type={filters.type}
-      />
+    <div className="flex gap-6">
+      {/* Desktop Sidebar Filter */}
+      <aside className="hidden lg:block w-64 flex-shrink-0">
+        <ListingFilterDesktop
+          sizes={filters.sizes}
+          colors={filters.colors}
+          type={filters.type}
+        />
+      </aside>
 
-      <p>Listings found: {listings.length}</p>
+      {/* Main Content */}
+      <div className="flex-1">
+        {/* Mobile Filter */}
+        <div className="lg:hidden mb-4">
+          <ListingFilterMobile
+            sizes={filters.sizes}
+            colors={filters.colors}
+            type={filters.type}
+          />
+        </div>
 
-      <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 ">
-        {listings.map((listing) => (
-          <li key={listing._id}>
-            <ListingCard listing={listing} />
-          </li>
-        ))}
-      </ul>
+        <p className="mb-4">Listings found: {listings.length}</p>
+
+        <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
+          {listings.map((listing) => (
+            <li key={listing._id}>
+              <ListingCard listing={listing} />
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

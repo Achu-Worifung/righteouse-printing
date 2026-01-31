@@ -1,10 +1,8 @@
 "use client";
 
-import * as React from "react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import { filterOptions } from "@/lib/types";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -16,6 +14,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 type Filters = {
   size: string[];
@@ -24,6 +28,103 @@ type Filters = {
   rating: string[];
 };
 
+// Desktop Filter Component
+export function ListingFilterDesktop({sizes, colors, type}: filterOptions) {
+  const FILTER_CATEGORIES = [
+    { id: 'size', label: 'Size', options: sizes || [] },
+    { id: 'color', label: 'Color', options: colors || [] },
+    { id: 'type', label: 'Type', options: type || [] },
+    { id: 'rating', label: 'Rating', options: ['5 Stars', '4 Stars & Up', '3 Stars & Up', '2 Stars & Up'] },
+  ];
+
+  const router = useRouter();
+  const [filters, setFilters] = useState<Filters>({
+    size: [],
+    color: [],
+    type: [],
+    rating: [],
+  });
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const newFilters: Filters = {
+      size: params.getAll("size"),
+      color: params.getAll("color"),
+      type: params.getAll("type"),
+      rating: params.getAll("rating"),
+    };
+    setFilters(newFilters);
+  }, []);
+
+  const toggleFilter = (category: keyof Filters, value: string) => {
+    setFilters(prev => {
+      const exists = prev[category].includes(value);
+      const newFilters = {
+        ...prev,
+        [category]: exists
+          ? prev[category].filter(v => v !== value)
+          : [...prev[category], value],
+      };
+
+      // Update URL immediately
+      const params = new URLSearchParams();
+      Object.entries(newFilters).forEach(([cat, values]) => {
+        values.forEach(val => {
+          params.append(cat, val);
+        });
+      });
+      router.push(`/listing?${params.toString()}`);
+
+      return newFilters;
+    });
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      size: [],
+      color: [],
+      type: [],
+      rating: [],
+    });
+    router.push('/listing');
+  };
+
+  return (
+    <div className="p-4 ">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold">Filters</h2>
+        <Button variant="ghost" size="sm" onClick={clearFilters}>
+          Clear All
+        </Button>
+      </div>
+
+      <div className="space-y-6">
+        {FILTER_CATEGORIES.map((category) => (
+          <div key={category.id}>
+            <h3 className="text-base font-medium mb-3">{category.label}</h3>
+            <div className="flex flex-col gap-2">
+              {category.options.map((option, idx) => (
+                <label
+                  key={idx}
+                  className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded"
+                >
+                  <input
+                    type="checkbox"
+                    checked={filters[category.id as keyof Filters].includes(option)}
+                    onChange={() => toggleFilter(category.id as keyof Filters, option)}
+                    className="h-4 w-4 rounded border-gray-300 accent-burgundy"
+                  />
+                  <span className="text-sm">{option}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function ListingFilterMobile({sizes, colors, type}: filterOptions) {
     const   FILTER_CATEGORIES = [
     { id: 'size', label: 'Size', options: sizes || [] },
@@ -31,6 +132,7 @@ export function ListingFilterMobile({sizes, colors, type}: filterOptions) {
     { id: 'type', label: 'Type', options: type || [] },
      { id: 'rating', label: 'Rating', options: ['5 Stars', '4 Stars & Up', '3 Stars & Up', '2 Stars & Up', ] },
   ];
+  
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const currentCategory = FILTER_CATEGORIES.find(cat => cat.id === activeCategory);
   const router = useRouter();
