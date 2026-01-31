@@ -86,7 +86,7 @@ export function ListingCard({ listing }: ListingCardProps) {
   const router = useRouter();
   return (
     <div
-      className="group w-full max-w-sm flex flex-col bg-white rounded-sm shadow overflow-hidden hover:shadow-xl"
+      className="group w-full max-w-sm flex flex-col bg-offwhite rounded-sm shadow overflow-hidden hover:shadow-xl"
       onClick={(e) => {
         e.stopPropagation();
         router.push(`/listing/${productName.replace(/\s+/g, "-").toLowerCase()}`);

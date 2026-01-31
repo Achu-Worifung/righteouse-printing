@@ -142,7 +142,7 @@ useEffect(() => {
                   animate="center"
                   exit="exit"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  className="absolute inset-0 divide-y bg-white"
+                  className="absolute inset-0 divide-y bg-offwhite"
                 >
                   {FILTER_CATEGORIES.map((cat) => (
                     <button
@@ -168,7 +168,7 @@ useEffect(() => {
                   animate="center"
                   exit="exit"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  className="absolute inset-0 bg-white p-4"
+                  className="absolute inset-0 bg-offwhite p-4"
                 >
                   <div className="flex flex-col gap-1">
                     {currentCategory?.options.map((option, idx) => (
@@ -192,7 +192,7 @@ useEffect(() => {
           </div>
 
           {/* FOOTER */}
-          <div className="p-4 border-t bg-white z-10">
+          <div className="p-4 border-t bg-offwhite z-10">
             <Button className="w-full h-12 text-lg rounded-full" onClick={showItems}>
               Show Items
             </Button>

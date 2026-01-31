@@ -5,6 +5,7 @@ import CreativeCards from '../components/trust-badge'
 import { Footer } from "../components/ui/footer";
 // import { CallToAction } from "../components/call-to-action";
 import { ShopByCategory } from "../components/shop-by-category";
+import { Faq } from "../components/faq";
 export default function Home() {
   return (
     <>
@@ -13,6 +14,7 @@ export default function Home() {
       <ReadyToWear />
       {/* <CallToAction /> */}
       <CreativeCards />
+      <Faq />
       <Footer />
     </>
   );

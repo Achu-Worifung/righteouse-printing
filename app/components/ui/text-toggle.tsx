@@ -19,7 +19,7 @@ export function TextToggle() {
       {/* Sliding highlight */}
       <span
         className={`
-          absolute inset-y-0 w-1/2 bg-white border border-black 
+          absolute inset-y-0 w-1/2 bg-offwhite border border-black 
           transition-all duration-300 
           ${isSignUp ? "left-1/2" : "left-0"}
         `}

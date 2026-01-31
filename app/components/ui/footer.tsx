@@ -24,7 +24,7 @@ export function Footer() {
         <section className="grid grid-cols-2 gap-2 justify-between">
           <div className="flex-1 w-full">
             <h3 className="text-xl font-bold">Our Online Store</h3>
-            <hr className="w-1/2 h-1 border-0 bg-white my-3" />
+            <hr className="w-1/2 h-1 border-0 bg-offwhite my-3" />
             <ul className="mt-2 space-y-2 text-white/70">
               <li
                 className="text-sm font-medium hover:text-white hover:underline hover:underline-offset-2 transition duration-300"
@@ -55,7 +55,7 @@ export function Footer() {
 
           <div className="flex-1 w-full">
             <h3 className="text-xl font-bold">Quick Links</h3>
-            <hr className="w-1/2 h-1 border-0 bg-white my-3" />
+            <hr className="w-1/2 h-1 border-0 bg-offwhite my-3" />
             <ul className="mt-2 space-y-2 text-white/70">
               <li
                 className="text-sm font-medium hover:text-white hover:underline hover:underline-offset-2 transition duration-300"

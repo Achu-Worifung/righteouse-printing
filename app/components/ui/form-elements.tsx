@@ -89,7 +89,7 @@ export function PhoneNumber() {
 
 export function GoogleBtn() {
   return (
-    <button className="btn bg-white text-black border-[#e5e5e5]">
+    <button className="btn bg-offwhite text-black border-[#e5e5e5]">
       <svg
         aria-label="Google logo"
         width="16"

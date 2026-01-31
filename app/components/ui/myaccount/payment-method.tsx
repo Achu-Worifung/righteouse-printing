@@ -41,7 +41,7 @@ export function PaymentMethod() {
         addPaymentMethod={handleAdd}
       />
       
-      <div className="border border-gray-300 max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-md py-4 ">
+      <div className="border border-gray-300 max-w-3xl mx-auto p-4 bg-offwhite rounded-lg shadow-md py-4 ">
         <h1 className=" text-xl md:text-3xl ">Payment Methods</h1>
         <p className="text-[#570009]">
           Manage your saved payment methods below.
@@ -67,7 +67,7 @@ export function PaymentMethod() {
             </button>
 
             <div className="mx-auto max-w-3xl mt-40 w-full">
-              <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+              <div className="bg-offwhite rounded-lg overflow-hidden shadow-lg">
                 <div className="px-6 py-4">
                   <div className="flex justify-between items-center">
                     <Image

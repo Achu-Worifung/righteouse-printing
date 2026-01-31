@@ -63,7 +63,7 @@
 
 body {
   margin: 0;
-  background-color: white;
+  background-color: var(--color-offwhite);
   color: black;
   min-height: 100vh;
   box-sizing: border-box;

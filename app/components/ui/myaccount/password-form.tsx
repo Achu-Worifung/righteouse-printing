@@ -126,7 +126,7 @@ export function PasswordForm() {
         }
     };
   return (
-    <div className="border border-gray-300 max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-md grid grid-cols-1 gap-4  py-4 ">
+    <div className="border border-gray-300 max-w-3xl mx-auto p-4 bg-offwhite rounded-lg shadow-md grid grid-cols-1 gap-4  py-4 ">
       <div>
         <h1 className="text-xl md:text-3xl">Change Password</h1>
         <p className="text-[#570009]">Update your password below.</p>

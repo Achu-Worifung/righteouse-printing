@@ -72,7 +72,7 @@ export function ListingSidebar({ filters, setFilters }: ListingSidebarProps) {
     (filters.sortBy !== "newest" ? 1 : 0);
 
   return (
-    <div className="w-full max-w-sm bg-white rounded-lg border border-gray-200 p-6">
+    <div className="w-full max-w-sm bg-offwhite rounded-lg border border-gray-200 p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-lg font-semibold text-gray-900">Filters</h2>

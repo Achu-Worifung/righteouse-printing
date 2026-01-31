@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export function CallToAction() {
   return (
-    <div className="w-full bg-white relative py-16 md:py-24 mt-10 overflow-hidden">
+    <div className="w-full bg-offwhite relative py-16 md:py-24 mt-10 overflow-hidden">
       {/* Minimalistic background accent */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#570009]/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#570009]/5 rounded-full translate-y-1/2 -translate-x-1/2 blur-3xl"></div>

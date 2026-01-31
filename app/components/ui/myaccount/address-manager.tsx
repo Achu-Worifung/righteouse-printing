@@ -120,7 +120,7 @@ export function AddressManager({
         isEditing={!!editingAddress}
       />
 
-      <div className="border border-gray-300 max-w-3xl mx-auto p-4 bg-white rounded-lg shadow-md py-4">
+      <div className="border border-gray-300 max-w-3xl mx-auto p-4 bg-offwhite rounded-lg shadow-md py-4">
         <div>
           <h1 className="text-xl md:text-3xl text-[#570009] font-semibold">
             Address Details
@@ -176,14 +176,14 @@ export function AddressManager({
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleEditAddress(address)}
-                      className="p-2 hover:bg-white rounded transition"
+                      className="p-2 hover:bg-offwhite rounded transition"
                       title="Edit address"
                     >
                       <PencilRuler className="w-4 h-4 text-[#570009] hover:text-[#570009]/80" />
                     </button>
                     <button
                       onClick={() => handleDeleteAddress(address.id)}
-                      className="p-2 hover:bg-white rounded transition"
+                      className="p-2 hover:bg-offwhite rounded transition"
                       title="Delete address"
                     >
                       <Trash2 className="w-4 h-4 text-red-600 hover:text-red-800" />

@@ -13,7 +13,7 @@ export default function Listing({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="w-screen h-screen bg-white  flex justify-center items-start p-6">
+    <main className="w-screen h-screen bg-offwhite  flex justify-center items-start p-6">
         {children}
     </main>
   )

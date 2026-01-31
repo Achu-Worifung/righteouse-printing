@@ -61,7 +61,7 @@ export default function CartPage() {
 	if (cartItems.length === 0) {
 		return (
 			<div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-				<div className="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
+				<div className="bg-offwhite rounded-lg shadow-md p-8 max-w-md w-full text-center">
 					<h2 className="text-2xl font-bold text-gray-800 mb-4">
 						Your cart is empty
 					</h2>
@@ -92,7 +92,7 @@ export default function CartPage() {
 						{cartItems.map((item) => (
 							<div
 								key={item.sku}
-								className="bg-white rounded-lg shadow-md p-4 md:p-6"
+								className="bg-offwhite rounded-lg shadow-md p-4 md:p-6"
 							>
 								<div className="flex items-start gap-3 md:gap-4">
 									{/* Product Image */}
@@ -180,7 +180,7 @@ export default function CartPage() {
 					{/* Sidebar - Coupons and Checkout */}
 					<div className="lg:col-span-1 space-y-3 md:space-y-4">
 						{/* Apply Coupons */}
-						<div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+						<div className="bg-offwhite rounded-lg shadow-md p-4 md:p-6">
 							<h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4">
 								Apply coupons
 							</h2>
@@ -210,7 +210,7 @@ export default function CartPage() {
 						</div>
 
 						{/* Checkout Summary */}
-						<div className="bg-white rounded-lg shadow-md p-4 md:p-6">
+						<div className="bg-offwhite rounded-lg shadow-md p-4 md:p-6">
 							<h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4">
 								Checkout
 							</h2>

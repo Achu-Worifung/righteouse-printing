@@ -334,7 +334,7 @@ export default function ListingItem() {
             </button>
             <button
               disabled={!selectedVariant}
-              className="flex-1 px-6 py-3 bg-white text-black border-2 border-black rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-6 py-3 bg-offwhite text-black border-2 border-black rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => {
                 // Buy now logic here
                 console.log("Buy now:", selectedVariant);
