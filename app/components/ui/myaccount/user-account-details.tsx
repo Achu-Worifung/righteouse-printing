@@ -3,16 +3,7 @@ import { useState } from "react";
 import { Button } from "../button";
 import { Input } from "../input";
 import { Label } from "../label";
-import Image from "next/image";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Location } from "@/lib/types";
 export function UserAccountDetails({ user }: { user: any }) {
   const [locations, setLocations] = useState<Location[]>([]);
@@ -26,12 +17,13 @@ export function UserAccountDetails({ user }: { user: any }) {
     user.email,
   );
   return (
-    <div className="border border-gray-300 max-w-3xl mx-auto p-4 bg-offwhite rounded-lg shadow-md grid grid-cols-1 gap-6 md:grid-cols-2 py-4 ">
+    <div className="border rounded-none border-gray-300 max-w-3xl mx-auto p-4 bg-offwhite shadow-md grid grid-cols-1 gap-6 md:grid-cols-2 py-4 ">
       <div className="col-span-2">
-        <h1 className=" text-xl md:text-3xl text-[#570009] font-semibold ">
+      <p className=" relative font-serif text-3xl md:text-5xl text-forest mb-2 tracking-tighter text-center">
           Account Details
-        </h1>
-        <p className="">Update your personal information below.</p>
+        </p>
+      <p className="text-softGray max-w-2xl mx-auto font-light leading-relaxed text-sm md:text-lg text-center mb-10">
+          Update your personal information below.</p>
       </div>
       <div className="col-span-2 md:col-span-1">
         <Label
@@ -44,7 +36,7 @@ export function UserAccountDetails({ user }: { user: any }) {
           type="text"
           id="firstName"
           name="firstName"
-          className="w-full border border-gray-300 rounded-md p-2"
+          className="w-full border border-gray-300 rounded-none p-2"
           defaultValue={user.firstName}
         />
       </div>
@@ -59,7 +51,7 @@ export function UserAccountDetails({ user }: { user: any }) {
           type="text"
           id="lastName"
           name="lastName"
-          className="w-full border border-gray-300 rounded-md p-2"
+          className="w-full border border-gray-300 rounded-none p-2"
           defaultValue={user.lastName}
         />
       </div>
@@ -74,14 +66,14 @@ export function UserAccountDetails({ user }: { user: any }) {
           type="email"
           id="email"
           name="email"
-          className="w-full border border-gray-300 rounded-md p-2"
+          className="w-full border border-gray-300 rounded-none p-2"
           defaultValue={user.email}
         />
       </div>
 
       <Button
         type="submit"
-        className="col-span-2 md:col-span-1 md:col-start-2 hover:bg-[#7a020e] text-white cursor-pointer bg-[#570009] rounded-none py-2"
+        className="col-span-2 md:col-span-1 md:col-start-2 bg-burgundy text-white cursor-pointer hover:bg-hoverprimary hover:text-hovertext rounded-none py-2"
       >
         Save Changes
       </Button>

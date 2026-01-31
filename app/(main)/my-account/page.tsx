@@ -38,24 +38,24 @@ export default async function MyAccountPage() {
                 defaultValue="personal-info"
                 className=" mt-5 w-full"
             >
-                <TabsList className="  mx-auto [&>button]:px-6 [&>button]:tracking-wide [&>button]:text-semibold hidden sm:flex  ">
-                    <TabsTrigger value="personal-info" className="px-4">
+                <TabsList className="  mx-auto [&>button]:px-6 [&>button]:tracking-wide [&>button]:text-semibold hidden sm:flex  rounded-none">
+                    <TabsTrigger value="personal-info" className="px-4 cursor-pointer">
                         <User />Personal Information
                     </TabsTrigger>
                    {
                     data.user.google ? null : (
-                    <TabsTrigger value="password" className="px-4">
+                    <TabsTrigger value="password" className="px-4 cursor-pointer">
                         <ShieldX /> Change Password
                     </TabsTrigger>
                     )
                    }
-                    <TabsTrigger value="payment" className="px-4">
+                    <TabsTrigger value="payment" className="px-4 cursor-pointer">
                         <CreditCard />Payment
                     </TabsTrigger>
-                    <TabsTrigger value="addresses" className="px-4">
+                    <TabsTrigger value="addresses" className="px-4 cursor-pointer">
                         <MapPin />Addresses
                     </TabsTrigger>
-                    <TabsTrigger value="notification" className="px-4">
+                    <TabsTrigger value="notification" className="px-4 cursor-pointer hover:text-hovertext">
                         <BellRing /> Notifications
                     </TabsTrigger>
                 </TabsList>

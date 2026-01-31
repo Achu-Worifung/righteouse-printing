@@ -120,7 +120,7 @@ export function AddressForm({
         }}
       >
         <DialogHeader>
-          <DialogTitle className="text-[#570009]">
+          <DialogTitle className="text-left font-serif text-xl md:text-2xl text-forest tracking-tighter text-burgundy">
             {isEditing ? "Edit address" : "Add new address"}
           </DialogTitle>
           <DialogDescription>

@@ -122,10 +122,11 @@ export function AddressManager({
 
       <div className="border border-gray-300 max-w-3xl mx-auto p-4 bg-offwhite rounded-lg shadow-md py-4">
         <div>
-          <h1 className="text-xl md:text-3xl text-[#570009] font-semibold">
+        <p className=" relative font-serif text-3xl md:text-5xl text-forest mb-2 tracking-tighter text-center">
             Address Details
-          </h1>
-          <p className="">Update your address information below.</p>
+          </p>
+        <p className="text-softGray max-w-2xl mx-auto font-light leading-relaxed text-sm md:text-lg text-center mb-10">
+            Update your address information below.</p>
         </div>
 
         {addresses.length === 0 ? (
@@ -143,7 +144,7 @@ export function AddressManager({
             </p>
             <Button
               onClick={handleAddNew}
-              className="bg-[#570009] text-white hover:bg-[#570009]/90 cursor-pointer"
+              className="rounded-none py-2 px-4 bg-burgundy text-white hover:bg-hoverprimary hover:text-hovertext cursor-pointer"
             >
               Add Address
             </Button>
@@ -179,14 +180,14 @@ export function AddressManager({
                       className="p-2 hover:bg-offwhite rounded transition"
                       title="Edit address"
                     >
-                      <PencilRuler className="w-4 h-4 text-[#570009] hover:text-[#570009]/80" />
+                      <PencilRuler className="w-4 h-4 text-[#570009] hover:text-[#570009]/80 cursor-pointer" />
                     </button>
                     <button
                       onClick={() => handleDeleteAddress(address.id)}
                       className="p-2 hover:bg-offwhite rounded transition"
                       title="Delete address"
                     >
-                      <Trash2 className="w-4 h-4 text-red-600 hover:text-red-800" />
+                      <Trash2 className="w-4 h-4 text-red-600 hover:text-red-800 cursor-pointer" />
                     </button>
                   </div>
                 </div>
@@ -196,7 +197,7 @@ export function AddressManager({
             <div className="flex flex-col md:flex-row gap-3 mt-4">
               <Button
                 onClick={handleAddNew}
-                className="flex-1 bg-[#570009] text-white hover:bg-[#570009]/90 cursor-pointer"
+                className="flex-1 rounded-none py-2 px-4 bg-burgundy text-white hover:bg-hoverprimary hover:text-hovertext cursor-pointer"
               >
                 Add Another Address
               </Button>
@@ -205,7 +206,7 @@ export function AddressManager({
                 <Button
                   onClick={handleSaveAddresses}
                   disabled={isSaving}
-                  className="flex-1 bg-[#570009] text-white hover:bg-[#570009]/90 cursor-pointer disabled:opacity-50"
+                  className="flex-1 rounded-none py-2 px-4 bg-burgundy text-white hover:bg-hoverprimary hover:text-hovertext cursor-pointer disabled:opacity-50"
                 >
                   {isSaving ? "Saving..." : "Save Addresses"}
                 </Button>

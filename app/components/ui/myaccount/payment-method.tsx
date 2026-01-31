@@ -42,8 +42,9 @@ export function PaymentMethod() {
       />
       
       <div className="border border-gray-300 max-w-3xl mx-auto p-4 bg-offwhite rounded-lg shadow-md py-4 ">
-        <h1 className=" text-xl md:text-3xl ">Payment Methods</h1>
-        <p className="text-[#570009]">
+        <p className=" relative font-serif text-3xl md:text-5xl text-forest mb-2 tracking-tighter text-center">
+          Payment Methods</p>
+        <p className="text-softGray max-w-2xl mx-auto font-light leading-relaxed text-sm md:text-lg text-center mb-10">
           Manage your saved payment methods below.
         </p>
         {paymentMethods.length === 0  ? (
@@ -61,7 +62,7 @@ export function PaymentMethod() {
             </p>
             <button
               onClick={() => setAddingMethod(true)}
-              className="bg-[#570009] text-white rounded-md px-4 py-2 mt-4 cursor-pointer"
+              className="bg-burgundy rounded-none text-white hover:bg-hoverprimary hover:text-hovertext px-4 py-2 mt-4 cursor-pointer"
             >
               Add Payment Method
             </button>
@@ -79,8 +80,8 @@ export function PaymentMethod() {
                       unoptimized
                     />
                     <span className="font-medium text-gray-600 flex gap-2">
-                      <PencilRuler className="hover:text-[#570009] cursor-pointer" />
-                      <Trash2 className="hover:text-[#570009] cursor-pointer" />
+                      <PencilRuler className="hover:text-burgundy cursor-pointer" />
+                      <Trash2 className="hover:text-burgundy cursor-pointer" />
                       <p>05/24</p>
                     </span>
                   </div>
