@@ -1,12 +1,9 @@
+'use server';
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { UserAccountDetails } from "@/components/ui/myaccount/user-account-details";
-import { User, CreditCard, ShieldX, BellRing, MapPin } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {PaymentMethod} from "@/components/ui/myaccount/payment-method";
-import { PasswordForm } from "@/app/components/ui/myaccount/password-form";
-import { AddressManager } from "@/components/ui/myaccount/address-manager";
+import { AccountTabs } from "@/app/components/ui/myaccount/account-tabs";
+
 export default async function MyAccountPage() {
     const cookieStore = await cookies();
     const isAuthenticated = cookieStore.get("authToken") !== undefined;
@@ -31,55 +28,14 @@ export default async function MyAccountPage() {
     }
 
     return (
-        <div className="px-8 lg:px-16">
-            <h1 className="text-2xl sm:text-4xl text-[#570009] font-bold font-[Playfair Display]">Settings</h1>
-            <p>Manage your account settings and preferences.</p>
-            <Tabs
-                defaultValue="personal-info"
-                className=" mt-5 w-full"
-            >
-                <TabsList className="  mx-auto [&>button]:px-6 [&>button]:tracking-wide [&>button]:text-semibold hidden sm:flex  rounded-none">
-                    <TabsTrigger value="personal-info" className="px-4 cursor-pointer">
-                        <User />Personal Information
-                    </TabsTrigger>
-                   {
-                    data.user.google ? null : (
-                    <TabsTrigger value="password" className="px-4 cursor-pointer">
-                        <ShieldX /> Change Password
-                    </TabsTrigger>
-                    )
-                   }
-                    <TabsTrigger value="payment" className="px-4 cursor-pointer">
-                        <CreditCard />Payment
-                    </TabsTrigger>
-                    <TabsTrigger value="addresses" className="px-4 cursor-pointer">
-                        <MapPin />Addresses
-                    </TabsTrigger>
-                    <TabsTrigger value="notification" className="px-4 cursor-pointer hover:text-hovertext">
-                        <BellRing /> Notifications
-                    </TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="personal-info" className="py-4">
-                    <UserAccountDetails user = {data.user}/>
-                </TabsContent>
-                <TabsContent value="password">
-                    <PasswordForm />
-                </TabsContent>
-                <TabsContent value="payment">
-                    <PaymentMethod />
-                </TabsContent>
-                <TabsContent value="addresses">
-                    <AddressManager 
-                      initialAddresses={data.user.addresses || []}
-                      userId={data.user._id}
-                    />
-                </TabsContent>
-            </Tabs>
-            {/* <Addresses addresses={data.user.addresses || []} />
-      <Payment userId = {data.user._id} /> */}
-
-
+        <div className="px-2 lg:px-16 mt-4">
+            <p
+              className="relative font-serif text-3xl md:text-5xl text-forest mb-2 tracking-tighter text-left text-burgundy">
+                Settings</p>
+          <p className="text-softGray max-w-2xl mx-auto font-light leading-relaxed text-sm md:text-lg text-left mb-10">
+            Manage your account settings and preferences.
+          </p>
+            <AccountTabs user={data.user} />
         </div>
     );
 }
