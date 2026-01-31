@@ -106,7 +106,7 @@ export default function CartPage() {
             {cartItems.map((item) => (
               <div
                 key={item.sku}
-                className="bg-offwhite rounded-lg shadow-md p-4 md:p-6"
+                className="bg-offwhite rounded-none shadow-md p-4 md:p-6"
               >
                 <div className="flex items-start gap-3 md:gap-4">
                   {/* Product Image */}
@@ -126,17 +126,17 @@ export default function CartPage() {
                         <h3 className="text-base md:text-lg font-semibold text-gray-800 line-clamp-2">
                           {item.productName}
                         </h3>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-ptext mt-1">
                           Size: {item.size}
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-ptext">
                           Color: {item.color}
                         </p>
                       </div>
 
                       {/* Price - Desktop */}
                       <div className="hidden md:block text-right">
-                        <p className="text-xl font-bold text-gray-800">
+                        <p className="text-xl font-bold text-ptext">
                           ${item.price.toFixed(2)}
                         </p>
                       </div>
@@ -144,21 +144,21 @@ export default function CartPage() {
 
                     {/* Quantity Controls and Price - Mobile */}
                     <div className="flex items-center justify-between mt-3 md:mt-4">
-                      <div className="flex items-center gap-2 border border-gray-300 rounded-full px-3 py-1.5">
+                      <div className="flex items-center gap-2 border border-gray-300 rounded-none px-3 py-1.5">
                         <button
                           onClick={() => updateQuantity(item.sku, -1)}
                           disabled={(item.quantity || 1) <= 1}
-                          className="text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="text-ptext hover:text-hovertext disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <Minus className="w-4 h-4" />
                         </button>
-                        <span className="font-semibold text-gray-800 min-w-8 text-center">
+                        <span className="font-semibold text-ptext min-w-8 text-center">
                           {item.quantity || 1}
                         </span>
                         <button
                           onClick={() => updateQuantity(item.sku, 1)}
                           disabled={(item.quantity || 1) >= item.stockLimit}
-                          className="text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="text-ptext hover:text-hovertext disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <Plus className="w-4 h-4" />
                         </button>
@@ -172,16 +172,16 @@ export default function CartPage() {
                       {/* Remove Button - Desktop */}
                       <button
                         onClick={() => removeItem(item.sku)}
-                        className="hidden md:block text-red-600 hover:text-red-800 transition-colors"
+                        className="hidden md:block cursor-pointer p-2 hover:bg-gray-200 text-red-600 hover:text-red-800 transition-colors"
                       >
-                        <X className="w-5 h-5" />
+                        <X className="w-6 h-6" />
                       </button>
                     </div>
 
                     {/* Remove Button - Mobile */}
                     <button
                       onClick={() => removeItem(item.sku)}
-                      className="md:hidden mt-2 text-sm text-red-600 hover:text-red-800 transition-colors"
+                      className="md:hidden mt-2 text-sm text-red-600 hover:text-red-800 transition-colors cursor-pointer hover:underline"
                     >
                       Remove
                     </button>
@@ -194,7 +194,7 @@ export default function CartPage() {
           {/* Sidebar - Coupons and Checkout */}
           <div className="lg:col-span-1 space-y-3 md:space-y-4">
             {/* Apply Coupons */}
-            <div className="bg-offwhite rounded-lg shadow-md p-4 md:p-6">
+            <div className="bg-offwhite rounded-none shadow-md p-4 md:p-6">
               <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4">
                 Apply coupons
               </h2>
@@ -204,14 +204,14 @@ export default function CartPage() {
                   placeholder="Apply your coupons here"
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
-                  className="flex-1"
+                  className="flex-1 rounded-none"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") applyCoupon();
                   }}
                 />
                 <Button
                   onClick={applyCoupon}
-                  className="bg-[#570009] hover:bg-[#7a020e] text-white px-6"
+                  className="bg-burgundy hover:bg-hoverprimary hover:text-hovertext text-white px-6 rounded-none cursor-pointer"
                 >
                   Apply
                 </Button>
@@ -224,13 +224,13 @@ export default function CartPage() {
             </div>
 
             {/* Checkout Summary */}
-            <div className="bg-offwhite rounded-lg shadow-md p-4 md:p-6">
-              <h2 className="text-lg md:text-xl font-semibold text-gray-800 mb-4">
+            <div className="bg-offwhite rounded-none shadow-md p-4 md:p-6">
+              <h2 className="text-lg md:text-xl font-semibold text-ptext mb-4">
                 Checkout
               </h2>
 
               <div className="space-y-3">
-                <div className="flex justify-between text-gray-700">
+                <div className="flex justify-between text-ptext">
                   <span>Your cart subtotal:</span>
                   <span className="font-semibold">${subtotal.toFixed(2)}</span>
                 </div>
@@ -259,14 +259,14 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <Button className="w-full mt-6 bg-[#570009] hover:bg-[#7a020e] text-white py-6 text-lg font-semibold">
+              <Button className="w-full mt-6 bg-burgundy text-white py-6 text-lg font-semibold rounded-none cursor-pointer hover:bg-gold hover:text-hovertext ">
                 Proceed to Checkout
               </Button>
 
               <Link href="/listing">
                 <Button
                   variant="outline"
-                  className="w-full mt-3 border-gray-300 text-gray-700 hover:bg-gray-50"
+                  className="w-full mt-3 border-gray-300 text-ptext hover:bg-offwhite py-6 text-lg font-semibold rounded-none cursor-pointer hover:border-burgundy"
                 >
                   Continue Shopping
                 </Button>
