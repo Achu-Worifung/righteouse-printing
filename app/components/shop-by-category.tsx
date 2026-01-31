@@ -1,3 +1,5 @@
+'use client';
+import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 export function ShopByCategory() {
@@ -25,32 +27,39 @@ export function ShopByCategory() {
   ];
 
   return (
-    <div className="flex flex-col items-between justify-center py-4 w-full">
-      <h1 className="font-[Playfair Display] text-4xl mb-8 font-bold text-center">
+    <div className="flex flex-col items-between justify-center py-4 w-full my-6">
+      <p className=" relative font-serif text-3xl md:text-5xl text-forest mb-2 tracking-tighter text-center">
         Shop By Category
-      </h1>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center justify-between p-2">
+      </p>
+      <p className="text-softGray max-w-2xl mx-auto font-light leading-relaxed text-sm md:text-lg text-center mb-10">
+        Explore our collections of trendy t-shirts, hoodies, and sweatshirts.
+      </p>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 items-center justify-between p-2">
         {categories.map((category) => (
           <Link
             key={category.name}
             href={category.href}
-            className="relative flex flex-col items-center justify-center group overflow-hidden rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out"
+            className="relative flex flex-col items-center justify-center group overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out"
           >
             <Image
               src={category.imageSrc}
               alt={category.name}
               width={100}
               height={100}
-              className="w-full h-full object-cover rounded-lg transition-transform duration-300 ease-in-out group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
             />
 
-            {/* Gradient overlay at bottom only */}
-            <div className="absolute bottom-0 left-0 right-0 h-24 rounded-lg bg-gradient-to-t from-black/40 via-black/20 to-transparent" />
+           
+            <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
 
-            {/* Text with subtle background */}
-            <h2 className="absolute bottom-4 left-4 z-10 text-lg font-semibold text-white drop-shadow-lg">
-              {category.name}
-            </h2>
+            className="bg-burgundy absolute left-0 bottom-2 min-w-fit rounded-br-lg rounded-tr-md text-softGray">
+              <h2 className="stroke-3 px-2 pl-4  stroke-ptext bottom-4  text-lg font-normal text-white leading-relaxed">
+                {category.name}
+              </h2>
+            </motion.div>
           </Link>
         ))}
       </div>
