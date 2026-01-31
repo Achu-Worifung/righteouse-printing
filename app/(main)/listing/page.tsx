@@ -45,7 +45,7 @@ export default function Listings() {
     });
 
     setFilters({ sizes, colors, type });
-  }, []);
+  }, [listings]);
 
   if (loading) return <p>Loading…</p>;
   if (error) return <p>{error}</p>;
