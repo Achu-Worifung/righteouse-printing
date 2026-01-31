@@ -2,7 +2,9 @@
 import { ReadyMadeWear } from "./ui/ready-made-wears";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useRouter } from "next/navigation";
 interface ReadyMadeWearProps {
   // Define the props for the ReadyMadeWear component
   img: string;
@@ -17,8 +19,24 @@ interface ReadyMadeWearProps {
 }
 export function ReadyToWear() {
   const [products, setProducts] = useState<ReadyMadeWearProps[] | null>(null);
-  const [activeTab, setActiveTab] = useState<string>("FEATURED");
+  const [activeTab, setActiveTab] = useState<string>("featured");
   const [loading, setLoading] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  const TABS = [
+    {
+      key: "featured",
+      label: "Featured",
+      subtitle: "Handpicked by our studio",
+    },
+    {
+      key: "new",
+      label: "New Arrivals",
+      subtitle: "Fresh additions to the collection",
+    },
+    { key: "popular", label: "Most Purchased", subtitle: "Customer favorites" },
+  ];
 
   useEffect(() => {
     async function fetchProducts() {
@@ -27,23 +45,26 @@ export function ReadyToWear() {
         setLoading(true);
         // Build query based on tab
         let query = "";
-        if (activeTab === "FEATURED") {
+        if (activeTab === "featured") {
           query = "?feature=true";
-        } else if (activeTab === "NEW_ARRIVAL") {
+        } else if (activeTab === "new") {
           query = "?sort=updatedAt&order=desc&type=new";
-        } else if (activeTab === "BEST_SELLERS") {
+        } else if (activeTab === "popular") {
           query = "?type=best";
         }
 
         const response = await fetch(`/api/ready-to-wear${query}`);
         const data = await response.json();
-        
+
         // Transform API data to match ReadyMadeWearProps
         const transformedData = data.map((product: Record<string, unknown>) => {
-          const variants = product.variants as Array<{images?: Array<{url: string}>}> || [];
-          const rating = product.rating as {avg?: number; count?: number} || {};
+          const variants =
+            (product.variants as Array<{ images?: Array<{ url: string }> }>) ||
+            [];
+          const rating =
+            (product.rating as { avg?: number; count?: number }) || {};
           const productName = (product.productName as string) || "Product";
-          
+
           return {
             id: product._id,
             title: productName,
@@ -53,10 +74,10 @@ export function ReadyToWear() {
             discount: null,
             rating: rating?.avg || null,
             reviews: rating?.count?.toString() || "0",
-            url: `/listing/${productName.replace(/\s+/g, "-").toLowerCase()}`
+            url: `/listing/${productName.replace(/\s+/g, "-").toLowerCase()}`,
           };
         });
-        
+
         setProducts(transformedData);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -70,25 +91,44 @@ export function ReadyToWear() {
   return (
     <div className="w-full flex items-center flex-col justify-center py-10">
       <div className="text-center p-2 w-full flex flex-col items-center justify-center gap-4">
-        <h1 className="font-bold text-2xl sm:text-4xl uppercase">
-          Featured Products
-        </h1>
+        <div className="">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={activeTab + "1"}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="relative font-serif text-3xl md:text-5xl text-forest mb-2 tracking-tighter text-center"
+            >
+              {TABS.find((tab) => tab.key === activeTab)?.label}
+            </motion.p>
+            <motion.p
+              key={activeTab + "2"}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="text-black mt-3"
+            >
+              {TABS.find((tab) => tab.key === activeTab)?.subtitle}
+            </motion.p>
+          </AnimatePresence>
+        </div>
+
         <Tabs
           value={activeTab}
           className=" mt-5 w-full"
           onValueChange={setActiveTab}
         >
           <TabsList className=" mx-auto">
-            <TabsTrigger value="FEATURED" className="px-4">
-              Featured
-            </TabsTrigger>
-            <TabsTrigger value="NEW_ARRIVAL" className="px-4">
-              New Arrival
-            </TabsTrigger>
-            <TabsTrigger value="BEST_SELLERS" className="px-4">
-              Best Sellers
-            </TabsTrigger>
+            {TABS.map((tab) => (
+              <TabsTrigger key={tab.key} value={tab.key} className="px-4">
+                {tab.label}
+              </TabsTrigger>
+            ))}
           </TabsList>
+
           {loading ? (
             <div className="flex flex-wrap items-center gap-4 justify-center mt-10 min-w-full">
               {Array.from({ length: 4 }).map((_, index) => (
@@ -100,36 +140,42 @@ export function ReadyToWear() {
             </div>
           ) : (
             <>
-              <TabsContent value="FEATURED">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center mt-12 w-full">
+              <TabsContent value="featured">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 justify-items-center mt-12 w-full">
                   {products && products.length > 0 ? (
                     products.map((product) => (
                       <ReadyMadeWear key={product.id} {...product} />
                     ))
                   ) : (
-                    <p className="text-gray-600 col-span-full text-center">No featured products available</p>
+                    <p className="text-softGray col-span-full max-w-2xl mx-auto font-light leading-relaxed text-sm md:text-lg text-center mb-10">
+                      No featured products available
+                    </p>
                   )}
                 </div>
               </TabsContent>
-              <TabsContent value="NEW_ARRIVAL">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center mt-12 w-full">
+              <TabsContent value="new">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 justify-items-center mt-12 w-full">
                   {products && products.length > 0 ? (
                     products.map((product) => (
                       <ReadyMadeWear key={product.id} {...product} />
                     ))
                   ) : (
-                    <p className="text-gray-600 col-span-full text-center">No new arrivals available</p>
+                    <p className="text-softGray max-w-2xl col-span-full mx-auto font-light leading-relaxed text-sm md:text-lg text-center mb-10">
+                      No new arrivals available
+                    </p>
                   )}
                 </div>
               </TabsContent>
-              <TabsContent value="BEST_SELLERS">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 justify-items-center mt-12  w-full">
+              <TabsContent value="popular">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 justify-items-center mt-12  w-full">
                   {products && products.length > 0 ? (
                     products.map((product) => (
                       <ReadyMadeWear key={product.id} {...product} />
                     ))
                   ) : (
-                    <p className="text-gray-600 col-span-full text-center">No best sellers available</p>
+                    <p className="text-softGray max-w-2xl col-span-full mx-auto font-light leading-relaxed text-sm md:text-lg text-center mb-10">
+                      No most purchased available
+                    </p>
                   )}
                 </div>
               </TabsContent>
@@ -138,22 +184,16 @@ export function ReadyToWear() {
         </Tabs>
       </div>
 
-      <button className="w-[150px] justify-center text-lg group flex items-center  py-1  border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 ease-in-out shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] cursor-pointer active:scale-95 transform-all ">
+      <motion.button 
+      whileHover={{ scale: 1.05 }}
+      whileTap={{scale:.90}}
+      onClick={() => router.push("/listing")}
+      transition={{duration:.03
+      }}
+      className="my-5 w-[150px] justify-center text-lg group flex items-center  py-1  border-2 border-black dark:border-white uppercase bg-white text-black transition duration-200 ease-in-out shadow-[1px_1px_rgba(0,0,0),2px_2px_rgba(0,0,0),3px_3px_rgba(0,0,0),4px_4px_rgba(0,0,0),5px_5px_0px_0px_rgba(0,0,0)] dark:shadow-[1px_1px_rgba(255,255,255),2px_2px_rgba(255,255,255),3px_3px_rgba(255,255,255),4px_4px_rgba(255,255,255),5px_5px_0px_0px_rgba(255,255,255)] cursor-pointer active:scale-95 transform-all ">
         View More
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-          className="group-hover:animate-accordion-open inline-block h-7 w-7 shrink-0 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1 motion-reduce:transition-none ml-1"
-          aria-hidden="true"
-        >
-          <path
-            fillRule="evenodd"
-            d="M5.22 14.78a.75.75 0 001.06 0l7.22-7.22v5.69a.75.75 0 001.5 0v-7.5a.75.75 0 00-.75-.75h-7.5a.75.75 0 000 1.5h5.69l-7.22 7.22a.75.75 0 000 1.06z"
-            clipRule="evenodd"
-          />
-        </svg>
-      </button>
+     
+      </motion.button>
     </div>
   );
 }
