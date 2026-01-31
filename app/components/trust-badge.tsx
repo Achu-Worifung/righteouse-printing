@@ -1,5 +1,11 @@
-import { Truck, LockKeyhole  } from 'lucide-react';
-import Image from 'next/image';
+"use client";
+import { motion } from "framer-motion";
+import Image from "next/image";
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const CreativeCards = () => {
   const cards = [
@@ -8,102 +14,79 @@ const CreativeCards = () => {
       title: "Fast Delivery",
       description:
         "From design to delivery, our streamlined production means your shirts arrive faster than industry averages.",
-      icon: "/truck.svg",
-      link: "https://www.fiverr.com/s/8zElN2v",
+      icon: "/express-delivery.png",
     },
     {
       id: 2,
       title: "Secure Checkout",
       description:
         "Your payment and personal information are fully protected with industry-leading encryption.",
-      icon: "/secure.svg",
-      link: "https://www.fiverr.com/s/8zElN2v",
+      // icon: "/secure.svg",
+      icon: "/secure-payment.png",
     },
     {
       id: 3,
       title: "Satisfaction Guarantee",
       description:
         "If you're not absolutely happy with your order, we’ll reprint or refund it — no questions asked.",
-      icon: "/satisfaction.svg",
-      link: "https://www.fiverr.com/s/8zElN2v",
+      // icon: "/satisfaction.svg",
+      icon: "/guarantee.png",
+    },
+    {
+      id: 4,
+      title: "Premium Quality",
+      description:
+        "Every shirt is crafted with top-tier materials and printing technology for vibrant, long-lasting designs.",
+      icon: "/high-quality.png",
     },
   ];
 
   return (
-    <div className="*:box-border font-['Epilogue'] text-[17px] leading-[30px] font-normal antialiased bg-white my-10">
-      {/* Font Awesome Icons */}
-      <h1 
-        className="uppercase text-5xl font-semibold w-full text-center letter-spacing tracking-wider"
-        style={{
-          textShadow: `
-            1px -1px 0 #767676, 
-            -1px 1px 1px #737272, 
-            -2px 2px 1px #767474, 
-            -3px 3px 1px #787777, 
-            -4px 4px 1px #7b7a7a, 
-            -5px 5px 1px #828181, 
-            -6px 6px 1px #8b8a89, 
-            -7px 7px 1px #949392, 
-            -8px 8px 1px #9e9c9c, 
-            -9px 9px 1px #a8a6a6, 
-            -10px 10px 1px #b2b1b0, 
-            -11px 11px 1px #bcbbba, 
-            -12px 12px 1px #c6c4c4
-          `
-        }}
-      >
-        Shop with Confidence
-      </h1>
-
-      
-
-      <section className=" relative w-full flex items-center justify-center">
-        <div className="max-w-[1320px] w-full px-3 mx-auto">
-          <div className="flex flex-wrap -mx-4">
-            {cards.map((card) => (
-              <div
-                key={card.id}
-                className="w-full md:w-1/2 lg:w-1/3 px-4 mb-10 md:mb-10 lg:mb-0"
-              >
-                <div className="relative group transition-all duration-300 ease-in-out w-4/5 lg:w-4/5 mx-auto">
-                  {/* Skewed Background Effect */}
-                  <div className="absolute left-1/2 top-1/2 w-[190px] h-[380px] bg-[#f7f6f2]  transform -translate-x-1/2 -translate-y-1/2 -skew-x-20 transition-all duration-300 ease-in-out group-hover:bg-[#fffab3] "></div>
-
-                  {/* Card Content */}
-                  <div className="relative z-10 p-8 text-center rounded-2xl">
-                    {/* Icon Container */}
-                    <div className="relative w-[140px] h-[150px] mx-auto flex items-center justify-center">
-                      <div className="absolute top-0 left-0 w-full h-full border border-[#ffee02] bg-white -skew-x-20 transition-all duration-300 ease-in-out group-hover:bg-[#ffee02]"></div>
-                      <Image
-                        width={70}
-                        height={70}
-                        src={card.icon}
-                        alt={card.title}
-                        className="relative w-[70px] h-[70px]"
-                      />
-                    </div>
-
-                    <h3 className="mb-4 mt-12 font-bold text-2xl lg:text-[1.75rem] leading-tight ">
-                      <a
-                        href={card.link}
-                        className="text-black no-underline hover:underline "
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {card.title}
-                      </a>
-                    </h3>
-
-                    <p className="text-[#444] mb-8 text-base leading-[30px] bg-transparent">
-                      {card.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+    <div className="*:box-border font-['Epilogue'] text-[17px] leading-[30px] font-normal antialiased bg-offwhite my-10 px-2">
+      <p className="relative font-serif text-3xl md:text-5xl text-forest mb-2 tracking-tighter text-center">
+        Shop With <span className="text-burgundy"> Confidence</span>
+      </p>
+      <p className="text-softGray col-span-full max-w-2xl mx-auto font-light leading-relaxed text-sm md:text-lg text-center mb-10">
+        Built on trust, delivered with care.
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 items-center justify-center">
+        {cards.map((card, index) => (
+          <motion.div
+            key={card.id}
+            variants={cardVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: index * 0.15 }}
+            className="cursor-pointer p-4 h-full flex items-start gap-4 mb-4 flex-col relative bg-offwhite  shadow-lg group"
+          >
+            <div className="w-10 h-10 relative">
+              <Image
+                src={card.icon}
+                alt={card.title}
+                fill
+                className="object-contain"
+              />
+            </div>
+            <div className="flex flex-col">
+              <p className="font-bold font-serif text-forest tracking-tighter">
+                {card.title}
+              </p>
+              <p className="text-softGray max-w-2xl mx-auto font-light leading-relaxed text-sm md:text-lg text-left">
+                {card.description}
+              </p>
+            </div>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 0.1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+className="absolute top-4 right-4 text-5xl font-bold text-forest select-none group-hover:!opacity-100 group-hover:scale-110 group-hover:text-burgundy transition-all duration-300 ease-in-out"            >
+              {index + 1 < 10 ? `0${index + 1}` : index + 1}
+            </motion.p>
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 };
