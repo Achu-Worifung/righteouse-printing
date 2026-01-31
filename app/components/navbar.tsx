@@ -1,5 +1,5 @@
 "use client";
-import { Menu, X, Handbag, UserRound } from "lucide-react";
+import { Menu, X, Handbag, UserRound, ChevronDown  } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/app/context/AuthContext";
 import Link from "next/link";
@@ -78,7 +78,7 @@ export function Navbar() {
 
           </div>
           {isMenuOpen && (
-            <div className="text-offwhite w-full flex flex-col text-lg font-light backdrop-blur-3xl text-start items-start  rounded-lg gap-4 md:hidden px-4 py-4 -webkit-text-stroke:1px_black  ">
+            <div className="text-offwhite w-full flex flex-col text-lg font-light  text-start items-start   gap-3 md:hidden px-4 py-4 -webkit-text-stroke:1px_black bg-transparent ">
               <Link href="/" onClick={() => setIsMenuOpen(false)} className="text-offwhite">
                 Home
                 <Separator />
@@ -105,18 +105,17 @@ export function Navbar() {
         </div>
         <div className="font-serif text-offwhite hidden md:flex gap-4 md:gap-12 stroke-black [&_span]:[-webkit-text-stroke:1px_black]">
           <Link href="/" className="">Home</Link>
-          <DropdownMenu>
+          <DropdownMenu >
             <DropdownMenuTrigger>
               <p className="text-xl font-light cursor-pointer">Shop</p>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="min-w-2xs">
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
+            <DropdownMenuContent className="min-w-2xs border-none text-white outline-0">
+              <DropdownMenuItem className="hover:bg-burgundy/20">
                 <Link href="/listing" className="text-2xl font-light">All</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem><Link href="/listing?category=tshirts" className="text-2xl font-light">T-Shirts</Link></DropdownMenuItem>
-              <DropdownMenuItem><Link href="/listing?category=hoodies" className="text-2xl font-light">Hoodies</Link></DropdownMenuItem>
-              <DropdownMenuItem><Link href="/listing?category=caps" className="text-2xl font-light">Caps</Link></DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-burgundy/20"><Link href="/listing?category=tshirts" className="text-2xl font-light">T-Shirts</Link></DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-burgundy/20"><Link href="/listing?category=hoodies" className="text-2xl font-light">Hoodies</Link></DropdownMenuItem>
+              <DropdownMenuItem className="hover:bg-burgundy/20"><Link href="/listing?category=caps" className="text-2xl font-light">Caps</Link></DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
           <Link href="/new-arrivals" className="text-2xl font-light">New Arrivals</Link>
