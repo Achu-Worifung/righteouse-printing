@@ -25,6 +25,7 @@ export function addToCart({productId, productName, selectedVariant}: AddToCartPa
     const existingItem = cart.find(item => item.sku === selectedVariant.sku);
 
     if (existingItem) {
+        console.log("Item already in cart");
         return;
     } else {
         // Add new item
@@ -39,7 +40,9 @@ export function addToCart({productId, productName, selectedVariant}: AddToCartPa
             imageUrl: selectedVariant.images[0]?.url,
             quantity: 1
         });
+        console.log("Item added to cart");
     }
+
 
     localStorage.setItem('cart', JSON.stringify(cart));
 }

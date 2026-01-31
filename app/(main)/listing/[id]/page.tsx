@@ -15,6 +15,7 @@ import {
 import { SizeTemplate } from "@/components/ui/size-template";
 import { Stars } from "@/components/ui/stars";
 import Image from "next/image";
+import { addToCart } from "@/lib/to-cart";
 import { ImageType, InsertProductPayLoad, variant, Color } from "@/lib/types";
 
 interface ListingImg extends ImageType {
@@ -221,11 +222,12 @@ export default function ListingItem() {
                 }`}
               >
                 <Image
+                  data-selected={mainImage?.url === img.url ? "true" : "false"}
                   width={420}
                   height={420}
                   src={img.url}
                   alt=""
-                  className="h-20 w-full object-cover"
+                  className="h-20 w-full object-cover data-[selected=true]:ring-2 data-[selected=true]:ring-burgundy data-[selected=false]:opacity-50 hover:!opacity-100 transition-opacity duration-200 ease-in-out cursor-pointer"
                 />
               </button>
             );
@@ -235,7 +237,7 @@ export default function ListingItem() {
 
       {/* Product info */}
       <div className="md:w-1/2 flex flex-col justify-between">
-        <h1 className="text-2xl font-bold line-clamp-2 ">
+        <h1 className="text-2xl font-bold line-clamp-2 font-['Inter'] mb-2 ">
           {product.productName}
         </h1>
         <Stars rating={product.rating || null} />
@@ -324,9 +326,17 @@ export default function ListingItem() {
           <div className="flex gap-3 flex-col">
             <button
               disabled={!selectedVariant}
-              className="flex-1 px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-6 py-3 cursor-pointer bg-black rounded-none text-white  hover:bg-hoverprimary hover:text-hovertext transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => {
                 // Add to cart logic here
+                if (selectedVariant) {
+                  addToCart({
+                    productId: product._id || "",
+                    productName: product.productName,
+                    selectedVariant: selectedVariant
+                  });
+                  alert(`Added ${product.productName} (${selectedSize}, ${selectedColor}) to cart!`);
+                }
                 console.log("Added to cart:", selectedVariant);
               }}
             >
@@ -334,7 +344,7 @@ export default function ListingItem() {
             </button>
             <button
               disabled={!selectedVariant}
-              className="flex-1 px-6 py-3 bg-offwhite text-black border-2 border-black rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-1 px-6 py-3 cursor-pointer bg-offwhite text-black border-2 border-black rounded-none hover:bg-hoverprimary hover:text-hovertext transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => {
                 // Buy now logic here
                 console.log("Buy now:", selectedVariant);
@@ -344,7 +354,7 @@ export default function ListingItem() {
             </button>
           </div>
         </div>
-        <p className="text-lg text-black mb-3">Product description</p>
+        <p className=" text-black mb-3 font-serif my-4 text-2xl">Product description</p>
         <p className="text-md text-gray-600 mb-6">{product.description}</p>
       </div>
     </div>
