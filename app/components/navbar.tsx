@@ -26,10 +26,10 @@ export function Navbar() {
   const { isAuthenticated, logout } = useAuth();
 
   return (
-    <header className="w-full relative">
+    <header className="w-full relative bg-burgundy">
       <nav className="font-light text-xl drop-shadow-2xl w-full flex justify-between items-center py-2 bg-white/10 backdrop-blur-3xl px-2 md:px-8 lg:px-16">
         <div className="flex flex-col gap-1 md:w-auto w-full">
-          <div className="flex  justify-between items-center flex-row px-4 md:w-auto w-full">
+          <div className="flex text-offwhite justify-between items-center flex-row px-4 md:w-auto w-full">
             <Logo className="relative left-0 p-0" />
             <div className="md:hidden flex items-center gap-4">
               <Link href={"/cart"}> <Handbag size={32} /></Link>
@@ -78,8 +78,8 @@ export function Navbar() {
 
           </div>
           {isMenuOpen && (
-            <div className="w-full flex flex-col text-lg font-light backdrop-blur-3xl text-start items-start  rounded-lg gap-4 md:hidden px-4 py-4 -webkit-text-stroke:1px_black text-black  ">
-              <Link href="/" onClick={() => setIsMenuOpen(false)} className="">
+            <div className="text-offwhite w-full flex flex-col text-lg font-light backdrop-blur-3xl text-start items-start  rounded-lg gap-4 md:hidden px-4 py-4 -webkit-text-stroke:1px_black  ">
+              <Link href="/" onClick={() => setIsMenuOpen(false)} className="text-offwhite">
                 Home
                 <Separator />
               </Link>
@@ -103,7 +103,7 @@ export function Navbar() {
             </div>
           )}
         </div>
-        <div className="hidden md:flex gap-4 md:gap-12 stroke-black [&_span]:[-webkit-text-stroke:1px_black]">
+        <div className="font-serif text-offwhite hidden md:flex gap-4 md:gap-12 stroke-black [&_span]:[-webkit-text-stroke:1px_black]">
           <Link href="/" className="">Home</Link>
           <DropdownMenu>
             <DropdownMenuTrigger>
@@ -121,7 +121,7 @@ export function Navbar() {
           </DropdownMenu>
           <Link href="/new-arrivals" className="text-2xl font-light">New Arrivals</Link>
         </div>
-        <div className="items-center gap-6 cursor-pointer hidden md:flex justify-center">
+        <div className="text-offwhite  items-center gap-6 cursor-pointer hidden md:flex justify-center">
           <Link href={"/cart"}> <Handbag size={32} /></Link>
           <DropdownMenu>
             <DropdownMenuTrigger>
